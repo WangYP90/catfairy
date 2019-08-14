@@ -1,0 +1,61 @@
+if(isLoginRunAlone.toBoolean()){
+    apply plugin: 'com.android.application'
+}else {
+    apply plugin: 'com.android.library'
+}
+apply plugin: 'org.greenrobot.greendao'
+greendao {
+    schemaVersion 1
+    daoPackage 'com.tj24.module_login.greenDao'
+    targetGenDir 'src/main/java'
+}
+
+android {
+    compileSdkVersion compile_Sdk_Version.toInteger()
+    defaultConfig {
+        if(isLoginRunAlone.toBoolean()){
+            applicationId "com.tj24.module_login"
+            versionName "1.0"
+            versionCode 1
+        }
+        minSdkVersion min_Sdk_Version.toInteger()
+        targetSdkVersion target_Sdk_Version.toInteger()
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]
+            }
+        }
+    }
+
+    sourceSets {
+        main {
+            if(!isLoginRunAlone.toBoolean()){
+                manifest.srcFile 'src/main/lib_Manifest/AndroidManifest.xml'
+            }else{
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                //集成开发模式下排除debug文件夹中的所有Java文件
+                java {
+                    exclude 'debug/**'
+                }
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation project(':library_base')
+    //ARouter
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
+    //butterknife
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+}

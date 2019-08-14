@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#eb6100</color>
+    <color name="colorPrimaryDark">#eb6100</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimaryLight">#f27e2d</color>
+
+    <color name="white">#ffffff</color>
+
+    <color name="white_text">#fff</color>
+
+    <color name="loading">#e2e2e2</color>
+    <color name="app_orderDialogBackgroud">#bfbfbf</color>
+
+    <color name="color_footer_text_select">#ffffff</color>
+    <color name="color_footer_text_unselect">#bfbfbf</color>
+</resources>

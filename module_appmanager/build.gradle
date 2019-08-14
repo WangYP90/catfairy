@@ -1,0 +1,70 @@
+if (isAppManagerRunAlone.toBoolean()) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+    apply plugin: 'com.jakewharton.butterknife'
+}
+apply plugin: 'org.greenrobot.greendao'
+greendao {
+    schemaVersion 1
+    daoPackage 'com.tj24.module_appmanager.greendao.dao'
+    targetGenDir 'src/main/java'
+}
+
+android {
+    compileSdkVersion compile_Sdk_Version.toInteger()
+    defaultConfig {
+        if (isAppManagerRunAlone.toBoolean()) {
+            applicationId "com.tj24.module_appmanager.dao"
+            versionName "1.0"
+            versionCode 1
+        }
+        minSdkVersion min_Sdk_Version.toInteger()
+        targetSdkVersion target_Sdk_Version.toInteger()
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
+    }
+    // 指定jdk版本
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main {
+            if (!isAppManagerRunAlone.toBoolean()) {
+                manifest.srcFile 'src/main/lib_Manifest/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                //集成开发模式下排除debug文件夹中的所有Java文件
+                java {
+                    exclude 'debug/**'
+                }
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation project(':library_base')
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+    //ARouter
+    implementation 'androidx.appcompat:appcompat:1.0.0-alpha1'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
+    //butterknife
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    implementation 'org.jetbrains:annotations:15.0'
+}

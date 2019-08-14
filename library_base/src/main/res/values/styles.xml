@@ -1,0 +1,57 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryLight</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/white</item> <!--toolbar 更多menu变为白色-->
+    </style>
+
+    <style name="AppTheme.MaterialButton">
+        <item name="colorControlHighlight">@color/white_text</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
+    </style>
+
+    <!-- toolbar弹出菜单样式 -->
+    <style name="ToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat.Dark">
+        <item name="android:colorBackground">@color/app_popup_menu_bac</item>
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+        <!--设置字体颜色-->
+        <item name="android:textColor">@color/colorPrimary</item>
+        <!-- 用于修改item默认的分割线-->
+        <item name="android:dropDownListViewStyle">@style/dropDownStyle</item>
+        <item name="dropDownListViewStyle">@style/dropDownStyle</item>
+
+        <!--设置字体大小-->
+        <!--<item name="android:textSize">16sp</item>-->
+    </style>
+
+    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <!--把该属性改为false即可使menu位置位于toolbar之下-->
+        <item name="overlapAnchor">false</item>
+        <!-- 弹出层垂直方向上的偏移，即在竖直方向上距离Toolbar的距离，值为负则会盖住Toolbar -->
+        <item name="android:dropDownVerticalOffset">5dp</item>
+        <!-- 弹出层水平方向上的偏移，即距离屏幕左边的距离，负值会导致右边出现空隙 -->
+        <item name="android:dropDownHorizontalOffset">-5dp</item>
+
+    </style>
+
+    <!--用于修改popmenu的分割线-->
+    <style name="dropDownStyle" parent="android:style/Widget.Holo.ListView.DropDown">
+        <!--<item name="android:listSelector">可添加选中背景颜色</item>-->
+        <item name="android:divider">@color/md_divider_white</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <!--透明背景dialog-->
+        <style name="transparentDialog" parent="@android:style/Theme.Dialog">
+            <item name="android:windowFrame">@null</item><!--边框-->
+            <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+            <item name="android:windowIsTranslucent">false</item><!--半透明-->
+            <item name="android:windowNoTitle">true</item><!--无标题-->
+            <item name="android:windowBackground">@android:color/transparent</item><!--背景透明-->
+            <item name="android:backgroundDimEnabled">false</item><!--模糊-->
+        </style>
+</resources>

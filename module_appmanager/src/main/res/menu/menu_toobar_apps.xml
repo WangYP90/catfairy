@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+
+    <item android:id="@+id/menu_search"
+          android:title="搜索"
+          android:icon="@drawable/ico_top_search"
+          app:actionViewClass="androidx.appcompat.widget.SearchView"
+          app:showAsAction="always"/>
+    <item android:id="@+id/menu_order"
+          android:title="排序"
+          android:icon="@drawable/ico_top_sort"
+          app:showAsAction="always"/>
+    <item android:id="@+id/menu_refresh"
+          android:title="刷新"
+          android:icon="@drawable/ic_compose"
+          app:showAsAction="never"/>
+    <item android:id="@+id/menu_showtype"
+          android:title="排列方式"
+          android:icon="@drawable/ic_compose"
+          app:showAsAction="never"/>
+    <item android:id="@+id/menu_notice"
+          android:title="消息通知"
+          android:icon="@drawable/ic_compose"
+          app:showAsAction="never"/>
+    <item android:id="@+id/menu_selected_num"
+          android:title="已选择:"
+          app:showAsAction="always|withText"/>
+</menu>
