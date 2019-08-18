@@ -43,6 +43,7 @@ import com.tj24.module_appmanager.bean.AppBean;
 import com.tj24.module_appmanager.bean.AppClassfication;
 import com.tj24.module_appmanager.bean.event.LaucherEvent;
 import com.tj24.module_appmanager.common.OrderConfig;
+import com.tj24.module_appmanager.greendao.daohelper.AppClassificationDaoHelper;
 import com.tj24.module_appmanager.model.ApkModel;
 import com.tj24.module_appmanager.model.BusinessModel;
 import com.tj24.module_appmanager.model.OrderModel;
@@ -374,6 +375,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 EventBus.getDefault().post(new LaucherEvent(LaucherEvent.EVENT_CHANGE_ORDERTYPE));
                 break;
             case R.id.menu_notice:
+                startActivity(new Intent(this,MesageActivity.class));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -505,9 +507,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             return;
         }
         if(requestCode == CODE_START_APPCLASSFICATION){
-            List<AppClassfication> classfications = (List<AppClassfication>) data.getSerializableExtra(BusinessModel.APPCLASSIFICATIONS);
             appClassfications.clear();
-            appClassfications.addAll(classfications);
+            appClassfications.addAll(AppClassificationDaoHelper.getInstance().queryAllAndSort());
             vpAdater.notifyDataSetChanged();
         }
     }

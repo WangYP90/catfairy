@@ -8,7 +8,6 @@ import com.tj24.module_appmanager.R;
 import com.tj24.module_appmanager.bean.AppClassfication;
 import com.tj24.module_appmanager.greendao.daohelper.AppClassificationDaoHelper;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,16 +36,18 @@ public class RcFlowAdapter extends BaseQuickAdapter<AppClassfication,BaseViewHol
         }
         notifyItemMoved(position, target);
         if (position > target) {
+            mData.get(position).setOrder(target);
             for (int i = target; i < position; i++) {
-                Collections.swap(mData,i,i++);
+                mData.get(i).setOrder(i+1);
             }
-            AppClassificationDaoHelper.getInstance().insertList(mData);
+            AppClassificationDaoHelper.getInstance().getDao().updateInTx(mData);
         }
         if (position < target) {
-            for (int i = position + 1; i <= target; i++) {
-                Collections.swap(mData,i,i--);
-                AppClassificationDaoHelper.getInstance().insertList(mData);
+            mData.get(position).setOrder(target);
+            for (int i = target; i > position; i--) {
+                mData.get(i).setOrder(i-1);
             }
+            AppClassificationDaoHelper.getInstance().getDao().updateInTx(mData);
         }
         return true;
     }

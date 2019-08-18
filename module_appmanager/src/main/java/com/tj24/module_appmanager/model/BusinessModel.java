@@ -48,7 +48,7 @@ public class BusinessModel extends BaseAppsManagerModel {
      * @return
      */
     public List<AppClassfication> queryAllAppClassfications() {
-        return AppClassificationDaoHelper.getInstance().queryAll();
+        return AppClassificationDaoHelper.getInstance().queryAllAndSort();
     }
 
     /**

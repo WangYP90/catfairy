@@ -33,7 +33,6 @@ public class AppBeanDaoHelper extends AppsBaseDao<AppBean,AppBeanDao> {
      * @return
      */
     public List<AppBean> queryAppByClassficationId(String id){
-        getDao().detachAll();
         List<AppBean> appBeans = new ArrayList<>();
         for(AppBean appBean : queryAll()){
             if(!ListUtil.isNullOrEmpty(appBean.getType()) && appBean.getType().contains(id)){

@@ -33,4 +33,12 @@ public class AppClassificationDaoHelper extends AppsBaseDao<AppClassfication,App
         return mQueryBuilder.where(AppClassficationDao.Properties.IsDefault.notEq(true)).list();
     }
 
+    /**
+     * 查询全部并排序
+     * @return
+     */
+    public List<AppClassfication> queryAllAndSort(){
+        return mQueryBuilder.orderAsc(AppClassficationDao.Properties.Order).list();
+    }
+
 }

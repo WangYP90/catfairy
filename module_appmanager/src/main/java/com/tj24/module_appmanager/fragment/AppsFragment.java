@@ -1,6 +1,8 @@
 package com.tj24.module_appmanager.fragment;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -20,8 +22,10 @@ import com.tj24.module_appmanager.bean.AppClassfication;
 import com.tj24.module_appmanager.bean.event.LaucherEvent;
 import com.tj24.module_appmanager.common.OrderConfig;
 import com.tj24.module_appmanager.greendao.daohelper.AppBeanDaoHelper;
+import com.tj24.module_appmanager.model.ApkModel;
 import com.tj24.module_appmanager.model.BaseAppsManagerModel;
 import com.tj24.module_appmanager.model.OrderModel;
+import com.tj24.module_appmanager.receiver.ApkChangeReceiver;
 import com.tj24.module_appmanager.util.appsSort.AppSortManager;
 import com.tj24.module_appmanager.view.AppFooterView;
 import com.tj24.module_appmanager.view.SideBar;
@@ -33,10 +37,11 @@ import org.greenrobot.greendao.annotation.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener,BaseQuickAdapter.OnItemChildClickListener,
-        BaseQuickAdapter.OnItemLongClickListener,SideBar.OnTouchingLetterChangedListener {
+        BaseQuickAdapter.OnItemLongClickListener,SideBar.OnTouchingLetterChangedListener, ApkChangeReceiver.ApkChangerListner {
     @BindView(R.id.rc_apps)
     RecyclerView rcApps;
     @BindView(R.id.sideBar)
@@ -74,6 +79,8 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
 
     private OrderModel orderModel;
 
+    private ApkChangeReceiver apkChangeReceiver;
+
     @Override
     public int getCreateViewLayoutId() {
         return R.layout.fragment_apps;
@@ -84,6 +91,19 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
         initData();
         initSideBar();
         initRecyclerView();
+        regeistReceiver();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        apkChangeReceiver.unregister(mActivity);
+    }
+
+    private void regeistReceiver() {
+        apkChangeReceiver = new ApkChangeReceiver();
+        apkChangeReceiver.register(mActivity);
+        apkChangeReceiver.setApkChangeListner(this);
     }
 
     private void initSideBar() {
@@ -166,11 +186,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
                     clickBean.setIsSelected(true);
                     editingApps.add(clickBean);
                 }
-                if(orderModel.getLayoutType()==OrderConfig.LAYOUT_LINEAR){
-                    mLinearAdapter.notifyItemChanged(position);
-                }else {
-                    mGrideAdapter.notifyItemChanged(position);
-                }
+                notifyRecyclerView();
                 ((MainActivity)mActivity).onAppSelected(editingApps);
                 footerView.onEdittingAppChanged(editingApps,appClassfication);
         }else {
@@ -221,11 +237,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
                 appClassfication.setSortName(appSortName);
                 AppSortManager.sort(appBeans,appSortName);
                 sideBar.setVisibility(appClassfication.getSortName().equals(OrderConfig.ORDER_APP_NAME)?View.VISIBLE:View.GONE);
-                if(orderModel.getLayoutType() == OrderConfig.LAYOUT_LINEAR){
-                    mLinearAdapter.notifyDataSetChanged();
-                }else {
-                    mGrideAdapter.notifyDataSetChanged();
-                }
+                notifyRecyclerView();
                 break;
         }
     }
@@ -247,6 +259,65 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
                     mGrideManager.scrollToPositionWithOffset(position, 0);
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onAddApk(String packageName) {
+        try {
+            PackageInfo packageInfo = mActivity.getPackageManager().getPackageInfo(packageName, 0);
+            AppBean appBean = ApkModel.conversToAppInfo(packageInfo,mActivity.getPackageManager());
+            AppBeanDaoHelper.getInstance().insertObj(appBean);
+            if(appBean.getType().contains(appClassfication.getId())){
+                appBeans.add(appBean);
+                AppSortManager.sort(appBeans,appClassfication.getSortName());
+                notifyRecyclerView();
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onRemoveApk(String packageName) {
+       AppBean appBean = AppBeanDaoHelper.getInstance().queryObjById(packageName);
+        AppBeanDaoHelper.getInstance().deleteObj(appBean);
+       if(appBean != null && appBeans.contains(appBean)){
+           appBeans.remove(appBean);
+           notifyRecyclerView();
+       }
+    }
+
+    @Override
+    public void onReplacedApk(String packageName) {
+        try {
+            PackageInfo packageInfo = mActivity.getPackageManager().getPackageInfo(packageName, 0);
+            AppBean appBean = ApkModel.conversToAppInfo(packageInfo,mActivity.getPackageManager());
+            AppBeanDaoHelper.getInstance().insertObj(appBean);
+            if(appBean.getType().contains(appClassfication.getId())){
+                Iterator it = appBeans.iterator();
+                while (it.hasNext()){
+                    AppBean next = (AppBean) it.next();
+                    if(next.getPackageName().equals(packageName)){
+                        it.remove();
+                        break;
+                    }
+                }
+                appBeans.add(appBean);
+                AppSortManager.sort(appBeans,appClassfication.getSortName());
+                notifyRecyclerView();
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void notifyRecyclerView(){
+        if(orderModel.getLayoutType() == OrderConfig.LAYOUT_LINEAR){
+            mLinearAdapter.notifyDataSetChanged();
+        }else {
+            mGrideAdapter.notifyDataSetChanged();
         }
     }
 }

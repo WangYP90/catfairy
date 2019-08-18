@@ -1,6 +1,5 @@
 package com.tj24.module_appmanager.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -17,9 +16,7 @@ import com.tj24.module_appmanager.adapter.RcFlowAdapter;
 import com.tj24.module_appmanager.bean.AppClassfication;
 import com.tj24.module_appmanager.greendao.daohelper.AppClassificationDaoHelper;
 import com.tj24.module_appmanager.model.AppClassificationEditModel;
-import com.tj24.module_appmanager.model.BusinessModel;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +35,7 @@ public class AddAppClassficationActivity extends BaseActivity implements BaseQui
         super.onCreate(savedInstanceState);
         mModel = new AppClassificationEditModel(this);
         mModel.setOnEditListner(this);
-        appClassfications = AppClassificationDaoHelper.getInstance().queryAll();
+        appClassfications = AppClassificationDaoHelper.getInstance().queryAllAndSort();
         layoutManager = new FlowLayoutManager();
         rcAppclassfication.setLayoutManager(layoutManager);
         initAdapter();
@@ -52,6 +49,7 @@ public class AddAppClassficationActivity extends BaseActivity implements BaseQui
             ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
             touchHelper.attachToRecyclerView(rcAppclassfication);
             flowAdapter.setOnItemClickListener(this);
+            setResult(RESULT_OK);
         }else {
             flowAdapter.notifyDataSetChanged();
         }
@@ -91,26 +89,18 @@ public class AddAppClassficationActivity extends BaseActivity implements BaseQui
     public void onADDClassification(AppClassfication classfication) {
         appClassfications.add(classfication);
         flowAdapter.notifyItemInserted(appClassfications.size());
-        Intent intent = new Intent();
-        intent.putExtra(BusinessModel.APPCLASSIFICATIONS, (Serializable) appClassfications);
-        setResult(RESULT_OK,intent);
     }
 
     @Override
     public void onUpdateClassification(AppClassfication classfication,int position) {
         appClassfications.set(position,classfication);
         flowAdapter.notifyItemChanged(position);
-        Intent intent = new Intent();
-        intent.putExtra(BusinessModel.APPCLASSIFICATIONS, (Serializable) appClassfications);
-        setResult(RESULT_OK,intent);
     }
 
     @Override
     public void onDeletClassification(AppClassfication classfication,int position) {
         appClassfications.remove(classfication);
         flowAdapter.notifyItemRemoved(position);
-        Intent intent = new Intent();
-        intent.putExtra(BusinessModel.APPCLASSIFICATIONS, (Serializable) appClassfications);
-        setResult(RESULT_OK,intent);
     }
+
 }

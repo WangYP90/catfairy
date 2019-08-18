@@ -1,10 +1,7 @@
 package com.tj24.module_appmanager.bean;
 
 import com.tj24.module_appmanager.greendao.base.AppsTypeConverter;
-import org.greenrobot.greendao.annotation.Convert;
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -83,6 +80,7 @@ public class AppBean implements Serializable {
     /**
      * 是否被选中
      */
+    @Transient
     private boolean isSelected;
     /**
      * 优先级
@@ -96,13 +94,12 @@ public class AppBean implements Serializable {
      * 大小
      */
     private long size;
-    @Generated(hash = 1902564337)
+    @Generated(hash = 496554026)
     public AppBean(String packageName, String name, String ico, long firstIntalTime,
             long lastUpdateTime, int versionCode, String versionName,
             String apkSourceDir, String letters, boolean isSystemApp,
             boolean isCanOpen, long lastOpenTime, long topProcessTime, int openNum,
-            List<String> type, boolean isSelected, int priority, String describe,
-            long size) {
+            List<String> type, int priority, String describe, long size) {
         this.packageName = packageName;
         this.name = name;
         this.ico = ico;
@@ -118,7 +115,6 @@ public class AppBean implements Serializable {
         this.topProcessTime = topProcessTime;
         this.openNum = openNum;
         this.type = type;
-        this.isSelected = isSelected;
         this.priority = priority;
         this.describe = describe;
         this.size = size;

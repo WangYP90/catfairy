@@ -67,4 +67,6 @@ dependencies {
     //butterknife
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation 'org.jetbrains:annotations:15.0'
+
+    implementation 'gdut.bsx:share2:0.9.3'
 }

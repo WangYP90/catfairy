@@ -62,7 +62,7 @@ public class ApkModel {
      * @param packageInfo
      * @return
      */
-    private static AppBean conversToAppInfo(final PackageInfo packageInfo, final PackageManager packageManager) {
+    public static AppBean conversToAppInfo(final PackageInfo packageInfo, final PackageManager packageManager) {
         String packageName = packageInfo.packageName;
         AppBean appBean = AppBeanDaoHelper.getInstance().queryObjById(packageName);
 

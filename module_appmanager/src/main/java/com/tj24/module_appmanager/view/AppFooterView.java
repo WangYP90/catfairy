@@ -1,6 +1,6 @@
 package com.tj24.module_appmanager.view;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.text.InputType;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -29,12 +28,12 @@ import com.tj24.module_appmanager.common.OrderConfig;
 import com.tj24.module_appmanager.greendao.daohelper.AppBeanDaoHelper;
 import com.tj24.module_appmanager.greendao.daohelper.AppClassificationDaoHelper;
 import com.tj24.module_appmanager.model.ApkModel;
+import gdut.bsx.share2.FileUtil;
+import gdut.bsx.share2.Share2;
+import gdut.bsx.share2.ShareContentType;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -172,90 +171,13 @@ public class AppFooterView extends LinearLayout implements View.OnClickListener 
      * 分享apk
      */
     private void share() {
-        String dest = "/sdcard/apkfile/" + edittingApps.get(0).getName() + ".apk";
-        //path:app程序源文件路径  dest:新的存储路径  name:app名称
-        new Thread(new CopyRunnable(edittingApps.get(0).getApkSourceDir(), dest, edittingApps.get(0).getName())).start();
-
-//        Intent intent = new Intent();
-//        if(apkFile.exists()){
-//            //判断是否是AndroidN以及更高的版本
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                intent.setAction(Intent.ACTION_SEND);
-//                intent.setType("*/*");
-//                intent.putExtra(Intent.EXTRA_STREAM,FileProvider.getUriForFile(context,"com.tj24.module_appmanager.fileprovider", apkFile));
-//                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//            } else {
-//                intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            }
-//        }
-//        try {
-//            context.startActivity(intent);
-//        }catch (Exception e){
-//            ToastUtil.showShortToast(context,"分享出错");
-//        }
-
+        new Share2.Builder((Activity) context)
+                .setContentType(ShareContentType.FILE)
+                .setShareFileUri(FileUtil.getFileUri(context, ShareContentType.FILE, new File(edittingApps.get(0).getApkSourceDir())))
+                .setTitle("Share File")
+                .build()
+                .shareBySystem();
     }
-
-    /**
-     * 将程序源文件Copy到指定目录
-     */
-    private class CopyRunnable implements Runnable {
-        private String source;
-        private String dest;
-        private String key;
-
-        public CopyRunnable(String source, String dest, String key) {
-            this.source = source;
-            this.dest = dest;
-            this.key = key;
-        }
-        @SuppressLint("StringFormatInvalid")
-        @Override
-        public void run() {
-            // TODO Auto-generated method stub
-            try {
-                int length = 1024 * 1024;
-                if (!new File("/sdcard/apkfile/").exists()) {
-                    boolean mk = new File("/sdcard/apkfile/").mkdirs();
-                    if(mk){
-                        System.out.println("true");
-                    }
-                }
-
-                File fDest = new File(dest);
-                if (fDest.exists()) {
-                    fDest.delete();
-                }
-                fDest.createNewFile();
-                FileInputStream in = new FileInputStream(new File(source));
-                FileOutputStream out = new FileOutputStream(fDest);
-                FileChannel inC = in.getChannel();
-                FileChannel outC = out.getChannel();
-                int i = 0;
-                while (true) {
-                    if (inC.position() == inC.size()) {
-                        inC.close();
-                        outC.close();
-                        //成功
-                        break;
-                    }
-                    if ((inC.size() - inC.position()) < 1024 * 1024) {
-                        length = (int) (inC.size() - inC.position());
-                    } else {
-                        length = 1024 * 1024;
-                    }
-                    inC.transferTo(inC.position(), length, outC);
-                    inC.position(inC.position() + length);
-                    i++;
-                }
-            } catch (Exception e) {
-                // TODO: handle exception
-                Log.e("TAG", e.toString());
-            }
-        }
-    }
-
 
 
     /**
