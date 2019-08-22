@@ -117,7 +117,6 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestL
         ButterKnife.bind(this);
 
         setupToolbar();
-        transparentStatusBar();
 
         mActivity = this;
         weakRefActivity = new WeakReference(this);

@@ -66,8 +66,15 @@
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         <TextView
-                android:id="@+id/tv_shadow"
+                android:id="@+id/tv_shadow_order"
                 android:layout_below="@+id/tab"
+                android:background="#666666"
+                android:alpha="0"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"/>
+        <TextView
+                android:id="@+id/tv_shadow_search"
+                android:layout_below="@+id/toolbar"
                 android:background="#666666"
                 android:alpha="0"
                 android:layout_height="match_parent"

@@ -54,20 +54,25 @@
                 android:layout_marginTop="10dp"
                 android:paddingRight="10dp"
                 android:paddingLeft="10dp"
+                android:minHeight="150dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
         </androidx.recyclerview.widget.RecyclerView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_add"
-                android:elevation="8dp"
-                android:background="@null"
+                android:elevation="4dp"
+                app:pressedTranslationZ="8dp"
                 android:layout_marginTop="60dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ico_add"
-                android:scaleType="fitXY"
-                android:layout_width="60dp"
-                android:layout_height="60dp"/>
+                app:fabSize="normal"
+                android:backgroundTint="@color/colorPrimary"
+                app:borderWidth="0dp"
+                android:clickable="true"
+                app:rippleColor="@color/colorAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         <ImageView
                 android:layout_gravity="center"
                 android:scaleType="fitCenter"

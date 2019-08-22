@@ -60,17 +60,11 @@ public class AddAppClassficationActivity extends BaseActivity implements BaseQui
         return R.layout.activity_add_app_classfication;
     }
 
+
     @Override
     public void setupToolbar() {
         super.setupToolbar();
-        toolbar.setTitle("编辑文件夹");
-        toolbar.setNavigationIcon(R.drawable.md_nav_back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        setTitle("编辑文件夹");
     }
 
     @OnClick(R.id.fab_add)

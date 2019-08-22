@@ -4,7 +4,6 @@ import android.content.Context;
 import com.tj24.library_base.base.app.BaseApplication;
 import com.tj24.module_appmanager.greendao.dao.DaoSession;
 import org.greenrobot.greendao.AbstractDao;
-import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
@@ -12,12 +11,10 @@ public abstract class AppsBaseDao<T,S extends AbstractDao> {
     private Context mContext;
     public S mDdao;
     public DaoSession mDaosession;
-    public QueryBuilder mQueryBuilder;
     public AppsBaseDao() {
         mContext = BaseApplication.getContext();
         mDaosession = AppsDaoManager.getDaoSession();
         mDdao = (S) getDao();
-        mQueryBuilder = mDdao.queryBuilder();
     }
 
     public abstract AbstractDao getDao();

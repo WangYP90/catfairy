@@ -23,6 +23,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".activity.SearchActivity"
+        android:theme="@style/App_SearchActivity">
+        </activity>
         <activity android:name=".activity.MesageActivity">
         </activity>
 

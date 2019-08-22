@@ -1,5 +1,16 @@
 <resources>
+    <style name="App_SearchActivity" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/scrim</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@style/SearchWindowAnimations</item>
+    </style>
 
-
-
+    <style name="SearchWindowAnimations">
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@anim/fade_out_rapidly</item>
+    </style>
 </resources>

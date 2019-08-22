@@ -8,6 +8,7 @@ import android.util.Log;
 import com.tj24.library_base.utils.DateUtil;
 import com.tj24.library_base.utils.LogUtil;
 import com.tj24.library_base.utils.StringUtil;
+import com.tj24.module_appmanager.bean.AppBean;
 import com.tj24.module_appmanager.bean.MsgApk;
 import com.tj24.module_appmanager.greendao.daohelper.AppBeanDaoHelper;
 import com.tj24.module_appmanager.greendao.daohelper.MsgApkDaoHelper;
@@ -66,7 +67,12 @@ public class ApkChangeReceiver extends BroadcastReceiver {
         MsgApk msgApk = new MsgApk();
         msgApk.setId(StringUtil.getUuid());
         msgApk.setPackageName(packageName);
-        msgApk.setAppName(AppBeanDaoHelper.getInstance().queryObjById(packageName).getName());
+        AppBean appBean = AppBeanDaoHelper.getInstance().queryObjById(packageName);
+        if(appBean!=null && appBean.getName()!=null){
+            msgApk.setAppName(appBean.getName());
+        }else {
+            msgApk.setAppName(" ");
+        }
         long timeMills = System.currentTimeMillis();
         msgApk.setCreatTimeMills(timeMills);
         msgApk.setCreatDay(DateUtil.formatLong(DateUtil.SDF_1,timeMills));

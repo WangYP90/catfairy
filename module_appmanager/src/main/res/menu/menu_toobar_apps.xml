@@ -5,7 +5,6 @@
     <item android:id="@+id/menu_search"
           android:title="搜索"
           android:icon="@drawable/ico_top_search"
-          app:actionViewClass="androidx.appcompat.widget.SearchView"
           app:showAsAction="always"/>
     <item android:id="@+id/menu_order"
           android:title="排序"

@@ -30,7 +30,7 @@ public class AppClassificationDaoHelper extends AppsBaseDao<AppClassfication,App
      * @return
      */
     public List<AppClassfication> queryNoDefaultAppClasfications(){
-        return mQueryBuilder.where(AppClassficationDao.Properties.IsDefault.notEq(true)).list();
+        return mDdao.queryBuilder().where(AppClassficationDao.Properties.IsDefault.notEq(true)).list();
     }
 
     /**
@@ -38,7 +38,7 @@ public class AppClassificationDaoHelper extends AppsBaseDao<AppClassfication,App
      * @return
      */
     public List<AppClassfication> queryAllAndSort(){
-        return mQueryBuilder.orderAsc(AppClassficationDao.Properties.Order).list();
+        return mDdao.queryBuilder().orderAsc(AppClassficationDao.Properties.Order).list();
     }
 
 }

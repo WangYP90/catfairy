@@ -1,8 +1,10 @@
 package com.tj24.module_appmanager.activity;
 
 import android.Manifest;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,8 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -43,7 +45,6 @@ import com.tj24.module_appmanager.bean.AppBean;
 import com.tj24.module_appmanager.bean.AppClassfication;
 import com.tj24.module_appmanager.bean.event.LaucherEvent;
 import com.tj24.module_appmanager.common.OrderConfig;
-import com.tj24.module_appmanager.greendao.daohelper.AppClassificationDaoHelper;
 import com.tj24.module_appmanager.model.ApkModel;
 import com.tj24.module_appmanager.model.BusinessModel;
 import com.tj24.module_appmanager.model.OrderModel;
@@ -72,8 +73,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     NavigationView navView;
     @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
-    @BindView(R.id.tv_shadow)
-    TextView tvShadow;
+    @BindView(R.id.tv_shadow_order)
+    TextView tvShadowOrder;
+    @BindView(R.id.tv_shadow_search)
+    TextView tvShadowSearch;
     @BindView(R.id.appBar)
     AppBarLayout appBarLayout;
 
@@ -92,7 +95,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     TextView tvDescription;
     ImageView ivEdit;
 
-    SearchView searchView;
     MenuItem menuItemSelectedNum;
 
     final List<AppClassfication> appClassfications = new ArrayList<>();
@@ -102,6 +104,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private static final int CODE_START_APPCLASSFICATION = 111;
     public static final int MSG_REFRESH = 100;
     public static final int CODE_PERMISSION_REQUEST = 10;
+    private static final int REQUEST_SEARCH = 102;
     int editPosition = 1;
     private Handler mHandler = new Handler(){
         @Override
@@ -258,13 +261,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isEditing){
+                if(isEditing) {
                     EventBus.getDefault().post(new LaucherEvent(LaucherEvent.EVENT_EXIST_EDITING));
                 }else {
                     drawerLayout.openDrawer(GravityCompat.START);
                 }
             }
         });
+        transparentStatusBar();
     }
 
 
@@ -303,20 +307,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toobar_apps, menu);
         MenuItem searchItem = menu.findItem(R.id.menu_search);
-        searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint("搜索应用");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                return false;
-            }
-        });
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -350,15 +340,27 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return super.onPrepareOptionsMenu(menu);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
                 break;
             case R.id.menu_search:
+                // Android 5.0版本启用transition动画会存在一些效果上的异常，因此这里只在Android 5.1以上启用此动画
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    View searchMenuView = toolbar.findViewById(R.id.menu_search);
+                    Bundle options = ActivityOptions.makeSceneTransitionAnimation(this, searchMenuView,
+                            getString(R.string.transition_search_back)).toBundle();
+                    startActivityForResult(new Intent(this, SearchActivity.class), REQUEST_SEARCH, options);
+                } else {
+                    startActivityForResult(new Intent(this, SearchActivity.class), REQUEST_SEARCH);
+                }
+                // 当进入搜索界面键盘弹出时，composeFab会随着键盘往上偏移。暂时没查到原因，使用隐藏的方式先进行规避
+                fbtCompose.setVisibility(View.GONE);
                 break;
             case R.id.menu_order:
-                OrderDialog dialogOrder = new OrderDialog(mActivity, appClassfications.get(viewpager.getCurrentItem()),tvShadow);
+                OrderDialog dialogOrder = new OrderDialog(mActivity, appClassfications.get(viewpager.getCurrentItem()),tvShadowOrder);
                 dialogOrder.show();
                 break;
             case R.id.menu_refresh:
@@ -380,6 +382,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
     @Override
@@ -469,6 +472,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshUI(LaucherEvent laucherEvent){
         View mAppBarChildAt = appBarLayout.getChildAt(0);
@@ -508,7 +513,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
         if(requestCode == CODE_START_APPCLASSFICATION){
             appClassfications.clear();
-            appClassfications.addAll(AppClassificationDaoHelper.getInstance().queryAllAndSort());
+            appClassfications.addAll(businessModel.queryAllAppClassfications());
             vpAdater.notifyDataSetChanged();
         }
     }
@@ -519,6 +524,5 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     public void onAppSelected(List<AppBean> appBeans){
         menuItemSelectedNum.setTitle("已选择："+appBeans.size());
-
     }
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:elevation="4dp"
+        app:cardCornerRadius="4dp"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:id="@+id/iv_ico"
+                    android:src="@drawable/ic_launcher_background"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"/>
+            <TextView
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:text="appname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_name" app:layout_constraintStart_toEndOf="@+id/iv_ico"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintTop_toTopOf="@+id/iv_ico"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_ico"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_info" android:layout_marginEnd="8dp"
+                    app:layout_constraintHorizontal_bias="0.0"/>
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ico_info_selecet"
+                    android:background="@null"
+                    android:id="@+id/iv_info"
+                    app:layout_constraintTop_toTopOf="@+id/tv_name" android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
+

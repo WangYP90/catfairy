@@ -23,7 +23,7 @@ public class MsgAPkAdapter extends BaseSectionQuickAdapter<MsgApkData,BaseViewHo
 
     @Override
     protected void convertHead(BaseViewHolder helper, MsgApkData item) {
-        helper.setText(R.id.tv_times,item.t.getCreatDay());
+        helper.setText(R.id.tv_times,item.header);
     }
 
     @Override

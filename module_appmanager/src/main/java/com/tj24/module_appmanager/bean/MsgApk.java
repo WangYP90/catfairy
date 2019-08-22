@@ -97,5 +97,16 @@ public class MsgApk implements Serializable {
      */
     private String action;
 
-
+    @Override
+    public String toString() {
+        return "MsgApk{" +
+                "id='" + id + '\'' +
+                ", packageName='" + packageName + '\'' +
+                ", appName='" + appName + '\'' +
+                ", creatTimeMills=" + creatTimeMills +
+                ", creatDay='" + creatDay + '\'' +
+                ", creatHour='" + creatHour + '\'' +
+                ", action='" + action + '\'' +
+                '}';
+    }
 }

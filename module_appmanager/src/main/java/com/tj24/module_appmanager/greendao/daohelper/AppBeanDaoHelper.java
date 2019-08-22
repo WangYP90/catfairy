@@ -1,6 +1,8 @@
 package com.tj24.module_appmanager.greendao.daohelper;
 
+import android.text.TextUtils;
 import com.tj24.library_base.utils.ListUtil;
+import com.tj24.library_base.utils.PinyinUtils;
 import com.tj24.module_appmanager.bean.AppBean;
 import com.tj24.module_appmanager.greendao.base.AppsBaseDao;
 import com.tj24.module_appmanager.greendao.dao.AppBeanDao;
@@ -42,4 +44,26 @@ public class AppBeanDaoHelper extends AppsBaseDao<AppBean,AppBeanDao> {
         return appBeans;
     }
 
+    /**
+     * 根据关键字模糊查询
+     * @param words
+     * @return
+     */
+    public List<AppBean> queryByWords(String words){
+        List<AppBean> appBeans = new ArrayList<>();
+        if(TextUtils.isEmpty(words)){
+            return appBeans;
+        }
+        for (AppBean appBean : queryAll()) {
+            String name = appBean.getName();
+            if (name.indexOf(words.toString()) != -1 ||
+                    PinyinUtils.getFirstSpell(name).startsWith(words.toString())
+                    //不区分大小写
+                    || PinyinUtils.getFirstSpell(name).toLowerCase().startsWith(words.toString())
+                    || PinyinUtils.getFirstSpell(name).toUpperCase().startsWith(words.toString())) {
+                appBeans.add(appBean);
+            }
+        }
+        return appBeans;
+    }
 }

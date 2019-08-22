@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#eb6100</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorPrimaryLight">#f27e2d</color>
-
+    <color name="scrim">#99323232</color>
     <color name="white">#ffffff</color>
 
     <color name="white_text">#fff</color>

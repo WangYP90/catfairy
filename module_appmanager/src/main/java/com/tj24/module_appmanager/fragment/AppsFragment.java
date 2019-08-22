@@ -3,6 +3,8 @@ package com.tj24.module_appmanager.fragment;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -171,6 +173,13 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         switch (view.getId()){
             case R.id.tv_info:
+                Intent localIntent = new Intent();
+                localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (Build.VERSION.SDK_INT >= 9) {
+                    localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                    localIntent.setData(Uri.fromParts("package", appBeans.get(position).getPackageName(), null));
+                }
+                startActivity(localIntent);
                 break;
         }
     }
