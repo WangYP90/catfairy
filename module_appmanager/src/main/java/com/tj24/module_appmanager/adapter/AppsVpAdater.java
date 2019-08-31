@@ -1,5 +1,6 @@
 package com.tj24.module_appmanager.adapter;
 
+import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -19,14 +20,13 @@ import java.util.List;
  * @Version: V.1.0.0
  */
 public class AppsVpAdater extends FragmentStatePagerAdapter {
-    //传入的appbean
-    private List<AppBean> appBeans = new ArrayList<>();
     //对应的type
     private List<AppClassfication> appClassfications = new ArrayList<>();
+    //当前fragment
+    private AppsFragment mCurrentFragment;
 
-    public AppsVpAdater(FragmentManager fm,List<AppBean> appBeans,List<AppClassfication> appClassfications) {
+    public AppsVpAdater(FragmentManager fm,List<AppClassfication> appClassfications) {
         super(fm);
-        this.appBeans = appBeans;
         this.appClassfications = appClassfications;
     }
 
@@ -65,4 +65,22 @@ public class AppsVpAdater extends FragmentStatePagerAdapter {
     public int getItemPosition(Object object) {
         return POSITION_NONE;
     }
+
+    /**
+     *配合这个方法可以获取到显示的是哪个fragment
+     * @param container
+     * @param position
+     * @param object
+     */
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        mCurrentFragment = (AppsFragment) object;
+        super.setPrimaryItem(container, position, object);
+    }
+
+
+    public AppsFragment getCurrentFragment() {
+        return mCurrentFragment;
+    }
+
 }

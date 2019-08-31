@@ -18,7 +18,9 @@ public class SearchAdapter extends BaseQuickAdapter<AppBean, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, AppBean item) {
-        helper.setText(R.id.tv_name,item.getName());
+        helper.setText(R.id.tv_name,item.getName())
+        .setText(R.id.tv_packageName,item.getPackageName())
+        .addOnClickListener(R.id.tv_open);
         Glide.with(mContext).load(item.getIco()).error(R.mipmap.ic_launcher).into((ImageView) helper.getView(R.id.iv_ico));
     }
 }

@@ -4,14 +4,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import com.tj24.library_base.utils.DateUtil;
 import com.tj24.library_base.utils.LogUtil;
 import com.tj24.library_base.utils.StringUtil;
 import com.tj24.module_appmanager.bean.AppBean;
 import com.tj24.module_appmanager.bean.MsgApk;
+import com.tj24.module_appmanager.bean.event.ApkChangeEvent;
 import com.tj24.module_appmanager.greendao.daohelper.AppBeanDaoHelper;
 import com.tj24.module_appmanager.greendao.daohelper.MsgApkDaoHelper;
+import com.tj24.module_appmanager.model.ApkModel;
+import org.greenrobot.eventbus.EventBus;
 
 public class ApkChangeReceiver extends BroadcastReceiver {
     public static final String TAG = ApkChangeReceiver.class.getSimpleName();
@@ -20,10 +25,10 @@ public class ApkChangeReceiver extends BroadcastReceiver {
     private static final String ACTION_REMOVED = "android.intent.action.PACKAGE_REMOVED";
     private static final String ACTION_REPLACED = "android.intent.action.PACKAGE_REPLACED";
 
-    private ApkChangerListner apkChangeListner;
-
+    private Context context;
     @Override
     public void onReceive(Context context, Intent intent) {
+        this.context = context;
         String packageName = intent.getData().getSchemeSpecificPart();
         //接收安装广播
         if (intent.getAction().equals(ACTION_ADD)) {
@@ -32,29 +37,26 @@ public class ApkChangeReceiver extends BroadcastReceiver {
             Log.i(TAG, "install: isReplacing = " + isReplacing);
             Log.i(TAG, "install: uid = " + uid);
             if(!isReplacing){  //第一次安装
-                if(apkChangeListner != null){
-                    apkChangeListner.onAddApk(packageName);
-                    creatMsgApk("安装",packageName);
-                    LogUtil.i(TAG, "安装了:" + packageName + "包名的程序");
-                }
+                creatMsgApk("安装",packageName);
+                EventBus.getDefault().postSticky(new ApkChangeEvent(packageName,ApkChangeEvent.ACTION_ADD));
+                LogUtil.i(TAG, "安装了:" + packageName + "包名的程序");
             }
-
         }
         //接收卸载广播
         if (intent.getAction().equals(ACTION_REMOVED)) {
-            if(apkChangeListner != null){
-                apkChangeListner.onRemoveApk(packageName);
+            boolean isReplacing = intent.getBooleanExtra(Intent.EXTRA_REPLACING,false);
+            int uid = intent.getIntExtra(Intent.EXTRA_UID,0);
+            if(!isReplacing){
                 creatMsgApk("卸载",packageName);
+                EventBus.getDefault().postSticky(new ApkChangeEvent(packageName,ApkChangeEvent.ACTION_DEL));
                 LogUtil.i(TAG, "卸载了:" + packageName + "包名的程序");
             }
         }
         //替换广播
         if (intent.getAction().equals(ACTION_REPLACED)) {
-            if(apkChangeListner != null) {
-                apkChangeListner.onReplacedApk(packageName);
-                creatMsgApk("更新",packageName);
-                LogUtil.i(TAG, "更新了:" + packageName + "包名的程序");
-            }
+            creatMsgApk("更新",packageName);
+            EventBus.getDefault().postSticky(new ApkChangeEvent(packageName,ApkChangeEvent.ACTION_REPLACE));
+            LogUtil.i(TAG, "更新了:" + packageName + "包名的程序");
         }
     }
 
@@ -71,7 +73,15 @@ public class ApkChangeReceiver extends BroadcastReceiver {
         if(appBean!=null && appBean.getName()!=null){
             msgApk.setAppName(appBean.getName());
         }else {
-            msgApk.setAppName(" ");
+            PackageInfo packageInfo = null;
+            try {
+                packageInfo = context.getPackageManager().getPackageInfo(packageName, 0);
+                AppBean bean = ApkModel.conversToAppInfo(packageInfo,context.getPackageManager());
+                msgApk.setAppName(bean.getName());
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+
         }
         long timeMills = System.currentTimeMillis();
         msgApk.setCreatTimeMills(timeMills);
@@ -98,13 +108,4 @@ public class ApkChangeReceiver extends BroadcastReceiver {
         context.unregisterReceiver(this);
     }
 
-    public void setApkChangeListner(ApkChangerListner apkChangeListner){
-        this.apkChangeListner = apkChangeListner;
-    }
-
-    public interface ApkChangerListner{
-        void onAddApk(String packageName);
-        void onRemoveApk(String packageName);
-        void onReplacedApk(String packageName);
-    }
 }

@@ -9,5 +9,8 @@
     <dimen name="text_30px">16sp</dimen>
     <dimen name="text_25px">14sp</dimen>
 
+    <dimen name="edit_popup_text_size">16sp</dimen>
+
+
     <dimen name="button_login_cornner">5dp</dimen>
 </resources>

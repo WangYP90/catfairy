@@ -35,10 +35,10 @@ public class RcAppLinearAdapter extends BaseQuickAdapter<AppBean,BaseViewHolder>
         helper.setText(R.id.tv_name,item.getName())
                 .setText(R.id.tv_show,getShowText(item))
                 .setVisible(R.id.iv_isType,!isTyped(item))
-                .setGone(R.id.iv_info,!isEditing)
+                .setGone(R.id.tv_open,!isEditing)
                 .setGone(R.id.iv_selected,isEditing)
                 .setImageResource(R.id.iv_selected,item.getIsSelected()?R.drawable.ico_app_selected:R.drawable.ico_app_unselected)
-                .addOnClickListener(R.id.iv_info);
+                .addOnClickListener(R.id.tv_open);
     }
 
     /**
@@ -54,6 +54,8 @@ public class RcAppLinearAdapter extends BaseQuickAdapter<AppBean,BaseViewHolder>
                 return OrderConfig.ORDER_OPEN_NUM+":"+item.getOpenNum();
             case OrderConfig.ORDER_INSTALL_TIME:
                 return OrderConfig.ORDER_INSTALL_TIME+":"+DateUtil.formatLong(DateUtil.SDF_3,item.getFirstIntalTime());
+            case OrderConfig.ORDER_APP_NAME:
+                return "包名:"+item.getPackageName();
             case OrderConfig.ORDER_USE_TIME:
                 return OrderConfig.ORDER_USE_TIME+":"+ DateUtil.formatDuring(item.getTopProcessTime());
             case OrderConfig.ORDER_CUSTOM_PRIORITY:

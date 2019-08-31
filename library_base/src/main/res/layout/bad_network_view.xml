@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:foreground="?android:selectableItemBackground"
-    android:background="@color/white"
+    android:background="@color/color_white"
     >
 
     <LinearLayout

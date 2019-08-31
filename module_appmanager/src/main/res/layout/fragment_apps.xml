@@ -7,7 +7,7 @@
     <!--android:id="@+id/apps_header"-->
     <!--layout="@layout/apps_header"></include>-->
     <FrameLayout
-            android:layout_above="@+id/footer"
+            android:layout_above="@+id/apps_footer"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
@@ -15,6 +15,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
         </androidx.recyclerview.widget.RecyclerView>
+        <View
+                android:id="@+id/trans_view"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></View>
         <com.tj24.module_appmanager.view.SideBar
                 android:id="@+id/sideBar"
                 android:layout_marginBottom="10dp"

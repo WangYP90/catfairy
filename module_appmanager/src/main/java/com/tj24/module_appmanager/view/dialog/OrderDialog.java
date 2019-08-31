@@ -75,7 +75,7 @@ public class OrderDialog extends Dialog implements BaseQuickAdapter.OnItemClickL
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         params.y = ScreenUtil.getActionBarHeight(mContext)*2;
         //控件底部的坐标减去状态栏的高度
-        dialogWindow.setBackgroundDrawableResource(R.color.white);
+        dialogWindow.setBackgroundDrawableResource(R.color.white_text);
         dialogWindow.setAttributes(params);
     }
 

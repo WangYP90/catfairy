@@ -21,6 +21,7 @@ import android.provider.Settings;
 import com.tj24.library_base.base.app.BaseApplication;
 import com.tj24.library_base.utils.LogUtil;
 import com.tj24.library_base.utils.PinyinUtils;
+import com.tj24.library_base.utils.ToastUtil;
 import com.tj24.module_appmanager.bean.AppBean;
 import com.tj24.module_appmanager.common.Const;
 import com.tj24.module_appmanager.greendao.daohelper.AppBeanDaoHelper;
@@ -279,5 +280,22 @@ public class ApkModel {
         ComponentName topActivity = activityManager.getRunningTasks(1).get(0).topActivity;
         topPackageName = topActivity.getPackageName();
         return topPackageName;
+    }
+
+
+    /**
+     * 根据AppBean打开APP
+     * @param clickBean
+     */
+    public static void openApp(Context context,AppBean clickBean){
+        Intent i = context.getPackageManager().getLaunchIntentForPackage(clickBean.getPackageName());
+        if (i != null) {
+            clickBean.setOpenNum(clickBean.getOpenNum() + 1); //打开次数加1
+            clickBean.setLastOpenTime(System.currentTimeMillis());
+            AppBeanDaoHelper.getInstance().insertObj(clickBean);
+            context.startActivity(i);
+        } else {
+            ToastUtil.showShortToast(context, "此应用不支持打开");
+        }
     }
 }

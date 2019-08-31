@@ -19,9 +19,9 @@ public class ScreenUtil {
 
 	private static ScreenUtil instance;
 
-	private static int height;
+	private  int height;
 
-	private static int width;
+	private  int width;
 
 	private Context context;
 
@@ -42,12 +42,12 @@ public class ScreenUtil {
 	}
 
 	//得到手机屏幕的宽度, pix单位
-	public static int getScreenWidth() {
+	public int getScreenWidth() {
 		return width;
 	}
 
 	//得到手机屏幕的G度, pix单位
-	public static int getScreenHeight() {
+	public  int getScreenHeight() {
 		return height;
 	}
 

@@ -17,12 +17,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tj24.library_base.base.ui.BaseActivity;
 import com.tj24.library_base.utils.ListUtil;
 import com.tj24.module_appmanager.R;
 import com.tj24.module_appmanager.adapter.SearchAdapter;
 import com.tj24.module_appmanager.bean.AppBean;
 import com.tj24.module_appmanager.greendao.daohelper.AppBeanDaoHelper;
+import com.tj24.module_appmanager.model.ApkModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +60,7 @@ public class SearchActivity extends BaseActivity {
     private SearchAdapter searchAdapter;
     private LinearLayoutManager linearLayoutManager;
     private final List<AppBean> appBeans = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +114,16 @@ public class SearchActivity extends BaseActivity {
         searchAdapter = new SearchAdapter(R.layout.rc_search_item,appBeans);
         rvSearch.setLayoutManager(linearLayoutManager);
         rvSearch.setAdapter(searchAdapter);
+        searchAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if(view.getId() == R.id.tv_open){
+                    ApkModel.openApp(mActivity,appBeans.get(position));
+                }
+            }
+        });
     }
+
 
     private void initTransition() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -149,14 +161,27 @@ public class SearchActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.scrim:
-                dismiss();
+                exsit();
                 break;
             case R.id.iv_searchBack:
-                dismiss();
+                exsit();
                 break;
         }
     }
 
+    private void exsit() {
+        ivSearchBack.setBackground(null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        } else {
+            finish();
+        }
+    }
+
+    /**
+     * 搜寻查找
+     * @param newText
+     */
     private void searchApp(String newText) {
         appBeans.clear();
         appBeans.addAll(AppBeanDaoHelper.getInstance().queryByWords(newText));
@@ -164,15 +189,6 @@ public class SearchActivity extends BaseActivity {
         searchAdapter.removeAllFooterView();
         if(!ListUtil.isNullOrEmpty(appBeans)){
             searchAdapter.addFooterView(getLayoutInflater().inflate(R.layout.search_footer_view,null));
-        }
-    }
-
-    private void dismiss() {
-        ivSearchBack.setBackground(null);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAfterTransition();
-        } else {
-            finish();
         }
     }
 

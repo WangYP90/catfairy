@@ -9,10 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,6 +45,7 @@ import com.tj24.module_appmanager.common.OrderConfig;
 import com.tj24.module_appmanager.model.ApkModel;
 import com.tj24.module_appmanager.model.BusinessModel;
 import com.tj24.module_appmanager.model.OrderModel;
+import com.tj24.module_appmanager.receiver.ApkChangeReceiver;
 import com.tj24.module_appmanager.service.ScanTopService;
 import com.tj24.module_appmanager.view.NoScrollViewPager;
 import com.tj24.module_appmanager.view.dialog.OrderDialog;
@@ -95,10 +93,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     TextView tvDescription;
     ImageView ivEdit;
 
-    MenuItem menuItemSelectedNum;
+    MenuItem menuItemSelected;
 
     final List<AppClassfication> appClassfications = new ArrayList<>();
-    final List<AppBean> appBeans = new ArrayList<>();
     private OrderModel orderModel;
     private BusinessModel businessModel;
     private static final int CODE_START_APPCLASSFICATION = 111;
@@ -106,6 +103,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static final int CODE_PERMISSION_REQUEST = 10;
     private static final int REQUEST_SEARCH = 102;
     int editPosition = 1;
+    private ApkChangeReceiver apkChangeReceiver;
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -169,7 +167,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
         requestPermissions();
         setupViews();
+        regeistReceiver();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        apkChangeReceiver.unregister(mActivity);
+    }
+
+    private void regeistReceiver() {
+        apkChangeReceiver = new ApkChangeReceiver();
+        apkChangeReceiver.register(mActivity);
+    }
+
 
     /**
      * 动态申请权限
@@ -212,14 +223,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 设置viewpager的adapter
      */
     public void setVpAdater(int position) {
-        appBeans.clear();
         appClassfications.clear();
-        appBeans.addAll(businessModel.getAppBeansByDb());
         appClassfications.addAll(businessModel.queryAllAppClassfications());
         tab.setupWithViewPager(viewpager);
 
         if(vpAdater==null){
-        vpAdater = new AppsVpAdater(getSupportFragmentManager(),appBeans,appClassfications);
+        vpAdater = new AppsVpAdater(getSupportFragmentManager(),appClassfications);
         viewpager.setAdapter(vpAdater);
         viewpager.setCurrentItem(position);
         }else {
@@ -317,8 +326,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        toolbar.setTitle(isEditing?"编辑":getString(R.string.app_name));
-        toolbar.setNavigationIcon(isEditing?R.drawable.md_nav_back:R.drawable.ico_footer_more);
+        toolbar.setTitle(isEditing?"已选择:"+selectedNum:getString(R.string.app_name));
+        toolbar.setNavigationIcon(isEditing?R.drawable.md_nav_back:R.drawable.ic_person_outline_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -334,9 +343,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         menu.findItem(R.id.menu_refresh).setVisible(!isEditing);
         menu.findItem(R.id.menu_notice).setVisible(!isEditing);
         menu.findItem(R.id.menu_showtype).setVisible(!isEditing);
-        menuItemSelectedNum = menu.findItem(R.id.menu_selected_num);
-        menuItemSelectedNum.setVisible(isEditing);
-        menuItemSelectedNum.setTitle("已选择:"+selectedNum);
+        menuItemSelected = menu.findItem(R.id.menu_selected);
+        menuItemSelected.setVisible(isEditing);
+        menuItemSelected.setTitle("全选");
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -387,7 +396,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void onBackPressed() {
-        if (isEditing) {
+        //如果fragment有edipopup弹出 则先隐藏
+        if(vpAdater.getCurrentFragment()!=null && vpAdater.getCurrentFragment().isPopupShowing()){
+           vpAdater.getCurrentFragment().editPopup.dismiss();
+        }else if(isEditing) {   //   //如果处于编辑状态则需要先退出编辑状态
             EventBus.getDefault().post(new LaucherEvent(LaucherEvent.EVENT_EXIST_EDITING));
         } else {
             if(System.currentTimeMillis() - lastClickBackTime<1500){
@@ -523,6 +535,29 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * @param appBeans
      */
     public void onAppSelected(List<AppBean> appBeans){
-        menuItemSelectedNum.setTitle("已选择："+appBeans.size());
+        toolbar.setTitle(isEditing?"已选择:"+appBeans.size():getString(R.string.app_name));
     }
+
+
+    float clickX;
+    float clickY;
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                clickX = event.getX();
+                clickY = event.getY();
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    /**
+     * 给fragment提供获取点击屏幕坐标的方法
+     * @return
+     */
+    public float[] getClickPosition(){
+        return new float[]{clickX,clickY};
+    }
+
 }

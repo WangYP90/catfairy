@@ -34,7 +34,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
-                    android:src="@drawable/ic_arrow_back"/>
+                    android:src="@drawable/ic_arrow_back_white_24dp"/>
 
             <androidx.appcompat.widget.SearchView
                     android:id="@+id/searchView"
@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="?android:actionBarSize"
-            android:background="@color/white">
+            android:background="@color/white_text">
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_search"

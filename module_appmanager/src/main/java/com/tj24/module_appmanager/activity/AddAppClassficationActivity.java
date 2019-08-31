@@ -30,6 +30,7 @@ public class AddAppClassficationActivity extends BaseActivity implements BaseQui
     private List<AppClassfication> appClassfications = new ArrayList<>();
     private RcFlowAdapter flowAdapter;
     private AppClassificationEditModel mModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,11 @@ public class AddAppClassficationActivity extends BaseActivity implements BaseQui
         layoutManager = new FlowLayoutManager();
         rcAppclassfication.setLayoutManager(layoutManager);
         initAdapter();
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_add_app_classfication;
     }
 
     private void initAdapter() {
@@ -53,11 +59,6 @@ public class AddAppClassficationActivity extends BaseActivity implements BaseQui
         }else {
             flowAdapter.notifyDataSetChanged();
         }
-    }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_add_app_classfication;
     }
 
 

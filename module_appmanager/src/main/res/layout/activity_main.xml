@@ -49,7 +49,8 @@
                 <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/iv_addItem"
                         android:padding="10dp"
-                        android:src="@drawable/ico_top_edit"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:src="@drawable/ic_add_white_36dp"
                         android:scaleType="fitXY"
                         android:layout_alignBottom="@+id/tab"
                         android:layout_alignTop="@+id/tab"

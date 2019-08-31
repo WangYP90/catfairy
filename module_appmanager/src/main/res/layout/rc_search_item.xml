@@ -2,15 +2,17 @@
 <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@color/white"
+        android:background="@color/white_text"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_10"
         android:elevation="4dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
         app:cardCornerRadius="4dp"
         android:layout_height="wrap_content">
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="@color/white"
+                android:background="@color/white_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <ImageView
@@ -31,18 +33,40 @@
                     android:id="@+id/tv_name" app:layout_constraintStart_toEndOf="@+id/iv_ico"
                     android:layout_marginStart="8dp"
                     app:layout_constraintTop_toTopOf="@+id/iv_ico"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_ico"
-                    app:layout_constraintEnd_toStartOf="@+id/iv_info" android:layout_marginEnd="8dp"
-                    app:layout_constraintHorizontal_bias="0.0"/>
-            <ImageButton
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_open" app:layout_constraintHorizontal_bias="0.0"
+                    android:layout_marginEnd="8dp"/>
+            <TextView
+                    android:text="打开 >>"
+                    android:textSize="16sp"
+                    android:textColor="@color/white_text"
+                    android:paddingBottom="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:background="@drawable/shape_openbutton_bg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ico_info_selecet"
-                    android:background="@null"
-                    android:id="@+id/iv_info"
-                    app:layout_constraintTop_toTopOf="@+id/tv_name" android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_name"
-                    app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="20dp"/>
+                    android:id="@+id/tv_open"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="10dp" app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            <TextView
+                    tools:text="com.tj24.app"
+                    android:tooltipText="com.tj24.appnanager"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_packageName" app:layout_constraintStart_toEndOf="@+id/iv_ico"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="6dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_ico"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_open"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintHorizontal_bias="0.0"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

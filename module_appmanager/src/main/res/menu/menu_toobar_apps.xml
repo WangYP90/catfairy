@@ -12,17 +12,17 @@
           app:showAsAction="always"/>
     <item android:id="@+id/menu_refresh"
           android:title="刷新"
-          android:icon="@drawable/ic_compose"
+          android:icon="@drawable/ic_refresh_white_24dp"
           app:showAsAction="never"/>
     <item android:id="@+id/menu_showtype"
           android:title="排列方式"
-          android:icon="@drawable/ic_compose"
+          android:icon="@drawable/ic_swap_sort_24dp"
           app:showAsAction="never"/>
     <item android:id="@+id/menu_notice"
           android:title="消息通知"
-          android:icon="@drawable/ic_compose"
+          android:icon="@drawable/ic_notifications_none_white_24dp"
           app:showAsAction="never"/>
-    <item android:id="@+id/menu_selected_num"
-          android:title="已选择:"
+    <item android:id="@+id/menu_selected"
+          android:title="全选"
           app:showAsAction="always|withText"/>
 </menu>

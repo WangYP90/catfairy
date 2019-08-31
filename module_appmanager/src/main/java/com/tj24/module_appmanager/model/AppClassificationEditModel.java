@@ -32,6 +32,8 @@ public class AppClassificationEditModel extends BaseAppsManagerModel {
     public void showNewClassificationDialog(){
         new MaterialDialog.Builder(mContext).title("新增文件夹")
                 .content("文件夹名称")
+                .positiveText("确定")
+                .negativeText("取消")
                 .widgetColor(ContextCompat.getColor(mContext,R.color.colorPrimary))//输入框光标的颜色
                 .inputType(InputType.TYPE_CLASS_TEXT)//可以输入的类型
                 .inputRange(1,5)
@@ -57,7 +59,12 @@ public class AppClassificationEditModel extends BaseAppsManagerModel {
                             ToastUtil.showShortToast(mContext,"已有相同的文件夹");
                         }
                     }
-                }).show();
+                }).onNegative(new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                dialog.dismiss();
+            }
+        }).show();
     }
 
 
