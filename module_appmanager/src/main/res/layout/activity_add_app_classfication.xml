@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context="com.tj24.module_appmanager.activity.AddAppClassficationActivity"
+        tools:context="com.tj24.appmanager.activity.AddAppClassficationActivity"
         android:orientation="vertical"
         android:fitsSystemWindows="true"
         android:clipToPadding="true"

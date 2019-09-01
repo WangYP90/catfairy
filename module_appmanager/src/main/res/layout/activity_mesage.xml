@@ -7,7 +7,7 @@
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.tj24.module_appmanager.activity.MesageActivity">
+        tools:context="com.tj24.appmanager.activity.MesageActivity">
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:elevation="4dp"

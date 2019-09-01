@@ -3,7 +3,7 @@ package com.tj24.league;
 
 import android.util.Log;
 
-import com.tj24.library_base.base.app.BaseApplication;
+import com.tj24.base.base.app.BaseApplication;
 
 /**
  * @Description:主app只提供一个application

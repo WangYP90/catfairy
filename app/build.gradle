@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -30,5 +34,8 @@ dependencies {
     implementation project(':library_base')
     if(!isAppManagerRunAlone.toBoolean()){
         implementation project(':module_appmanager')
+    }
+    if(!isLoginRunAlone.toBoolean()){
+        implementation project(':module_login')
     }
 }

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.tj24.library_base">
+          package="com.tj24.base">
 
     <!-- 允许联网 -->
     <uses-permission android:name="android.permission.INTERNET"/>

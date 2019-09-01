@@ -20,7 +20,7 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></View>
-        <com.tj24.module_appmanager.view.SideBar
+        <com.tj24.appmanager.view.SideBar
                 android:id="@+id/sideBar"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
@@ -40,12 +40,12 @@
                 android:layout_height="40dp"
                 android:id="@+id/tv_sidebar"/>
     </FrameLayout>
-    <com.tj24.module_appmanager.view.AppFooterView
+    <com.tj24.appmanager.view.AppFooterView
             android:id="@+id/apps_footer"
             android:visibility="gone"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-    </com.tj24.module_appmanager.view.AppFooterView>
+    </com.tj24.appmanager.view.AppFooterView>
 
 </RelativeLayout>

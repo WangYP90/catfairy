@@ -5,7 +5,7 @@ apply plugin: 'org.greenrobot.greendao'
 //group = 'com.github.tangjiang24'
 greendao {
     schemaVersion 1
-    daoPackage 'com.tj24.library_base.greendao'
+    daoPackage 'com.tj24.base.greendao'
     targetGenDir 'src/main/java'
 }
 
@@ -80,5 +80,10 @@ dependencies {
     api 'com.zhy:okhttputils:2.6.2'
     //通用的recycle人view adapter
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
+    //拼音jar
     api files('libs/pinyin4j-2.5.0.jar')
+    //notnull nullablae 注解
+    api 'org.jetbrains:annotations:15.0'
+    //分享
+    api 'gdut.bsx:share2:0.9.3'
 }
