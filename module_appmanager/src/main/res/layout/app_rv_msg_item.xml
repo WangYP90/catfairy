@@ -17,7 +17,7 @@
             android:layout_marginLeft="20dp"
             android:gravity="center"
             android:text="23:45:47"
-            android:textColor="@color/secondary_text"
+            android:textColor="@color/base_secondary_text"
             android:textSize="@dimen/md_listitem_textsize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -26,7 +26,7 @@
             android:layout_marginLeft="30dp"
             android:gravity="center"
             android:text="更新"
-            android:textColor="@color/secondary_text"
+            android:textColor="@color/base_secondary_text"
             android:textSize="@dimen/md_title_textsize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -35,7 +35,7 @@
             android:layout_marginLeft="10dp"
             android:gravity="center"
             android:text="hello"
-            android:textColor="@color/secondary_text"
+            android:textColor="@color/base_secondary_text"
             android:textSize="@dimen/md_listitem_textsize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

@@ -93,7 +93,7 @@ public class AppEditHelper {
     public void setLevle() {
         AppBean currentApp = editingApps.get(0);
         new MaterialDialog.Builder(context).title("自定义排序").content("设置序列号")
-                .widgetColor(ContextCompat.getColor(context,R.color.app_colorPrimary))//输入框光标的颜色
+                .widgetColor(ContextCompat.getColor(context,R.color.base_colorPrimary))//输入框光标的颜色
                 .positiveText("确定")
                 .negativeText("取消")
                 .inputType(InputType.TYPE_CLASS_NUMBER)
@@ -204,7 +204,7 @@ public class AppEditHelper {
                 .content("文件夹名称")
                 .positiveText("确定")
                 .negativeText("取消")
-                .widgetColor(ContextCompat.getColor(context, R.color.app_colorPrimary))//输入框光标的颜色
+                .widgetColor(ContextCompat.getColor(context, R.color.base_colorPrimary))//输入框光标的颜色
                 .inputType(InputType.TYPE_CLASS_TEXT)//可以输入的类型
                 .inputRange(1,5)
                 //前2个一个是hint一个是预输入的文字

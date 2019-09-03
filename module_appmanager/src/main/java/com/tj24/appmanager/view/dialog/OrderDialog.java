@@ -42,7 +42,7 @@ public class OrderDialog extends Dialog implements BaseQuickAdapter.OnItemClickL
     private List<OrderHolder> orders = new ArrayList<>();
     private View view;
     public OrderDialog(@NonNull Context context,AppClassfication appClassfication,TextView tvShadow) {
-        super(context,R.style.transparentDialog);
+        super(context,R.style.base_transparentDialog);
         this.mContext = context;
         this.appClassfication = appClassfication;
         this.tvShadow = tvShadow;
@@ -75,7 +75,7 @@ public class OrderDialog extends Dialog implements BaseQuickAdapter.OnItemClickL
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         params.y = ScreenUtil.getActionBarHeight(mContext)*2;
         //控件底部的坐标减去状态栏的高度
-        dialogWindow.setBackgroundDrawableResource(R.color.app_white_text);
+        dialogWindow.setBackgroundDrawableResource(R.color.base_white_text);
         dialogWindow.setAttributes(params);
     }
 

@@ -24,7 +24,7 @@
                 android:id="@+id/fl_searchBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/app_colorPrimary"/>
+                android:background="@color/base_colorPrimary"/>
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -38,7 +38,7 @@
                     android:layout_marginStart="8dp"
                     android:background="?android:selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_arrow_back_white_24dp"
-                    android:transitionName="@string/transition_search_back"/>
+                    android:transitionName="@string/app_transition_search_back"/>
 
             <androidx.appcompat.widget.SearchView
                     android:id="@+id/searchView"
@@ -62,7 +62,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:layout_marginTop="?android:actionBarSize"
-            android:background="@color/app_white_text">
+            android:background="@color/base_white_text">
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_search"
@@ -71,18 +71,18 @@
                 android:layout_height="wrap_content"
                 android:visibility="visible" />
 
-        <include layout="@layout/loading" />
+        <include layout="@layout/base_loading" />
 
         <ViewStub
                 android:id="@+id/noContentView"
-                android:layout="@layout/no_content_view"
+                android:layout="@layout/base_no_content_view"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
         />
 
         <ViewStub
                 android:id="@+id/loadErrorView"
-                android:layout="@layout/load_error_view"
+                android:layout="@layout/base_load_error_view"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
         />

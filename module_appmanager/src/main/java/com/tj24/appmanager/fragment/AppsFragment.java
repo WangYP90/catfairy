@@ -279,7 +279,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
             @Override
             public void onDismiss() {
                 transView.setVisibility(View.GONE);
-                view.setBackgroundColor(mActivity.getColor(R.color.app_white_text));
+                view.setBackgroundColor(mActivity.getColor(R.color.base_white_text));
             }
         });
         view.setBackgroundColor(mActivity.getColor(R.color.app_item_pressed));

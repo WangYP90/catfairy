@@ -2,7 +2,7 @@
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_marginTop="1dp"
-        android:background="@color/app_white_text"
+        android:background="@color/base_white_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <TextView
@@ -12,8 +12,8 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:layout_centerVertical="true"
-            android:textSize="@dimen/text_40px"
-            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/app_text_40px"
+            android:textColor="@color/base_secondary_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     <ImageView

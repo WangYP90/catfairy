@@ -6,11 +6,11 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowAnimationStyle">@style/SearchWindowAnimations</item>
+        <item name="android:windowAnimationStyle">@style/app_SearchWindowAnimations</item>
     </style>
 
-    <style name="SearchWindowAnimations">
+    <style name="app_SearchWindowAnimations">
         <item name="android:windowEnterAnimation">@null</item>
-        <item name="android:windowExitAnimation">@anim/fade_out_rapidly</item>
+        <item name="android:windowExitAnimation">@anim/app_fade_out_rapidly</item>
     </style>
 </resources>

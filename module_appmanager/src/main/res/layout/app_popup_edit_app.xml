@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="140dp"
-              android:background="@color/app_white_text"
+              android:background="@color/base_white_text"
               android:layout_height="wrap_content">
     <TextView
             android:id="@+id/tv_move"
             android:padding="10dp"
             android:text="移动/复制"
             android:foreground="?selectableItemBackground"
-            android:textColor="@color/secondary_text"
-            android:textSize="@dimen/edit_popup_text_size"
+            android:textColor="@color/base_secondary_text"
+            android:textSize="@dimen/app_edit_popup_text_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -19,8 +19,8 @@
             android:padding="10dp"
             android:text="卸载"
             android:foreground="?selectableItemBackground"
-            android:textColor="@color/secondary_text"
-            android:textSize="@dimen/edit_popup_text_size"
+            android:textColor="@color/base_secondary_text"
+            android:textSize="@dimen/app_edit_popup_text_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     <TextView
@@ -28,8 +28,8 @@
             android:padding="10dp"
             android:text="详细信息"
             android:foreground="?selectableItemBackground"
-            android:textColor="@color/secondary_text"
-            android:textSize="@dimen/edit_popup_text_size"
+            android:textColor="@color/base_secondary_text"
+            android:textSize="@dimen/app_edit_popup_text_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     <TextView
@@ -37,8 +37,8 @@
             android:padding="10dp"
             android:text="设定优先级"
             android:foreground="?selectableItemBackground"
-            android:textColor="@color/secondary_text"
-            android:textSize="@dimen/edit_popup_text_size"
+            android:textColor="@color/base_secondary_text"
+            android:textSize="@dimen/app_edit_popup_text_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     <TextView
@@ -46,8 +46,8 @@
             android:padding="10dp"
             android:text="分享给好友"
             android:foreground="?selectableItemBackground"
-            android:textColor="@color/secondary_text"
-            android:textSize="@dimen/edit_popup_text_size"
+            android:textColor="@color/base_secondary_text"
+            android:textSize="@dimen/app_edit_popup_text_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 </LinearLayout>

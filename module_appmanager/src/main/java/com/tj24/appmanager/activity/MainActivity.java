@@ -141,7 +141,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         @Override
                         public void onGenerated(@Nullable Palette palette) {
                             boolean isDark = ColorUtil.isBitmapDark(palette, bitmap);
-                            int color = isDark?ContextCompat.getColor(MainActivity.this,R.color.app_white_text):ContextCompat.getColor(mActivity,R.color.app_colorPrimary);
+                            int color = isDark?ContextCompat.getColor(MainActivity.this,R.color.base_white_text):ContextCompat.getColor(mActivity,R.color.base_colorPrimary);
                             tvNickName.setTextColor(color);
                             tvDescription.setTextColor(color);
                             ivEdit.setColorFilter(color, android.graphics.PorterDuff.Mode.MULTIPLY);
@@ -266,7 +266,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void setupToolbar() {
         super.setupToolbar();
-        toolbar.setTitle(isEditing?"编辑":getString(R.string.app_name));
+        setTitle(isEditing?"编辑":getString(R.string.app_name));
         toolbar.setNavigationIcon(isEditing?R.drawable.md_nav_back:R.drawable.ico_footer_more);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -354,7 +354,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                 View searchMenuView = toolbar.findViewById(R.id.menu_search);
                 Bundle options = ActivityOptions.makeSceneTransitionAnimation(this, searchMenuView,
-                        getString(R.string.transition_search_back)).toBundle();
+                        getString(R.string.app_transition_search_back)).toBundle();
                 startActivityForResult(new Intent(this, SearchActivity.class), REQUEST_SEARCH, options);
             } else {
                 startActivityForResult(new Intent(this, SearchActivity.class), REQUEST_SEARCH);

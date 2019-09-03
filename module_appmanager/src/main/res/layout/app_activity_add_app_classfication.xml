@@ -15,7 +15,7 @@
             android:fitsSystemWindows="true"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@color/app_white_text"
+            app:titleTextColor="@color/base_white_text"
             android:background="?attr/colorPrimary"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <LinearLayout
@@ -34,8 +34,8 @@
         <TextView
                 android:id="@+id/tv_1"
                 android:layout_marginLeft="10dp"
-                android:textSize="@dimen/text_35px"
-                android:textColor="@color/app_colorPrimary"
+                android:textSize="@dimen/app_text_35px"
+                android:textColor="@color/base_colorPrimary"
                 android:layout_gravity="center_vertical"
                 android:text="类目列表"
                 android:layout_width="wrap_content"
@@ -43,8 +43,8 @@
         <TextView
                 android:layout_gravity="center_vertical"
                 android:id="@+id/tv_2"
-                android:textColor="@color/secondary_text"
-                android:textSize="@dimen/text_30px"
+                android:textColor="@color/base_secondary_text"
+                android:textSize="@dimen/app_text_30px"
                 android:text="(长按拖动，单击编辑)"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -67,10 +67,10 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_add_white_36dp"
             app:fabSize="normal"
-            android:backgroundTint="@color/app_colorPrimary"
+            android:backgroundTint="@color/base_colorPrimary"
             app:borderWidth="0dp"
             android:clickable="true"
-            app:rippleColor="@color/app_colorAccent"
+            app:rippleColor="@color/base_colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     <ImageView

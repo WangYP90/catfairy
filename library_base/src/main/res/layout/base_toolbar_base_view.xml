@@ -9,8 +9,8 @@
         android:elevation="4dp"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:titleTextColor="@color/app_white_text"
+        app:titleTextColor="@color/base_white_text"
         android:background="?attr/colorPrimary"
         app:layout_scrollFlags="scroll|enterAlways|snap"
-        app:popupTheme="@style/ToolbarPopupTheme"/>
+        app:popupTheme="@style/base_ToolbarPopupTheme"/>
 </merge>

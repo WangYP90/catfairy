@@ -3,28 +3,28 @@
 
     <ViewStub
         android:id="@+id/noContentView"
-        android:layout="@layout/no_content_view"
+        android:layout="@layout/base_no_content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 
     <ViewStub
         android:id="@+id/noContentViewWithButton"
-        android:layout="@layout/no_content_view_with_button"
+        android:layout="@layout/base_no_content_view_with_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 
     <ViewStub
         android:id="@+id/badNetworkView"
-        android:layout="@layout/bad_network_view"
+        android:layout="@layout/base_bad_network_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 
     <ViewStub
         android:id="@+id/loadErrorView"
-        android:layout="@layout/load_error_view"
+        android:layout="@layout/base_load_error_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:textColor="@color/app_white_text"
+            android:textColor="@color/base_white_text"
             android:textSize="18sp"
             tools:text="Tony Green"
             />
@@ -61,7 +61,7 @@
             android:padding="5dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textColor="@color/app_white_text"
+            android:textColor="@color/base_white_text"
             android:textSize="14sp"
             tools:text="简介：我有一个梦想！"
             />

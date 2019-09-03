@@ -22,23 +22,23 @@
                     android:elevation="4dp"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:titleTextColor="@color/white_text"
+                    app:titleTextColor="@color/base_white_text"
                     android:background="?attr/colorPrimary"
                     app:layout_scrollFlags="scroll|enterAlways|snap"
                     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    app:popupTheme="@style/ToolbarPopupTheme"/>
+                    app:popupTheme="@style/base_ToolbarPopupTheme"/>
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tab"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/base_colorPrimary"
                         app:tabSelectedTextColor="@android:color/white"
                         app:tabTextColor="@android:color/white"
                         app:tabIndicatorColor="#333333"
                         app:tabMode="scrollable"
                         app:tabGravity="center"
-                        app:tabBackground="@drawable/tab_background"
+                        app:tabBackground="@drawable/app_tab_background"
                         app:tabPaddingStart="10dp"
                         app:tabPaddingEnd="10dp"
                         android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                         android:layout_alignTop="@+id/tab"
                         android:layout_alignParentRight="true"
                         android:layout_width="50dp"
-                        android:background="@color/colorPrimaryLight"
+                        android:background="@color/base_colorPrimaryLight"
                         android:layout_height="?attr/actionBarSize"/>
             </RelativeLayout>
         </com.google.android.material.appbar.AppBarLayout>
@@ -91,7 +91,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
-            app:headerLayout="@layout/nav_header"
-            app:menu="@menu/menu_nav">
+            app:headerLayout="@layout/app_nav_header"
+            app:menu="@menu/app_menu_nav">
     </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>
