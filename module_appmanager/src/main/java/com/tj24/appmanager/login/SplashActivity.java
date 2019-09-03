@@ -7,9 +7,9 @@ import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
+
+import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.MainActivity;
-import com.tj24.base.R;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.bean.appmanager.login.Version;
 
