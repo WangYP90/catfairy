@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="140dp"
-              android:background="@color/white_text"
+              android:background="@color/app_white_text"
               android:layout_height="wrap_content">
     <TextView
             android:id="@+id/tv_move"

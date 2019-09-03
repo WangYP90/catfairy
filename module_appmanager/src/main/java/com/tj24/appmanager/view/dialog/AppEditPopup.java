@@ -41,7 +41,7 @@ public class AppEditPopup extends PopupWindow implements View.OnClickListener {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void initView() {
-        View rootView = LayoutInflater.from(mContext).inflate(R.layout.popup_edit_app,null);
+        View rootView = LayoutInflater.from(mContext).inflate(R.layout.app_popup_edit_app,null);
         rootView.setZ(8F);
         setContentView(rootView);
         setBackgroundDrawable(null);

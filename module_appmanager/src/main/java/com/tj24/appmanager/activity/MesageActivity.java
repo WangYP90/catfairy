@@ -33,7 +33,7 @@ public class MesageActivity extends BaseActivity {
         msgApkDatas.addAll(filter(MsgApkDaoHelper.getInstance().queryByPage(pageNum)));
         linearLayoutManager = new LinearLayoutManager(this);
         rvMsg.setLayoutManager(linearLayoutManager);
-        msgAPkAdapter = new MsgAPkAdapter(R.layout.rv_msg_item,R.layout.rv_msg_header,msgApkDatas);
+        msgAPkAdapter = new MsgAPkAdapter(R.layout.app_rv_msg_item,R.layout.app_rv_msg_header,msgApkDatas);
         rvMsg.setAdapter(msgAPkAdapter);
         msgAPkAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -71,7 +71,7 @@ public class MesageActivity extends BaseActivity {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_mesage;
+        return R.layout.app_activity_mesage;
     }
 
     @Override

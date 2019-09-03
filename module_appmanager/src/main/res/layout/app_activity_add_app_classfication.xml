@@ -15,7 +15,7 @@
             android:fitsSystemWindows="true"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@color/white_text"
+            app:titleTextColor="@color/app_white_text"
             android:background="?attr/colorPrimary"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <LinearLayout
@@ -35,7 +35,7 @@
                 android:id="@+id/tv_1"
                 android:layout_marginLeft="10dp"
                 android:textSize="@dimen/text_35px"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/app_colorPrimary"
                 android:layout_gravity="center_vertical"
                 android:text="类目列表"
                 android:layout_width="wrap_content"
@@ -67,10 +67,10 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_add_white_36dp"
             app:fabSize="normal"
-            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTint="@color/app_colorPrimary"
             app:borderWidth="0dp"
             android:clickable="true"
-            app:rippleColor="@color/colorAccent"
+            app:rippleColor="@color/app_colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     <ImageView

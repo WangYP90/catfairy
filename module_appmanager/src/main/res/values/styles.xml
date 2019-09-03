@@ -1,6 +1,6 @@
 <resources>
     <style name="App_SearchActivity" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@color/scrim</item>
+        <item name="android:windowBackground">@color/app_scrim</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsFloating">false</item>

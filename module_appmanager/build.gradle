@@ -29,6 +29,7 @@ android {
                 arguments = [moduleName: project.getName()]
             }
         }
+        resourcePrefix "app"
     }
 
     // 指定jdk版本

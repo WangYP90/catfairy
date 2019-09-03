@@ -76,7 +76,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
     private OrderModel orderModel;
     @Override
     public int getCreateViewLayoutId() {
-        return R.layout.fragment_apps;
+        return R.layout.app_fragment_apps;
     }
 
     @Override
@@ -152,7 +152,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
             mLinearManager = new LinearLayoutManager(mActivity);
             mLinearManager.setStackFromEnd(false);
             rcApps.setLayoutManager(mLinearManager);
-            mLinearAdapter = new RcAppLinearAdapter(R.layout.rc_apps_linear_item, appBeans, appClassfication, isEditing);
+            mLinearAdapter = new RcAppLinearAdapter(R.layout.app_rv_apps_linear_item, appBeans, appClassfication, isEditing);
             mLinearManager.scrollToPosition(scrollPosition);
             rcApps.setAdapter(mLinearAdapter);
             mLinearAdapter.setOnItemChildClickListener(this);
@@ -164,7 +164,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
             }
             mGrideManager = new GridLayoutManager(mActivity, 4);
             rcApps.setLayoutManager(mGrideManager);
-            mGrideAdapter = new RcAppGrideAdapter(R.layout.rc_apps_gride_item, appBeans, isEditing);
+            mGrideAdapter = new RcAppGrideAdapter(R.layout.app_rv_apps_gride_item, appBeans, isEditing);
             mGrideManager.scrollToPosition(scrollPosition);
             mGrideAdapter.setOnItemClickListener(this);
             mGrideAdapter.setOnItemLongClickListener(this);
@@ -279,10 +279,10 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
             @Override
             public void onDismiss() {
                 transView.setVisibility(View.GONE);
-                view.setBackgroundColor(mActivity.getColor(R.color.white_text));
+                view.setBackgroundColor(mActivity.getColor(R.color.app_white_text));
             }
         });
-        view.setBackgroundColor(mActivity.getColor(R.color.item_pressed));
+        view.setBackgroundColor(mActivity.getColor(R.color.app_item_pressed));
         view.setElevation(4F);
     }
 

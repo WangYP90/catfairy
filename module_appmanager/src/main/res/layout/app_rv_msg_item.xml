@@ -8,7 +8,7 @@
         android:layout_marginLeft="10dp"
         android:padding="10dp"
         android:gravity="center"
-        android:background="@drawable/msg_apk_item_drawable"
+        android:background="@drawable/app_msg_apk_item_drawable"
         android:layout_width="10dp"
         android:layout_height="10dp"/>
 

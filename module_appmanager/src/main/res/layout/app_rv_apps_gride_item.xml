@@ -5,7 +5,7 @@
         android:padding="8dp"
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
-        android:background="@color/white_text"
+        android:background="@color/app_white_text"
         android:layout_height="wrap_content">
 
 
@@ -14,7 +14,7 @@
             android:layout_below="@+id/iv_selected"
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/app_ic_launcher"
             android:layout_width="60dp"
             android:layout_height="60dp"/>
     <ImageView

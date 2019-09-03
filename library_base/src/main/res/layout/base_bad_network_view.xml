@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/loadErrorView"
+    android:id="@+id/badNetworkRootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_white"
+    android:focusable="true"
+    android:foreground="?android:selectableItemBackground"
+    android:background="@color/app_color_white"
     >
 
     <LinearLayout
@@ -21,7 +22,6 @@
             android:src="@drawable/bad_network_image" />
 
         <TextView
-            android:id="@+id/loadErrorText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -29,7 +29,7 @@
             android:layout_marginBottom="20dp"
             android:textSize="12sp"
             android:textColor="@color/secondary_text"
-            tools:text="加载失败了"/>
+            android:text="您的网络不给力，点击屏幕可重新加载"/>
 
     </LinearLayout>
 

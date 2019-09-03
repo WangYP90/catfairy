@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@color/white_text"
+        android:background="@color/app_white_text"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:layout_marginTop="1dp"
@@ -25,7 +25,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"/>
             <ImageView
                     android:id="@+id/iv_ico"
-                    android:src="@drawable/ic_launcher_background"
+                    android:src="@drawable/app_ic_launcher_background"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     app:layout_constraintStart_toEndOf="@+id/iv_selected" android:layout_marginLeft="8dp"
@@ -33,7 +33,7 @@
                     app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"/>
             <TextView
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/app_colorPrimary"
                     android:textSize="16sp"
                     android:text="appname"
                     android:layout_width="wrap_content"
@@ -63,8 +63,8 @@
                     android:paddingTop="4dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:textColor="@color/white_text"
-                    android:background="@drawable/shape_openbutton_bg"
+                    android:textColor="@color/app_white_text"
+                    android:background="@drawable/app_shape_openbutton_bg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tv_open"

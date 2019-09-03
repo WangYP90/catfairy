@@ -51,12 +51,12 @@ public class AddAppClassficationActivity extends BaseActivity implements View.On
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_add_app_classfication;
+        return R.layout.app_activity_add_app_classfication;
     }
 
     private void initAdapter() {
         if(flowAdapter == null){
-            flowAdapter = new RcFlowAdapter(R.layout.rc_flow_appclassification,appClassfications);
+            flowAdapter = new RcFlowAdapter(R.layout.app_rc_flow_appclassification,appClassfications);
             rcAppclassfication.setAdapter(flowAdapter);
             ItemTouchHelper.Callback callback = new DragHelper(flowAdapter);
             ItemTouchHelper touchHelper = new ItemTouchHelper(callback);

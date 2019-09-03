@@ -62,7 +62,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_search;
+        return R.layout.app_activity_search;
     }
 
     private void initView() {
@@ -117,7 +117,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
 
     private void initRecyclerView() {
         linearLayoutManager = new LinearLayoutManager(this);
-        searchAdapter = new SearchAdapter(R.layout.rc_search_item,appBeans);
+        searchAdapter = new SearchAdapter(R.layout.app_rv_search_item,appBeans);
         rvSearch.setLayoutManager(linearLayoutManager);
         rvSearch.setAdapter(searchAdapter);
         searchAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -191,7 +191,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         searchAdapter.notifyDataSetChanged();
         searchAdapter.removeAllFooterView();
         if(!ListUtil.isNullOrEmpty(appBeans)){
-            searchAdapter.addFooterView(getLayoutInflater().inflate(R.layout.search_footer_view,null));
+            searchAdapter.addFooterView(getLayoutInflater().inflate(R.layout.app_search_footer_view,null));
         }
     }
 

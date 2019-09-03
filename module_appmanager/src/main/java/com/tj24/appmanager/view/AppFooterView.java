@@ -43,14 +43,14 @@ public class AppFooterView extends LinearLayout implements View.OnClickListener 
         this.context = context;
         setOrientation(VERTICAL);
         LayoutInflater mInflater = LayoutInflater.from(context);
-        View myView = mInflater.inflate(R.layout.apps_footer, null);
+        View myView = mInflater.inflate(R.layout.app_apps_footer, null);
         initView(myView);
         addView(myView);
     }
 
     private void initView(View myView) {
-        selectColor = ContextCompat.getColor(context,R.color.color_footer_text_selected);
-        unSelectColor = ContextCompat.getColor(context,R.color.color_footer_text_unselected);
+        selectColor = ContextCompat.getColor(context,R.color.app_color_footer_text_selected);
+        unSelectColor = ContextCompat.getColor(context,R.color.app_color_footer_text_unselected);
 
         tvMove = myView.findViewById(R.id.tv_move);
         tvDelete = myView.findViewById(R.id.tv_delete);

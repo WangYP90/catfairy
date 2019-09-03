@@ -51,7 +51,7 @@ public class OrderDialog extends Dialog implements BaseQuickAdapter.OnItemClickL
 
     protected void init() {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.apps_dialog_order, null);
+        view = inflater.inflate(R.layout.app_dialog_order, null);
         rcOrder = view.findViewById(R.id.rc_order);
         setOnDismissListener(this);
         setCanceledOnTouchOutside(true);
@@ -62,7 +62,7 @@ public class OrderDialog extends Dialog implements BaseQuickAdapter.OnItemClickL
         }
         layoutManager = new LinearLayoutManager(mContext);
         rcOrder.setLayoutManager(layoutManager);
-        mAdapter = new RcOrderAdapter(R.layout.rc_order_dialog,orders);
+        mAdapter = new RcOrderAdapter(R.layout.app_rv_order_dialog,orders);
         rcOrder.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
     }
@@ -75,7 +75,7 @@ public class OrderDialog extends Dialog implements BaseQuickAdapter.OnItemClickL
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         params.y = ScreenUtil.getActionBarHeight(mContext)*2;
         //控件底部的坐标减去状态栏的高度
-        dialogWindow.setBackgroundDrawableResource(R.color.white_text);
+        dialogWindow.setBackgroundDrawableResource(R.color.app_white_text);
         dialogWindow.setAttributes(params);
     }
 

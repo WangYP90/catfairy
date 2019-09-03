@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#f26d0e</color>
-    <color name="colorPrimaryDark">#c05a12</color>
-    <color name="colorAccent">#f26d0e</color>
-    <color name="colorPrimaryLight">#f27e2d</color>
-    <color name="scrim">#99323232</color>
-    <color name="item_pressed">#e2e2e2</color>
+    <color name="app_colorPrimary">#f26d0e</color>
+    <color name="app_colorPrimaryDark">#c05a12</color>
+    <color name="app_colorAccent">#f26d0e</color>
+    <color name="app_colorPrimaryLight">#f27e2d</color>
+    <color name="app_scrim">#99323232</color>
+    <color name="app_item_pressed">#e2e2e2</color>
 
-    <color name="white_text">#fff</color>
+    <color name="app_white_text">#fff</color>
 
-    <color name="loading">#e2e2e2</color>
+    <color name="app_loading">#e2e2e2</color>
     <color name="app_orderDialogBackgroud">#bfbfbf</color>
 
-    <color name="color_footer_text_selected">#ffffff</color>
-    <color name="color_footer_text_unselected">#cccccc</color>
+    <color name="app_color_footer_text_selected">#ffffff</color>
+    <color name="app_color_footer_text_unselected">#cccccc</color>
 
 
 
     <!--此color值和名字不能变，不知道为什么materal dialog中列表前的按钮颜色和这个值关联了 -->
-    <color name="color_white">#757575</color>
+    <color name="app_color_white">#757575</color>
 </resources>

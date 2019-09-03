@@ -3,15 +3,15 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryLight</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorSecondary">@color/color_white</item> <!--toolbar 更多menu变为白色-->
+        <item name="colorPrimary">@color/app_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/app_colorPrimaryLight</item>
+        <item name="colorAccent">@color/app_colorAccent</item>
+        <item name="android:textColorSecondary">@color/app_color_white</item> <!--toolbar 更多menu变为白色-->
     </style>
 
     <style name="AppTheme.MaterialButton">
-        <item name="colorControlHighlight">@color/white_text</item>
-        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/app_white_text</item>
+        <item name="colorButtonNormal">@color/app_colorAccent</item>
     </style>
 
     <!-- toolbar弹出菜单样式 -->
@@ -19,7 +19,7 @@
         <item name="android:colorBackground">@color/app_popup_menu_bac</item>
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
         <!--设置字体颜色-->
-        <item name="android:textColor">@color/white_text</item>
+        <item name="android:textColor">@color/app_white_text</item>
         <!-- 用于修改item默认的分割线-->
         <item name="android:dropDownListViewStyle">@style/dropDownStyle</item>
         <item name="dropDownListViewStyle">@style/dropDownStyle</item>

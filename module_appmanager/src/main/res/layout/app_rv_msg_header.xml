@@ -16,7 +16,7 @@
             android:layout_marginLeft="20dp"
             android:gravity="center"
             android:text="更新"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/app_colorPrimary"
             android:textSize="@dimen/md_title_textsize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

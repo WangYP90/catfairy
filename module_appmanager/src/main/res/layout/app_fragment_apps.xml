@@ -3,9 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <!--<include-->
-    <!--android:id="@+id/apps_header"-->
-    <!--layout="@layout/apps_header"></include>-->
+
     <FrameLayout
             android:layout_above="@+id/apps_footer"
             android:layout_width="match_parent"
@@ -33,7 +31,7 @@
                 android:visibility="invisible"
                 android:textSize="30sp"
                 android:textColor="#ffffff"
-                android:background="@color/colorPrimary"
+                android:background="@color/app_colorPrimary"
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_width="40dp"
