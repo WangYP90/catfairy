@@ -8,6 +8,7 @@ import android.os.Environment;
  * @Author:TangJiang
  * @Version: V.1.0.0
  */
+
 public class Const {
     public static String BASE_PATH = Environment.getExternalStorageState() + "catFairy";
     public static class UserInfo{

@@ -61,14 +61,17 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
 
     //是否正在编辑
     private boolean isEditing;
-
+    //是否全选
+    private boolean isAllSelected;
+    //当前fragment是否可见
+    private boolean isVisibleToUser;
     //传入的appbean
     private final List<AppBean> appBeans = new ArrayList<>();
     //对应的type
     private AppClassfication appClassfication;
     //长按后 选择的item
     private final List<AppBean> editingApps = new ArrayList<>();
-
+    public AppEditPopup editPopup;
     private RcAppLinearAdapter mLinearAdapter;
     private RcAppGrideAdapter mGrideAdapter;
     private LinearLayoutManager mLinearManager;
@@ -100,7 +103,6 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
             float x = 0;
             float y = 0;
             long time = 0;
-
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -221,8 +223,6 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
         return true;
     }
 
-    public AppEditPopup editPopup;
-
     /**
      * 弹出popup
      *
@@ -327,7 +327,35 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
                 sideBar.setVisibility(appClassfication.getSortName().equals(OrderConfig.ORDER_APP_NAME) ? View.VISIBLE : View.GONE);
                 notifyRecyclerView();
                 break;
+            case LaucherEvent.EVENT_ALL_SELECTED:
+                //首先需要判断是否可见 否则appBeans会错乱到其他item
+                if(!isVisibleToUser){
+                    return;
+                }
+                isAllSelected = !isAllSelected;
+                if(isAllSelected){
+                    editingApps.clear();
+                    for(AppBean bean : appBeans){
+                        bean.setIsSelected(true);
+                        editingApps.add(bean);
+                    }
+                }else {
+                    editingApps.clear();
+                    for(AppBean bean : appBeans){
+                        bean.setIsSelected(false);
+                    }
+                }
+                notifyRecyclerView();
+                ((MainActivity) mActivity).onAppAllSelected(isAllSelected,editingApps.size());
+                footerView.onEdittingAppChanged(editingApps, appClassfication);
+                break;
         }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        this.isVisibleToUser = isVisibleToUser;
     }
 
     @Override
@@ -350,6 +378,10 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
         }
     }
 
+    /**
+     * 接受到安装卸载或更新的消息
+     * @param event
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onApkChanged(ApkChangeEvent event) {
         switch (event.getAction()) {

@@ -6,7 +6,8 @@
         <item name="colorPrimary">@color/base_colorPrimary</item>
         <item name="colorPrimaryDark">@color/base_colorPrimaryLight</item>
         <item name="colorAccent">@color/base_colorAccent</item>
-        <item name="android:textColorSecondary">@color/base_color_white</item> <!--toolbar 更多menu变为白色-->
+        <!--<item name="android:textColorSecondary">@color/base_color_white</item>-->
+        <!--toolbar 更多menu变为白色-->
     </style>
 
     <style name="base_AppTheme.MaterialButton">

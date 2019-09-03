@@ -5,6 +5,7 @@ public class LaucherEvent {
     public static final int EVENT_EXIST_EDITING = 2; //退出编辑
     public static final int EVENT_CHANGE_ORDERTYPE = 3; //排列方式改变 linealayout gridelayout
     public static final int EVENT_CHANGE_SORT = 4; //排序方式改变
+    public static final int EVENT_ALL_SELECTED = 5; // 点击全选按钮
 
     private int eventCode;
     private Object value;

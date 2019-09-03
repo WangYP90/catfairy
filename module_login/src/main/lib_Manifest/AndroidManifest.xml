@@ -3,7 +3,5 @@
           package="com.tj24.login">
 
     <application>
-        <activity android:name=".WelcomActivity">
-        </activity>
     </application>
 </manifest>

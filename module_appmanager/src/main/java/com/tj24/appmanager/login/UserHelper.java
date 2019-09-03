@@ -1,4 +1,4 @@
-package com.tj24.base.common;
+package com.tj24.appmanager.login;
 
 import android.text.TextUtils;
 
@@ -12,7 +12,6 @@ import com.tj24.base.utils.Sputil;
  * @Version: V.1.0.0
  */
 public class UserHelper {
-
     public static  String USER_NICK_NAME = "";
     public static  String USER_AVATAR = "";
     public static  String USER_BG_IMAG = "";

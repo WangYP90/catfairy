@@ -14,7 +14,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
-    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -22,37 +23,42 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/base_AppTheme">
-        <activity android:name="com.tj24.appmanager.activity.SearchActivity"
-                  android:theme="@style/App_SearchActivity">
+        <activity android:name=".login.LoginActivity">
         </activity>
-        <activity android:name="com.tj24.appmanager.activity.MesageActivity">
+        <activity
+                android:name=".activity.SearchActivity"
+                android:theme="@style/App_SearchActivity">
+        </activity>
+        <activity android:name=".activity.MesageActivity">
         </activity>
 
         <receiver
-                android:name="com.tj24.appmanager.receiver.ApkChangeReceiver"
+                android:name=".receiver.ApkChangeReceiver"
                 android:enabled="true"
                 android:exported="true">
         </receiver>
 
-        <activity android:name="com.tj24.appmanager.activity.MainActivity">
+        <activity android:name=".activity.MainActivity">
+        </activity>
+        <activity android:name=".login.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.tj24.appmanager.common.keepAlive.SinglePixelActivity"/>
+        <activity android:name=".common.keepAlive.SinglePixelActivity"/>
 
         <service
-                android:name="com.tj24.appmanager.service.ScanTopService"
+                android:name=".service.ScanTopService"
                 android:exported="false">
         </service>
         <service
-                android:name="com.tj24.appmanager.service.AliveService"
+                android:name=".service.AliveService"
                 android:exported="false">
         </service>
 
-        <activity android:name="com.tj24.appmanager.activity.AddAppClassficationActivity">
+        <activity android:name=".activity.AddAppClassficationActivity">
         </activity>
 
         <provider

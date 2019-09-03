@@ -1,6 +1,7 @@
 package com.tj24.appmanager.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -45,7 +46,7 @@ import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.base.ui.PermissionListener;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
-import com.tj24.base.common.UserHelper;
+import com.tj24.appmanager.login.UserHelper;
 import com.tj24.base.utils.*;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -322,7 +323,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        toolbar.setTitle(isEditing?"已选择:"+selectedNum:getString(R.string.app_name));
+        toolbar.setTitle(isEditing?getString(R.string.app_selected,selectedNum):getString(R.string.app_name));
         toolbar.setNavigationIcon(isEditing?R.drawable.md_nav_back:R.drawable.ic_person_outline_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -376,6 +377,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             EventBus.getDefault().post(new LaucherEvent(LaucherEvent.EVENT_CHANGE_ORDERTYPE));
         } else if (i == R.id.menu_notice) {
             startActivity(new Intent(this, MesageActivity.class));
+        }else if (i == R.id.menu_selected) {
+            EventBus.getDefault().post(new LaucherEvent(LaucherEvent.EVENT_ALL_SELECTED));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -519,13 +522,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     /**
-     * 对app进行了选择操作后
+     * 编辑状态下对app进行了选择操作后
      * @param appBeans
      */
+    @SuppressLint("StringFormatMatches")
     public void onAppSelected(List<AppBean> appBeans){
-        toolbar.setTitle(isEditing?"已选择:"+appBeans.size():getString(R.string.app_name));
+        toolbar.setTitle(isEditing?getString(R.string.app_selected,appBeans.size()):getString(R.string.app_name));
     }
 
+    /**
+     * 编辑状态下 点击了全选
+     * @param isAllSelected
+     * @param edittingNum
+     */
+    public void onAppAllSelected(boolean isAllSelected,int edittingNum){
+        menuItemSelected.setTitle(isAllSelected?"全不选":"全选");
+        toolbar.setTitle(isEditing?getString(R.string.app_selected,edittingNum):getString(R.string.app_name));
+    }
 
     float clickX;
     float clickY;

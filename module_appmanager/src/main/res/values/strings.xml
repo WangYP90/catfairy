@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">"喵小仙"</string>
     <string name="app_transition_search_back">transition_search_back</string>
+    <string name="app_selected">已选择: %1$d</string>
 </resources>

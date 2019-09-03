@@ -4,7 +4,7 @@
     <color name="base_colorAccent">#cc5b0b</color>
     <color name="base_colorPrimaryLight">#f27e2d</color>
 
-    <color name="base_color_white">#ffffff</color>
+    <color name="base_color_white">#ffff</color>
     <color name="base_black">#000000</color>
     <color name="base_black_600">#666666</color>
 

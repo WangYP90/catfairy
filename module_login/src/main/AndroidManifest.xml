@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/base_AppTheme">
-        <activity android:name="com.tj24.login.WelcomActivity">
+        <activity android:name="com.tj24.login.com.tj24.appmanager.login.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
