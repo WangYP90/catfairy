@@ -13,4 +13,13 @@
         <item name="android:windowEnterAnimation">@null</item>
         <item name="android:windowExitAnimation">@anim/app_fade_out_rapidly</item>
     </style>
+
+    <style name="App_SplashActivity" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/base_colorPrimary</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+    <style name="app_EditTextErrorAppearance">
+        <item name="android:textColor">@color/base_white_text</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

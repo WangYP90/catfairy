@@ -40,7 +40,8 @@
 
         <activity android:name=".activity.MainActivity">
         </activity>
-        <activity android:name=".login.SplashActivity">
+        <activity android:name=".login.SplashActivity"
+                  android:theme="@style/App_SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
