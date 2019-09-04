@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="App_LoginActivity" parent="App_RegisterActivity">
+        <item name="android:windowEnterTransition">@null</item>
+    </style>
+</resources>

@@ -22,4 +22,16 @@
         <item name="android:textColor">@color/base_white_text</item>
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="App_RegisterActivity" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">@color/app_white_text</item>
+        <item name="android:textColor">@color/app_white_text</item>
+        <item name="android:textColorHint">@color/app_white_text</item>
+        <item name="colorControlNormal">@color/app_white_text</item>
+        <item name="colorControlHighlight">@color/app_white_text</item>
+    </style>
+
+    <style name="App_LoginActivity" parent="App_RegisterActivity">
+
+    </style>
 </resources>

@@ -23,7 +23,10 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/base_AppTheme">
-        <activity android:name=".login.LoginActivity">
+        <activity android:name=".login.LoginActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/App_LoginActivity"
+                android:windowSoftInputMode="adjustResize|stateHidden">
         </activity>
         <activity
                 android:name=".activity.SearchActivity"
@@ -49,7 +52,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".common.keepAlive.SinglePixelActivity"/>
-
+        <activity android:name=".activity.AddAppClassficationActivity">
+        </activity>
         <service
                 android:name=".service.ScanTopService"
                 android:exported="false">
@@ -59,8 +63,7 @@
                 android:exported="false">
         </service>
 
-        <activity android:name=".activity.AddAppClassficationActivity">
-        </activity>
+
 
         <provider
                 android:name="androidx.core.content.FileProvider"

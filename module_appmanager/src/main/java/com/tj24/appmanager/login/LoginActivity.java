@@ -14,6 +14,7 @@ import androidx.transition.TransitionManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.activity.MainActivity;
 import com.tj24.appmanager.common.SimpleTransitionListener;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.bean.appmanager.login.Version;
@@ -75,6 +76,12 @@ public class LoginActivity extends BaseActivity {
         btnLogin =findViewById(R.id.btn_login);
         llInputElements =findViewById(R.id.ll_inputElements);
         flLoginBottom =findViewById(R.id.fl_login_bottom);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            }
+        });
     }
 
     @Override
