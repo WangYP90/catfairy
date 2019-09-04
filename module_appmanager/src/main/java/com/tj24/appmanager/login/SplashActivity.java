@@ -18,7 +18,6 @@ public class SplashActivity extends BaseActivity {
     private static final long TIME_MIN = 1500;
     private static final int  TIME_MAX = 3100;
     private static final int MSG_FORWARD = 0;
-    private View mWallView;
     private TextView tvJump;
     private ImageView ivLeague;
     private boolean isLogin;
@@ -27,6 +26,7 @@ public class SplashActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if(msg.what == MSG_FORWARD){
+                mHandler.removeMessages(MSG_FORWARD);
                 forwardToNextActivity();
             }
         }
@@ -48,7 +48,6 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void initView() {
-        mWallView = findViewById(R.id.wall);
         tvJump = findViewById(R.id.tv_jump);
         ivLeague = findViewById(R.id.iv_league);
         enterTime = System.currentTimeMillis();
@@ -93,6 +92,7 @@ public class SplashActivity extends BaseActivity {
      * 跳转逻辑
      */
     private void forwardToNextActivity() {
+        isLogin = false;
         if(isLogin){
             startActivity(new Intent(this,MainActivity.class));
         }else {
@@ -102,6 +102,7 @@ public class SplashActivity extends BaseActivity {
                 LoginActivity.actionStart(this,false,new Version());
             }
         }
+        finish();
     }
 
     /**

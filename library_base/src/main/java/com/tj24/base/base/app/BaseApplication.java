@@ -3,9 +3,11 @@ package com.tj24.base.base.app;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
-
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobConfig;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.facebook.stetho.Stetho;
+import com.tj24.base.constant.Const;
 import com.tj24.base.greendao.daohelper.GreenDaoManager;
 import com.tj24.base.utils.CrashHandler;
 
@@ -27,7 +29,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-         Log.e(TAG,"开始初始化application!");
+        Log.e(TAG,"开始初始化application!");
         context = this;
         mouduleApplicationInit();
         // 初始化闪崩异常捕捉
@@ -36,11 +38,16 @@ public class BaseApplication extends Application {
         initARouter();
         //初始化grenndao
         GreenDaoManager.init();
-
+        //初始化bmob
+        initBmob();
+        //调试
         initStetho();
     }
 
     private void initStetho() {
+        if(!isDebug){
+            return;
+        }
         Stetho.initialize(Stetho
                 .newInitializerBuilder(this)
                 .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
@@ -48,7 +55,19 @@ public class BaseApplication extends Application {
                         Stetho.defaultInspectorModulesProvider(this)).build());
     }
 
-
+    private void initBmob() {
+        BmobConfig config = new BmobConfig.Builder(this)
+                //设置appkey
+                .setApplicationId(Const.BMOB_APPLICATION_ID)
+                //请求超时时间（单位为秒）：默认15s
+                .setConnectTimeout(30)
+                //文件分片上传时每片的大小（单位字节），默认512*1024
+                .setUploadBlockSize(1024*1024)
+                //文件的过期时间(单位为秒)：默认1800s
+                .setFileExpiration(2500)
+                .build();
+        Bmob.initialize(config);
+    }
 
     private void initARouter() {
         if(isDebug){

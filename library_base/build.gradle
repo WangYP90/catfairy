@@ -79,7 +79,7 @@ dependencies {
     //okhttp
     api 'com.squareup.okhttp3:okhttp:3.11.0'
     api 'com.zhy:okhttputils:2.6.2'
-    //通用的recycle人view adapter
+    //通用的recycleview adapter
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
     //拼音jar
     api files('libs/pinyin4j-2.5.0.jar')
@@ -87,4 +87,11 @@ dependencies {
     api 'org.jetbrains:annotations:15.0'
     //分享
     api 'gdut.bsx:share2:0.9.3'
+
+    //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
+    api ('cn.bmob.android:bmob-sdk:3.5.7'){
+        exclude group: 'com.squareup.okio'
+    }
+    //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
+//    api 'cn.bmob.android:http-legacy:1.0'
 }

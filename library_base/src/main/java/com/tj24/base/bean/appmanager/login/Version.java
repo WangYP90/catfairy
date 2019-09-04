@@ -1,10 +1,10 @@
 package com.tj24.base.bean.appmanager.login;
 
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
 import java.io.Serializable;
-import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class Version implements Serializable {
     private static final long serialVersionUID = 13L;
