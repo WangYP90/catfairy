@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.tj24.appmanager.R;
 import com.tj24.base.base.app.BaseApplication;
 import com.tj24.base.utils.LogUtil;
@@ -44,17 +45,25 @@ public class ApkModel {
     public static final String TAG = "ApkModel";
 
     /**
-     * 扫描所有应用并对比更新入库
-     * @param packageManager
+     * 获取packageinfos
+     * @param context
      * @return
      */
-    public static List<AppBean> scanLocalInstallAppList(PackageManager packageManager) {
+    public static List<PackageInfo> getAllPackageInfos(Context context){
+       return context.getPackageManager().getInstalledPackages(0);
+    }
+    /**
+     * 扫描所有应用并对比更新入库
+     * @param
+     * @return
+     */
+    public static List<AppBean> scanLocalInstallAppList(Context context, List<PackageInfo> packageInfos, MaterialDialog dialog) {
         List<AppBean> AppBeans = new ArrayList<AppBean>();
-        List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
         for (int i = 0; i < packageInfos.size(); i++) {
             PackageInfo packageInfo = packageInfos.get(i);
-            AppBean AppBean =  conversToAppInfo(packageInfo,packageManager);
+            AppBean AppBean =  conversToAppInfo(packageInfo,context);
             AppBeans.add(AppBean);
+            dialog.incrementProgress(1);
         }
         return AppBeans;
     }
@@ -64,7 +73,8 @@ public class ApkModel {
      * @param packageInfo
      * @return
      */
-    public static AppBean conversToAppInfo(final PackageInfo packageInfo, final PackageManager packageManager) {
+    public static AppBean conversToAppInfo(final PackageInfo packageInfo, Context context) {
+        PackageManager packageManager = context.getPackageManager();
         String packageName = packageInfo.packageName;
         AppBean appBean = AppBeanDaoHelper.getInstance().queryObjById(packageName);
 

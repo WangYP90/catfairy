@@ -208,7 +208,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if(ListUtil.isNullOrEmpty(classfications)){
             businessModel.initDeafultData();
             businessModel.refreshApp(mHandler);
-            showProgressDialog(getString(R.string.app_waiting),getString(R.string.app_scanning));
         }else {
             setVpAdater(1);
         }
@@ -366,7 +365,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             OrderDialog dialogOrder = new OrderDialog(mActivity, appClassfications.get(viewpager.getCurrentItem()), tvShadowOrder);
             dialogOrder.show();
         } else if (i == R.id.menu_refresh) {
-            showProgressDialog(getString(R.string.app_waiting), getString(R.string.app_scanning));
             businessModel.refreshApp(mHandler);
         } else if (i == R.id.menu_showtype) {
             if (orderModel.getLayoutType() == OrderConfig.LAYOUT_LINEAR) {

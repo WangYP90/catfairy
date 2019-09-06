@@ -77,7 +77,7 @@ public class ApkChangeReceiver extends BroadcastReceiver {
             PackageInfo packageInfo = null;
             try {
                 packageInfo = context.getPackageManager().getPackageInfo(packageName, 0);
-                AppBean bean = ApkModel.conversToAppInfo(packageInfo,context.getPackageManager());
+                AppBean bean = ApkModel.conversToAppInfo(packageInfo,context);
                 msgApk.setAppName(bean.getName());
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();

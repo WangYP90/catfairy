@@ -58,4 +58,6 @@
     <string name="app_open_app"><![CDATA[打开 >>]]></string>
     <string name="app_update">更新</string>
     <string name="app_search_no_more">-----没有更多了-----</string>
+    <string name="app_scaned_apps_num">扫描结束,共%1$d个应用！</string>
+    <string name="app_hard_scanning">努力扫描中...</string>
 </resources>

@@ -405,7 +405,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
     public void onAddApk(String packageName) {
         try {
             PackageInfo packageInfo = mActivity.getPackageManager().getPackageInfo(packageName, 0);
-            AppBean appBean = ApkModel.conversToAppInfo(packageInfo, mActivity.getPackageManager());
+            AppBean appBean = ApkModel.conversToAppInfo(packageInfo, mActivity);
             AppBeanDaoHelper.getInstance().insertObj(appBean);
             if (appBean.getType().contains(appClassfication.getId())) {
                 appBeans.add(appBean);
@@ -439,7 +439,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
     public void onReplacedApk(String packageName) {
         try {
             PackageInfo packageInfo = mActivity.getPackageManager().getPackageInfo(packageName, 0);
-            AppBean appBean = ApkModel.conversToAppInfo(packageInfo, mActivity.getPackageManager());
+            AppBean appBean = ApkModel.conversToAppInfo(packageInfo, mActivity);
             AppBeanDaoHelper.getInstance().insertObj(appBean);
             if (appBean.getType().contains(appClassfication.getId())) {
                 Iterator it = appBeans.iterator();
