@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tv_move"
-        android:text="移动"
+        android:text="@string/app_move"
         android:foreground="?selectableItemBackground"
         android:paddingTop="10dp"
         android:background="@color/base_colorPrimary"
@@ -26,7 +26,7 @@
         android:paddingTop="10dp"
         android:foreground="?selectableItemBackground"
         android:background="@color/base_colorPrimary"
-        android:text="卸载"
+        android:text="@string/app_uninstall"
         android:gravity="center_horizontal"
         android:textSize="@dimen/app_text_25px"
         android:textColor="@color/base_white_text"
@@ -37,7 +37,7 @@
 
     <TextView
         android:id="@+id/tv_info"
-        android:text="详情"
+        android:text="@string/app_info"
         android:foreground="?selectableItemBackground"
         android:paddingTop="10dp"
         android:background="@color/base_colorPrimary"
@@ -51,7 +51,7 @@
 
     <TextView
         android:id="@+id/tv_levle"
-        android:text="级别"
+        android:text="@string/app_prority"
         android:foreground="?selectableItemBackground"
         android:paddingTop="10dp"
         android:background="@color/base_colorPrimary"
@@ -65,7 +65,7 @@
 
     <TextView
             android:id="@+id/tv_share"
-            android:text="分享"
+            android:text="@string/app_share"
             android:foreground="?selectableItemBackground"
             android:paddingTop="10dp"
             android:background="@color/base_colorPrimary"
@@ -82,7 +82,7 @@
         android:visibility="gone"
         android:paddingTop="10dp"
         android:background="@color/base_colorPrimary"
-        android:text="更多"
+        android:text="@string/app_more"
         android:foreground="?selectableItemBackground"
         android:gravity="center_horizontal"
         android:textSize="@dimen/app_text_25px"

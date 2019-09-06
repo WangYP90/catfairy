@@ -77,6 +77,6 @@ public class MesageActivity extends BaseActivity {
     @Override
     public void setupToolbar() {
         super.setupToolbar();
-        setTitle("消息通知");
+        setTitle(R.string.app_msg_notice);
     }
 }

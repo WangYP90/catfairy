@@ -72,7 +72,7 @@ public class AddAppClassficationActivity extends BaseActivity implements View.On
     @Override
     public void setupToolbar() {
         super.setupToolbar();
-        setTitle("编辑文件夹");
+        setTitle(R.string.app_edit_files);
     }
 
     @Override

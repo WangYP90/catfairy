@@ -27,7 +27,7 @@
             android:layout_marginBottom="20dp"
             android:textSize="12sp"
             android:textColor="@color/base_secondary_text"
-            tools:text="没有更多内容了"/>
+            tools:text="@string/base_no_more_content"/>
 
     </LinearLayout>
 

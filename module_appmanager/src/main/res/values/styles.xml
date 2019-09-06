@@ -1,5 +1,8 @@
 <resources>
-    <style name="App_SearchActivity" parent="Theme.AppCompat.NoActionBar">
+    <style name="app_AppManager" parent="base_AppTheme">
+
+    </style>
+    <style name="App_SearchActivity" parent="app_AppManager">
         <item name="android:windowBackground">@color/app_scrim</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -14,21 +17,21 @@
         <item name="android:windowExitAnimation">@anim/app_fade_out_rapidly</item>
     </style>
 
-    <style name="App_SplashActivity" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="app_SplashActivity" parent="app_AppManager">
         <item name="android:windowBackground">@color/base_colorPrimary</item>
-        <item name="android:windowFullscreen">true</item>
+        <!--<item name="android:windowFullscreen">true</item>-->
     </style>
     <style name="app_EditTextErrorAppearance">
         <item name="android:textColor">@color/base_white_text</item>
         <item name="android:textSize">12sp</item>
     </style>
-
-    <style name="App_RegisterActivity" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorAccent">@color/app_white_text</item>
-        <item name="android:textColor">@color/app_white_text</item>
-        <item name="android:textColorHint">@color/app_white_text</item>
-        <item name="colorControlNormal">@color/app_white_text</item>
-        <item name="colorControlHighlight">@color/app_white_text</item>
+`
+    <style name="App_RegisterActivity" parent="app_AppManager">
+        <item name="colorAccent">@color/base_white_text</item>
+        <item name="android:textColor">@color/base_white_text</item>
+        <item name="android:textColorHint">@color/base_white_text</item>
+        <item name="colorControlNormal">@color/base_white_text</item>
+        <item name="colorControlHighlight">@color/base_white_text</item>
     </style>
 
     <style name="App_LoginActivity" parent="App_RegisterActivity">

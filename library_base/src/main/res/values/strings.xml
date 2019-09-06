@@ -1,3 +1,8 @@
 <resources>
-    <string name="login_app_name">"喵小仙"</string>
+
+    <string name="base_system_erro_be_exited">程序出现异常，即将退出</string>
+    <string name="base_net_error_click_to_reload">您的网络不给力，点击屏幕可重新加载</string>
+    <string name="base_load_error">加载失败了</string>
+    <string name="base_no_more_content">没有更多内容了</string>
+    <string name="base_click_reload">点击加载</string>
 </resources>

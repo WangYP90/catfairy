@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
+import com.tj24.appmanager.R;
 import com.tj24.base.base.app.BaseApplication;
 import com.tj24.base.utils.LogUtil;
 import com.tj24.base.utils.PinyinUtils;
@@ -295,7 +296,7 @@ public class ApkModel {
             AppBeanDaoHelper.getInstance().insertObj(clickBean);
             context.startActivity(i);
         } else {
-            ToastUtil.showShortToast(context, "此应用不支持打开");
+            ToastUtil.showShortToast(context, context.getString(R.string.app_this_app_canot_start));
         }
     }
 }

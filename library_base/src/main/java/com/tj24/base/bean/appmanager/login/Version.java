@@ -5,6 +5,10 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
 import java.io.Serializable;
+
+/**
+ * 版本升级实体类
+ */
 @Entity
 public class Version implements Serializable {
     private static final long serialVersionUID = 13L;

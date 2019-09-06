@@ -7,33 +7,29 @@ import android.net.Uri;
 import android.os.Build;
 import android.text.InputType;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.utils.TextUtils;
 import com.tj24.appmanager.R;
-import com.tj24.base.bean.appmanager.AppBean;
-import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.appmanager.bean.event.LaucherEvent;
 import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.daohelper.AppClassificationDaoHelper;
 import com.tj24.appmanager.model.ApkModel;
+import com.tj24.base.bean.appmanager.AppBean;
+import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.base.utils.StringUtil;
 import com.tj24.base.utils.ToastUtil;
-
+import gdut.bsx.share2.FileUtil;
+import gdut.bsx.share2.Share2;
+import gdut.bsx.share2.ShareContentType;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import gdut.bsx.share2.FileUtil;
-import gdut.bsx.share2.Share2;
-import gdut.bsx.share2.ShareContentType;
 
 public class AppEditHelper {
     private Context context;
@@ -54,7 +50,7 @@ public class AppEditHelper {
     }
 
     /**
-     * 去应用详情
+     * 卸载
      */
     public void unInstall(){
         for (AppBean info : editingApps){
@@ -92,10 +88,10 @@ public class AppEditHelper {
      */
     public void setLevle() {
         AppBean currentApp = editingApps.get(0);
-        new MaterialDialog.Builder(context).title("自定义排序").content("设置序列号")
+        new MaterialDialog.Builder(context).title(context.getString(R.string.app_custom_sorting)).content(context.getString(R.string.app_set_serial_number))
                 .widgetColor(ContextCompat.getColor(context,R.color.base_colorPrimary))//输入框光标的颜色
-                .positiveText("确定")
-                .negativeText("取消")
+                .positiveText(context.getString(R.string.app_confirm))
+                .negativeText(context.getString(R.string.app_cancle))
                 .inputType(InputType.TYPE_CLASS_NUMBER)
                 //前2个一个是hint一个是预输入的文字
                 .input("", String.valueOf(currentApp.getPriority()), new MaterialDialog.InputCallback() {
@@ -104,7 +100,7 @@ public class AppEditHelper {
                         if(!TextUtils.isEmpty(input.toString()) && !input.toString().equals(String.valueOf(currentApp.getPriority()))){
                             currentApp.setPriority(Integer.parseInt(input.toString()));
                             AppBeanDaoHelper.getInstance().insertObj(currentApp);
-                            ToastUtil.showShortToast(context,"文件夹名称已修改");
+                            ToastUtil.showShortToast(context,context.getString(R.string.app_file_name_be_update));
                         }
                     }
                 }).onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -133,8 +129,8 @@ public class AppEditHelper {
         }
 
         if(classificationNames.size()==0){
-            moveDialog = new MaterialDialog.Builder(context).title("提示").content("还没有文件夹，立即创建？")
-                    .positiveText("创建").negativeText("取消").onPositive(new MaterialDialog.SingleButtonCallback() {
+            moveDialog = new MaterialDialog.Builder(context).title(context.getString(R.string.app_points)).content(context.getString(R.string.app_no_file_and_to_creat))
+                    .positiveText(context.getString(R.string.app_creat)).negativeText(context.getString(R.string.app_cancle)).onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                             addClassification(moveDialog);
@@ -146,14 +142,17 @@ public class AppEditHelper {
                         }
                     }).show();
         }else {
-            moveDialog = new MaterialDialog.Builder(context).positiveText("确定").negativeText("取消").neutralText("新建文件夹")
-                    .title("移动应用").content("选择目标文件夹")
+            moveDialog = new MaterialDialog.Builder(context).positiveText(context.getString(R.string.app_confirm))
+                    .negativeText(context.getString(R.string.app_cancle))
+                    .neutralText(context.getString(R.string.app_creat_new_file))
+                    .title(context.getString(R.string.app_move_apps))
+                    .content(context.getString(R.string.app_select_target_file))
                     .items(classificationNames)
                     .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
                         @Override
                         public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
                             if(which == -1){
-                                ToastUtil.showShortToast(context," 请选择目标文件夹");
+                                ToastUtil.showShortToast(context,context.getString(R.string.app_please_select_target_file));
                             }else {
                                 AppClassfication selectClassification = classfications.get(which);
                                 for(AppBean appBean:editingApps){
@@ -200,15 +199,15 @@ public class AppEditHelper {
      */
     private void addClassification(MaterialDialog dialog){
         dialog.dismiss();
-        new MaterialDialog.Builder(context).title("新增文件夹")
-                .content("文件夹名称")
-                .positiveText("确定")
-                .negativeText("取消")
+        new MaterialDialog.Builder(context).title(context.getString(R.string.app_creat_new_file))
+                .content(context.getString(R.string.app_file_name))
+                .positiveText(context.getString(R.string.app_confirm))
+                .negativeText(context.getString(R.string.app_cancle))
                 .widgetColor(ContextCompat.getColor(context, R.color.base_colorPrimary))//输入框光标的颜色
                 .inputType(InputType.TYPE_CLASS_TEXT)//可以输入的类型
                 .inputRange(1,5)
                 //前2个一个是hint一个是预输入的文字
-                .input("请输入文件夹名称", "", new MaterialDialog.InputCallback() {
+                .input(context.getString(R.string.app_please_input_file_name), "", new MaterialDialog.InputCallback() {
 
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
@@ -221,10 +220,10 @@ public class AppEditHelper {
                             classfication.setOrder(classfications.size());
                             classfication.setIsDefault(false);
                             AppClassificationDaoHelper.getInstance().insertObj(classfication);
-                            ToastUtil.showShortToast(context,"文件夹创建成功");
+                            ToastUtil.showShortToast(context,context.getString(R.string.app_creat_file_success));
                             createMoveDialog();
                         }else {
-                            ToastUtil.showShortToast(context,"已有相同的文件夹");
+                            ToastUtil.showShortToast(context,context.getString(R.string.app_had_same_file));
                         }
                     }
                 }).onNegative(new MaterialDialog.SingleButtonCallback() {

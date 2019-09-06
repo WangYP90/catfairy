@@ -89,7 +89,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         searchView.onActionViewExpanded();
         searchView.setIconified(true);
 
-        searchView.setQueryHint("搜索APP名称");
+        searchView.setQueryHint(getString(R.string.app_search_app_name));
         searchView.setIconified(false);
         searchView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH | EditorInfo.IME_FLAG_NO_EXTRACT_UI | EditorInfo.IME_FLAG_NO_FULLSCREEN);
@@ -98,7 +98,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if(TextUtils.isEmpty(query)){
-                    showShortToast("搜索内容不能为空！");
+                    showShortToast(getString(R.string.app_search_content_not_null));
                 }else {
                     searchApp(query);
                 }

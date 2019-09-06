@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion compile_Sdk_Version.toInteger()
     defaultConfig {
-        applicationId "com.tj24.league"
+        applicationId "com.tj24.catfairy"
         minSdkVersion min_Sdk_Version.toInteger()
         targetSdkVersion target_Sdk_Version.toInteger()
         versionCode 1

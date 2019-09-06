@@ -18,7 +18,7 @@
             android:id="@+id/tv_classification_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的应用"
+            android:text="my_apps"
             android:layout_centerInParent="true" />
     <ImageView
             android:layout_gravity="center_vertical"

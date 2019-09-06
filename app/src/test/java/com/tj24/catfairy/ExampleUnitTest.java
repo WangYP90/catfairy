@@ -1,4 +1,4 @@
-package com.tj24.league;
+package com.tj24.catfairy;
 
 import org.junit.Test;
 

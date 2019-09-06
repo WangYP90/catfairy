@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
+import com.tj24.appmanager.R;
 import com.tj24.base.utils.DateUtil;
 import com.tj24.base.utils.LogUtil;
 import com.tj24.base.utils.StringUtil;
@@ -37,7 +38,7 @@ public class ApkChangeReceiver extends BroadcastReceiver {
             Log.i(TAG, "install: isReplacing = " + isReplacing);
             Log.i(TAG, "install: uid = " + uid);
             if(!isReplacing){  //第一次安装
-                creatMsgApk("安装",packageName);
+                creatMsgApk(context.getString(R.string.app_install),packageName);
                 EventBus.getDefault().postSticky(new ApkChangeEvent(packageName,ApkChangeEvent.ACTION_ADD));
                 LogUtil.i(TAG, "安装了:" + packageName + "包名的程序");
             }
@@ -47,14 +48,14 @@ public class ApkChangeReceiver extends BroadcastReceiver {
             boolean isReplacing = intent.getBooleanExtra(Intent.EXTRA_REPLACING,false);
             int uid = intent.getIntExtra(Intent.EXTRA_UID,0);
             if(!isReplacing){
-                creatMsgApk("卸载",packageName);
+                creatMsgApk(context.getString(R.string.app_uninstall),packageName);
                 EventBus.getDefault().postSticky(new ApkChangeEvent(packageName,ApkChangeEvent.ACTION_DEL));
                 LogUtil.i(TAG, "卸载了:" + packageName + "包名的程序");
             }
         }
         //替换广播
         if (intent.getAction().equals(ACTION_REPLACED)) {
-            creatMsgApk("更新",packageName);
+            creatMsgApk(context.getString(R.string.app_replaced),packageName);
             EventBus.getDefault().postSticky(new ApkChangeEvent(packageName,ApkChangeEvent.ACTION_REPLACE));
             LogUtil.i(TAG, "更新了:" + packageName + "包名的程序");
         }

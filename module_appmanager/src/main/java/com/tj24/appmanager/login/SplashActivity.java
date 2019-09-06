@@ -12,6 +12,7 @@ import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.MainActivity;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.bean.appmanager.login.Version;
+import com.tj24.base.utils.LogUtil;
 
 public class SplashActivity extends BaseActivity {
 
@@ -38,7 +39,8 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-        delayToForward();
+        //开启最大延迟跳转
+        mHandler.sendEmptyMessageDelayed(MSG_FORWARD,TIME_MAX);
         initSth();
     }
 
@@ -59,19 +61,11 @@ public class SplashActivity extends BaseActivity {
         });
     }
 
-    private void initSth() {
-    }
-
     /**
-     * 开启最大延迟跳转
+     * 初始化需要的工作
      */
-    private void delayToForward() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                sendForwardMsg();
-            }
-        }).start();
+    private void initSth() {
+        sendForwardMsg();
     }
 
     /**
@@ -79,6 +73,7 @@ public class SplashActivity extends BaseActivity {
      */
     private void sendForwardMsg(){
         long spentTime = System.currentTimeMillis() - enterTime;
+        LogUtil.e("dd", "spentTime=" + spentTime + "---enterTime=" + enterTime);
         Message msg = mHandler.obtainMessage();
         msg.what = MSG_FORWARD;
         if(spentTime <TIME_MIN){

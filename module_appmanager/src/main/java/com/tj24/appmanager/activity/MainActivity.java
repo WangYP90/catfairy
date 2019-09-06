@@ -10,15 +10,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -27,7 +22,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.palette.graphics.Palette;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -53,21 +47,15 @@ import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.base.ui.PermissionListener;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
-import com.tj24.base.utils.ColorUtil;
-import com.tj24.base.utils.DrawableUtil;
-import com.tj24.base.utils.ListUtil;
-import com.tj24.base.utils.ScreenUtil;
-import com.tj24.base.utils.ToastUtil;
-
+import com.tj24.base.utils.*;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -220,7 +208,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if(ListUtil.isNullOrEmpty(classfications)){
             businessModel.initDeafultData();
             businessModel.refreshApp(mHandler);
-            showProgressDialog("稍等","正在扫描");
+            showProgressDialog(getString(R.string.app_waiting),getString(R.string.app_scanning));
         }else {
             setVpAdater(1);
         }
@@ -279,7 +267,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void setupToolbar() {
         super.setupToolbar();
-        setTitle(isEditing?"编辑":getString(R.string.app_name));
+        setTitle(isEditing?getString(R.string.app_edit):getString(R.string.app_app_name));
         toolbar.setNavigationIcon(isEditing?R.drawable.md_nav_back:R.drawable.ico_footer_more);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -335,7 +323,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        toolbar.setTitle(isEditing?getString(R.string.app_selected,selectedNum):getString(R.string.app_name));
+        toolbar.setTitle(isEditing?getString(R.string.app_selected,selectedNum):getString(R.string.app_app_name));
         toolbar.setNavigationIcon(isEditing?R.drawable.md_nav_back:R.drawable.ic_person_outline_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -354,7 +342,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         menu.findItem(R.id.menu_showtype).setVisible(!isEditing);
         menuItemSelected = menu.findItem(R.id.menu_selected);
         menuItemSelected.setVisible(isEditing);
-        menuItemSelected.setTitle("全选");
+        menuItemSelected.setTitle(getString(R.string.app_select_all));
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -378,7 +366,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             OrderDialog dialogOrder = new OrderDialog(mActivity, appClassfications.get(viewpager.getCurrentItem()), tvShadowOrder);
             dialogOrder.show();
         } else if (i == R.id.menu_refresh) {
-            showProgressDialog("稍等", "正在扫描");
+            showProgressDialog(getString(R.string.app_waiting), getString(R.string.app_scanning));
             businessModel.refreshApp(mHandler);
         } else if (i == R.id.menu_showtype) {
             if (orderModel.getLayoutType() == OrderConfig.LAYOUT_LINEAR) {
@@ -409,7 +397,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 ToastUtil.cancle();
                 super.onBackPressed();
             }else {
-                showShortToast("再按一次退出应用");
+                showShortToast(getString(R.string.app_click_more_to_exist));
                 lastClickBackTime = System.currentTimeMillis();
             }
         }
@@ -440,9 +428,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             tvDescription = headerView.findViewById(R.id.tv_nav_describe);
             tvNickName.setText(nickname);
             if (TextUtils.isEmpty(description)) {
-                tvDescription.setText("编辑个人简介");
+                tvDescription.setText(getString(R.string.app_edit_personal_profile));
             } else {
-                tvDescription.setText("简介："+description);
+                tvDescription.setText(getString(R.string.app_profile)+description);
             }
             Glide.with(this)
                     .load(avatar)
@@ -539,7 +527,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      */
     @SuppressLint("StringFormatMatches")
     public void onAppSelected(List<AppBean> appBeans){
-        toolbar.setTitle(isEditing?getString(R.string.app_selected,appBeans.size()):getString(R.string.app_name));
+        toolbar.setTitle(isEditing?getString(R.string.app_selected,appBeans.size()):getString(R.string.app_app_name));
     }
 
     /**
@@ -548,8 +536,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * @param edittingNum
      */
     public void onAppAllSelected(boolean isAllSelected,int edittingNum){
-        menuItemSelected.setTitle(isAllSelected?"全不选":"全选");
-        toolbar.setTitle(isEditing?getString(R.string.app_selected,edittingNum):getString(R.string.app_name));
+        menuItemSelected.setTitle(isAllSelected?getString(R.string.app_select_none):getString(R.string.app_select_all));
+        toolbar.setTitle(isEditing?getString(R.string.app_selected,edittingNum):getString(R.string.app_app_name));
     }
 
     float clickX;

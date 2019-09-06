@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.os.Process;
 import android.util.Log;
 import android.widget.Toast;
+import com.tj24.base.R;
 import com.tj24.base.base.app.BaseApplication;
 
 import java.io.File;
@@ -65,7 +66,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         String path = dumpExceptionToSDCard(ex);
         //这里可以通过网络上传异常信息到服务器，便于开发人员分析日志从而解决bug
         uploadExceptionToServer(path);
-        Toast.makeText(BaseApplication.getContext(),"程序出现异常，即将退出",Toast.LENGTH_LONG).show();
+        Toast.makeText(BaseApplication.getContext(),mContext.getString(R.string.base_system_erro_be_exited),Toast.LENGTH_LONG).show();
         //打印出当前调用栈信息
         ex.printStackTrace();
         new Thread() {

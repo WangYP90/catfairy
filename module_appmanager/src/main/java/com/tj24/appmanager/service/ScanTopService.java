@@ -8,10 +8,11 @@ import android.provider.Settings;
 import androidx.annotation.NonNull;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.tj24.base.utils.LogUtil;
-import com.tj24.base.bean.appmanager.AppBean;
+import com.tj24.appmanager.R;
 import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.model.ApkModel;
+import com.tj24.base.bean.appmanager.AppBean;
+import com.tj24.base.utils.LogUtil;
 
 public class ScanTopService extends IntentService {
     private static final String TAG = ScanTopService.class.getSimpleName();
@@ -51,8 +52,9 @@ public class ScanTopService extends IntentService {
             mContext.startService(intent);
             LogUtil.i(TAG,"ScanTopService已经开启！");
         }else {
-            permissionDialog = new MaterialDialog.Builder(mContext).content("为了保证软件正常使用，必须授权“查看其他应用使用情况”否则无法使用！ \n点击确定去授权界面授权！")
-                    .positiveText("确定")
+            permissionDialog = new MaterialDialog.Builder(mContext)
+                    .content(mContext.getString(R.string.app_open_permission))
+                    .positiveText(mContext.getString(R.string.app_confirm))
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

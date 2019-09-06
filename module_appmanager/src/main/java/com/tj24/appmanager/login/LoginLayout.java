@@ -4,9 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
 import androidx.annotation.Nullable;
-
 import com.tj24.appmanager.R;
 
 public class LoginLayout extends LinearLayout {
@@ -14,9 +12,6 @@ public class LoginLayout extends LinearLayout {
     boolean keyboardShowed = false;
     RelativeLayout rlLoginTop;
     LinearLayout loginWall;
-    public boolean isKeyboardShowed() {
-        return keyboardShowed;
-    }
 
     public LoginLayout(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -30,25 +25,30 @@ public class LoginLayout extends LinearLayout {
         if (changed) {
             int width = right - left;
             int height = bottom - top;
-            if (height < 0.75*width) { // 如果高宽比小于4:3说明此时键盘弹出
-
+            if (width > 0.75 * height) { // 如果高宽比小于4:3说明此时键盘弹出
+                post(new Runnable() {
+                    @Override
+                    public void run() {
                         loginWall.setVisibility(INVISIBLE);
                         LinearLayout.LayoutParams params = (LayoutParams) rlLoginTop.getLayoutParams();
                         params.weight = 1.5f;
                         keyboardShowed = true;
                         rlLoginTop.requestLayout();
                     }
-
-
+                });
             } else {
-
-                        if (keyboardShowed) {
-                            loginWall.setVisibility(INVISIBLE);
+                if (keyboardShowed) {
+                    post(new Runnable() {
+                        @Override
+                        public void run() {
+                            loginWall.setVisibility(VISIBLE);
                             LayoutParams params = (LayoutParams) rlLoginTop.getLayoutParams();
                             params.weight = 6;
                             rlLoginTop.requestLayout();
                         }
-
+                    });
+                }
+            }
         }
     }
 }

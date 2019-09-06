@@ -29,7 +29,7 @@
             android:layout_marginBottom="20dp"
             android:textSize="12sp"
             android:textColor="@color/base_secondary_text"
-            android:text="您的网络不给力，点击屏幕可重新加载"/>
+            android:text="@string/base_net_error_click_to_reload"/>
 
     </LinearLayout>
 

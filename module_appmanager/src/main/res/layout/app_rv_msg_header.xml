@@ -15,7 +15,7 @@
             android:id="@+id/tv_times"
             android:layout_marginLeft="20dp"
             android:gravity="center"
-            android:text="更新"
+            android:text="@string/app_update"
             android:textColor="@color/base_colorPrimary"
             android:textSize="@dimen/md_title_textsize"
             android:layout_width="wrap_content"

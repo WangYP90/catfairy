@@ -55,7 +55,7 @@
                   android:layout_marginBottom="8dp" app:layout_constraintEnd_toEndOf="parent"
                   android:id="@+id/view_place_holder"></View>
             <TextView
-                    android:text="打开 >>"
+                    android:text="@string/app_open_app"
                     android:foreground="?attr/selectableItemBackground"
                     android:clickable="true"
                     android:textSize="16sp"

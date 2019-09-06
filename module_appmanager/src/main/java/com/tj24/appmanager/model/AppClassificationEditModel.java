@@ -30,15 +30,15 @@ public class AppClassificationEditModel extends BaseAppsManagerModel {
      * 新增dialog
      */
     public void showNewClassificationDialog(){
-        new MaterialDialog.Builder(mContext).title("新增文件夹")
-                .content("文件夹名称")
-                .positiveText("确定")
-                .negativeText("取消")
+        new MaterialDialog.Builder(mContext).title(mContext.getString(R.string.app_creat_new_file))
+                .content(mContext.getString(R.string.app_file_name))
+                .positiveText(mContext.getString(R.string.app_confirm))
+                .negativeText(mContext.getString(R.string.app_cancle))
                 .widgetColor(ContextCompat.getColor(mContext,R.color.base_colorPrimary))//输入框光标的颜色
                 .inputType(InputType.TYPE_CLASS_TEXT)//可以输入的类型
                 .inputRange(1,5)
                 //前2个一个是hint一个是预输入的文字
-                .input("请输入文件夹名称", "", new MaterialDialog.InputCallback() {
+                .input(mContext.getString(R.string.app_please_input_file_name), "", new MaterialDialog.InputCallback() {
 
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
@@ -51,12 +51,12 @@ public class AppClassificationEditModel extends BaseAppsManagerModel {
                             classfication.setOrder(classfications.size());
                             classfication.setIsDefault(false);
                             AppClassificationDaoHelper.getInstance().insertObj(classfication);
-                            ToastUtil.showShortToast(mContext,"文件夹创建成功");
+                            ToastUtil.showShortToast(mContext,mContext.getString(R.string.app_creat_file_success));
                             if(onEditListner!=null){
                                 onEditListner.onADDClassification(classfication);
                             }
                         }else {
-                            ToastUtil.showShortToast(mContext,"已有相同的文件夹");
+                            ToastUtil.showShortToast(mContext,mContext.getString(R.string.app_had_same_file));
                         }
                     }
                 }).onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -88,8 +88,8 @@ public class AppClassificationEditModel extends BaseAppsManagerModel {
      * 编辑dialog
      */
     public void showEditClassificationDialog(AppClassfication appClassfication,int appPosition){
-        new MaterialDialog.Builder(mContext).title("修改文件夹")
-                .content("文件夹名称")
+        new MaterialDialog.Builder(mContext).title(mContext.getString(R.string.app_update_file))
+                .content(mContext.getString(R.string.app_file_name))
                 .widgetColor(ContextCompat.getColor(mContext,R.color.base_colorPrimary))//输入框光标的颜色
                 .inputType(InputType.TYPE_CLASS_TEXT)//可以输入的类型-电话号码
                 .inputRange(1,5)
@@ -101,7 +101,7 @@ public class AppClassificationEditModel extends BaseAppsManagerModel {
                         if(!TextUtils.isEmpty(input.toString()) && !input.toString().equals(appClassfication.getSortName())){
                             appClassfication.setName(input.toString());
                             AppClassificationDaoHelper.getInstance().insertObj(appClassfication);
-                            ToastUtil.showShortToast(mContext,"文件夹名称已修改");
+                            ToastUtil.showShortToast(mContext,mContext.getString(R.string.app_file_edit_success));
                             if(onEditListner!=null){
                                 onEditListner.onUpdateClassification(appClassfication,appPosition);
                             }
@@ -114,8 +114,9 @@ public class AppClassificationEditModel extends BaseAppsManagerModel {
      * 选择操作
      */
     public void showSelectOperationDialog(AppClassfication appClassfication,int appPosition) {
-        String[] items = new String[]{"删除文件夹","编辑文件夹"};
-        new MaterialDialog.Builder(mContext).title("选择操作")
+        String[] items = new String[]{mContext.getString(R.string.app_delete_file),
+                mContext.getString(R.string.app_edit_file_name)};
+        new MaterialDialog.Builder(mContext).title(mContext.getString(R.string.app_select_action))
                 .items(items)
                 .autoDismiss(true)
                 .itemsCallback(new MaterialDialog.ListCallback() {
@@ -138,9 +139,9 @@ public class AppClassificationEditModel extends BaseAppsManagerModel {
      * @param appClassfication
      */
     private void showDeleteAppClassificationDialog(AppClassfication appClassfication,int appPosition) {
-        new MaterialDialog.Builder(mContext).title("提示：")
-                .content("数据无价，确认删除？")
-                .positiveText("确认").negativeText("取消")
+        new MaterialDialog.Builder(mContext).title(mContext.getString(R.string.app_points))
+                .content(mContext.getString(R.string.app_data_priceless_confirm_delete))
+                .positiveText(mContext.getString(R.string.app_confirm)).negativeText(mContext.getString(R.string.app_cancle))
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -157,7 +158,7 @@ public class AppClassificationEditModel extends BaseAppsManagerModel {
                             onEditListner.onDeletClassification(appClassfication,appPosition);
                         }
                         dialog.dismiss();
-                        ToastUtil.showShortToast(mContext,"删除成功");
+                        ToastUtil.showShortToast(mContext,mContext.getString(R.string.app_delete_success));
                     }
                 }).onNegative(new MaterialDialog.SingleButtonCallback() {
             @Override

@@ -7,7 +7,7 @@
     <TextView
             android:id="@+id/tv_move"
             android:padding="10dp"
-            android:text="移动/复制"
+            android:text="@string/app_move_or_copy"
             android:foreground="?selectableItemBackground"
             android:textColor="@color/base_secondary_text"
             android:textSize="@dimen/app_edit_popup_text_size"
@@ -17,7 +17,7 @@
     <TextView
             android:id="@+id/tv_uninstall"
             android:padding="10dp"
-            android:text="卸载"
+            android:text="@string/app_uninstall"
             android:foreground="?selectableItemBackground"
             android:textColor="@color/base_secondary_text"
             android:textSize="@dimen/app_edit_popup_text_size"
@@ -26,7 +26,7 @@
     <TextView
             android:id="@+id/tv_info"
             android:padding="10dp"
-            android:text="详细信息"
+            android:text="@string/app_infos"
             android:foreground="?selectableItemBackground"
             android:textColor="@color/base_secondary_text"
             android:textSize="@dimen/app_edit_popup_text_size"
@@ -35,7 +35,7 @@
     <TextView
             android:id="@+id/tv_prority"
             android:padding="10dp"
-            android:text="设定优先级"
+            android:text="@string/app_set_prority"
             android:foreground="?selectableItemBackground"
             android:textColor="@color/base_secondary_text"
             android:textSize="@dimen/app_edit_popup_text_size"
@@ -44,7 +44,7 @@
     <TextView
             android:id="@+id/tv_share"
             android:padding="10dp"
-            android:text="分享给好友"
+            android:text="@string/app_share_to_freids"
             android:foreground="?selectableItemBackground"
             android:textColor="@color/base_secondary_text"
             android:textSize="@dimen/app_edit_popup_text_size"
