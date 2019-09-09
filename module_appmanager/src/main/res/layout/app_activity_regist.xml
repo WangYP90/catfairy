@@ -71,7 +71,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/app_email"
                             android:imeOptions="actionGo"
-                            android:inputType="number"
+                            android:inputType="textEmailAddress"
                             android:maxLength="20"
                             android:maxLines="1"
                             android:textColor="@color/base_white_text" />

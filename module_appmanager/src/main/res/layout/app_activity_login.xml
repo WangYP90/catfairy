@@ -105,7 +105,7 @@
                             android:layout_height="wrap_content"
                             android:hint="邮箱"
                             android:imeOptions="actionGo"
-                            android:inputType="number"
+                            android:inputType="text"
                             android:maxLength="20"
                             android:maxLines="1"
                             android:textColor="@color/base_white_text" />

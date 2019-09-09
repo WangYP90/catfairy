@@ -10,7 +10,7 @@ import android.os.Environment;
  */
 
 public class Const {
-    public static final String BMOB_APPLICATION_ID = "c80a2116bc5c6d71a49cef0815442e3d";
+    public static final String BMOB_APPLICATION_ID = "f3be9ad68b19831f11e9138e619d22bd";
     public static String BASE_PATH = Environment.getExternalStorageState() + "catFairy";
     public static class UserInfo{
         public static final String NICK_NAME = "nickname";

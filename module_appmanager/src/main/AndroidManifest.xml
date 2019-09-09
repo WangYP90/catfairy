@@ -58,15 +58,14 @@
 
         <provider
                 android:name="androidx.core.content.FileProvider"
-                android:authorities="com.tj24.appmanager.fileprovider"
+                android:authorities="cn.bmob.update.fileprovider"
                 android:exported="false"
                 android:grantUriPermissions="true">
-
-            <!-- 元数据 -->
             <meta-data
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/app_share_provider_path"/>
         </provider>
+
     </application>
 
 </manifest>

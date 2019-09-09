@@ -7,13 +7,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.transition.Transition;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.transition.Fade;
 import androidx.transition.TransitionManager;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.MainActivity;
@@ -22,6 +28,9 @@ import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.bean.appmanager.login.User;
 import com.tj24.base.bean.appmanager.login.Version;
 import com.tj24.base.constant.BmobErrorCode;
+
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private static final String EXT_HAS_NEW_VERSION = "hasNewVersion";
@@ -176,7 +185,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     finish();
                 }else{
                     prbLogin.setVisibility(View.GONE);
-                    BmobErrorCode.getInstance().getErro(e.getErrorCode());
+                    showShortToast(BmobErrorCode.getInstance().getErro(e.getErrorCode()));
                 }
             }
         });
