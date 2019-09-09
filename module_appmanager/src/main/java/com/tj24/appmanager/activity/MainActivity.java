@@ -3,6 +3,7 @@ package com.tj24.appmanager.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -559,4 +560,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return new float[]{clickX,clickY};
     }
 
+    public static void startMain(Context context){
+        Intent i = new Intent(context,MainActivity.class);
+        context.startActivity(i);
+    }
 }

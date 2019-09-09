@@ -9,41 +9,62 @@ import android.transition.Transition;
 import android.view.View;
 import android.widget.*;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.transition.Fade;
 import androidx.transition.TransitionManager;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.MainActivity;
 import com.tj24.appmanager.common.SimpleTransitionListener;
 import com.tj24.base.base.ui.BaseActivity;
+import com.tj24.base.bean.appmanager.login.User;
 import com.tj24.base.bean.appmanager.login.Version;
+import com.tj24.base.constant.BmobErrorCode;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private static final String EXT_HAS_NEW_VERSION = "hasNewVersion";
     private static final String EXT_VERSION = "version";
     private static final String EXT_IS_WITH_TRANSITION = "isWithTransition";
-    
+    private static final String EXT_USER_NAME = "userName";
+    private static final String EXT_USER_PWD = "userPwd";
+    private static final int REQUEST_CODE_REGIST = 100;
     ImageView ivLoginWall;
     LinearLayout llLoginWall;
     RelativeLayout rlLoginTop;
     ProgressBar prbLogin;
     TextInputEditText etPhoneNumber;
-    TextInputLayout inputLayoutPhoneNum;
     TextInputEditText etPwd;
-    TextInputLayout inputlayoutPwd;
-    Button btnLogin;
     LinearLayout llInputElements;
     FrameLayout flLoginBottom;
+    ImageView ivShareElement;
+    Button btnLogin;
+    TextView tvLoginNext;
+    TextView tvForgetPwd;
+    TextView tvRegist;
+    String userName;
+    String userPwd;
+
     /**
      * 是否正在进行transition动画
      */
     boolean isTranstioning = false;
+    /**
+     * 用户
+     */
+    User mUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
         initTransition();
+        mUser = new User();
+    }
+    @Override
+    public int getLayoutId() {
+        return R.layout.app_activity_login;
     }
 
     private void initTransition() {
@@ -70,23 +91,19 @@ public class LoginActivity extends BaseActivity {
         rlLoginTop =findViewById(R.id.rl_login_top);
         prbLogin =findViewById(R.id.prb_login);
         etPhoneNumber =findViewById(R.id.et_phoneNumber);
-        inputLayoutPhoneNum =findViewById(R.id.inputLayout_phoneNum);
         etPwd =findViewById(R.id.et_pwd);
-        inputlayoutPwd =findViewById(R.id.inputlayout_pwd);
         btnLogin =findViewById(R.id.btn_login);
         llInputElements =findViewById(R.id.ll_inputElements);
         flLoginBottom =findViewById(R.id.fl_login_bottom);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            }
-        });
-    }
+        tvForgetPwd = findViewById(R.id.tv_forget_pwd);
+        tvLoginNext = findViewById(R.id.tv_login_next);
+        tvRegist = findViewById(R.id.tv_regist);
+        ivShareElement = findViewById(R.id.iv_shareElement);
 
-    @Override
-    public int getLayoutId() {
-        return R.layout.app_activity_login;
+        btnLogin.setOnClickListener(this);
+        tvRegist.setOnClickListener(this);
+        tvLoginNext.setOnClickListener(this);
+        tvForgetPwd.setOnClickListener(this);
     }
 
     /**
@@ -126,5 +143,62 @@ public class LoginActivity extends BaseActivity {
         }else {
             activity.startActivity(intent);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_login) {
+            login();
+        }else if(v.getId() == R.id.tv_login_next){
+            MainActivity.startMain(mActivity);
+            finish();
+        }else if(v.getId() == R.id.tv_forget_pwd){
+            ForgetPwdActivity.actionStart(this,ivShareElement);
+        }else if(v.getId() == R.id.tv_regist){
+           RegistActivity.startForResult(this,ivShareElement,REQUEST_CODE_REGIST);
+        }
+    }
+
+    /**
+     * 登录
+     */
+    private void login() {
+        mUser.setUsername(etPhoneNumber.getText().toString().trim());
+        mUser.setPassword(etPwd.getText().toString().trim());
+        prbLogin.setVisibility(View.VISIBLE);
+        mUser.login(new SaveListener<User>() {
+            @Override
+            public void done(User bmobUser, BmobException e) {
+                if(e==null){        //登录成功
+                    prbLogin.setVisibility(View.GONE);
+                    mUser  = UserHelper.getCurrentUser();
+                    MainActivity.startMain(mActivity);
+                    finish();
+                }else{
+                    prbLogin.setVisibility(View.GONE);
+                    BmobErrorCode.getInstance().getErro(e.getErrorCode());
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == REQUEST_CODE_REGIST){
+                userName = getIntent().getStringExtra(EXT_USER_NAME);
+                userPwd = getIntent().getStringExtra(EXT_USER_PWD);
+                etPhoneNumber.setText(userName);
+                etPwd.setText(userPwd);
+            }
+        }
+    }
+
+    public static void setResult(Activity activity,String userName,String userPwd){
+        Intent intent = new Intent();
+        intent.putExtra(EXT_USER_NAME,userName);
+        intent.putExtra(EXT_USER_PWD,userPwd);
+        activity.setResult(RESULT_OK,intent);
     }
 }

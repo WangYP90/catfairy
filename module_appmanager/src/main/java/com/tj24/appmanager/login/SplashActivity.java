@@ -1,13 +1,11 @@
 package com.tj24.appmanager.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.MainActivity;
 import com.tj24.base.base.ui.BaseActivity;
@@ -89,7 +87,7 @@ public class SplashActivity extends BaseActivity {
     private void forwardToNextActivity() {
         isLogin = false;
         if(isLogin){
-            startActivity(new Intent(this,MainActivity.class));
+            MainActivity.startMain(mActivity);
         }else {
             if(isActive){
                 LoginActivity.actionStartWithTransition(this,ivLeague,false,new Version());

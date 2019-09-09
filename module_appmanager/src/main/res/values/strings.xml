@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_app_name">"喵管家"</string>
+    <string name="app_app_name">"喵小仙"</string>
     <string name="app_transition_search_back">transition_search_back</string>
     <string name="app_selected">已选择: %1$d</string>
     <string name="app_login_shareElementName">loginShareElement</string>
@@ -60,4 +60,25 @@
     <string name="app_search_no_more">-----没有更多了-----</string>
     <string name="app_scaned_apps_num">扫描结束,共%1$d个应用！</string>
     <string name="app_hard_scanning">努力扫描中...</string>
+    <string name="app_regist">注册</string>
+    <string name="app_forget_pwd">忘记密码</string>
+    <string name="app_login_next">以后再说</string>
+    <string name="app_learn_cat_cry_together">我们一起学猫叫</string>
+    <string name="app_wellcome_to_cat">欢迎加入喵家族</string>
+    <string name="app_email">邮箱</string>
+    <string name="app_pwd">密码</string>
+    <string name="app_confirm_pwd">再次确认密码</string>
+    <string name="app_login">登录</string>
+    <string name="app_regist_shareElementName">regist_shareelement</string>
+    <string name="app_regist_success">恭喜您，注册成功！</string>
+    <string name="app_get_back_by_email">通过邮箱找回密码</string>
+    <string name="app_reback_pwd_shareElementName">reback_pwd_shareelement</string>
+    <string name="app_click_to_get_email">点击获取验证邮件 >></string>
+    <string name="app_email_can_not_null">邮箱不能为空！</string>
+    <string name="app_pwd_can_not_null">密码不能为空！</string>
+    <string name="app_please_confirm_pwd">请再次输入密码！</string>
+    <string name="app_pwd_not_same">两次输入密码不一致！</string>
+    <string name="app_get_back_by_phone">或者：通过客服电话找回</string>
+    <string name="app_click_to_call">点击这里语音找回 >></string>
+    <string name="app_request_restet_pwd_success_to_email_reset_pwd">重置密码请求成功，请到%1$d进行密码重置操作</string>
 </resources>

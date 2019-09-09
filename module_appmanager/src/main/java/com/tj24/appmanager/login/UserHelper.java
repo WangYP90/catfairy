@@ -2,6 +2,8 @@ package com.tj24.appmanager.login;
 
 import android.text.TextUtils;
 
+import cn.bmob.v3.BmobUser;
+import com.tj24.base.bean.appmanager.login.User;
 import com.tj24.base.constant.Const;
 import com.tj24.base.utils.Sputil;
 
@@ -54,5 +56,9 @@ public class UserHelper {
         }else {
             Sputil.clear(Const.UserInfo.DESCRIPTION);
         }
+    }
+
+    public static User getCurrentUser() {
+        return BmobUser.getCurrentUser(User.class);
     }
 }

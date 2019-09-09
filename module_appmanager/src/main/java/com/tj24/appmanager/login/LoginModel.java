@@ -7,4 +7,6 @@ public class LoginModel extends BaseAppsManagerModel {
     public LoginModel(Activity mContext) {
         super(mContext);
     }
+
+
 }

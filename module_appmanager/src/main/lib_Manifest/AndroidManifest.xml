@@ -22,7 +22,16 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/base_AppTheme">
-        <activity android:name=".login.LoginActivity"
+        <activity android:name=".login.ForgetPwdActivity"
+                  android:theme="@style/App_LoginActivity"
+                  android:windowSoftInputMode="adjustResize|stateVisible">
+        </activity>
+        <activity android:name=".login.RegistActivity"
+                  android:theme="@style/App_LoginActivity"
+                  android:windowSoftInputMode="adjustResize|stateVisible">
+        </activity>
+        <activity
+                android:name=".login.LoginActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/App_LoginActivity"
                 android:windowSoftInputMode="adjustResize|stateHidden">
@@ -42,8 +51,9 @@
 
         <activity android:name=".activity.MainActivity">
         </activity>
-        <activity android:name=".login.SplashActivity"
-                  android:theme="@style/app_SplashActivity">
+        <activity
+                android:name=".login.SplashActivity"
+                android:theme="@style/app_SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -53,6 +63,7 @@
         <activity android:name=".common.keepAlive.SinglePixelActivity"/>
         <activity android:name=".activity.AddAppClassficationActivity">
         </activity>
+
         <service
                 android:name=".service.ScanTopService"
                 android:exported="false">
@@ -61,8 +72,6 @@
                 android:name=".service.AliveService"
                 android:exported="false">
         </service>
-
-
 
         <provider
                 android:name="androidx.core.content.FileProvider"
