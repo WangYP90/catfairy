@@ -62,7 +62,8 @@ public class ScanTopService extends IntentService {
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             mContext.startActivity(i);
                         }
-                    }).canceledOnTouchOutside(false).dismissListener(new DialogInterface.OnDismissListener() {
+                    }).canceledOnTouchOutside(false)
+                    .dismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
                             startSkanTopService(mContext);

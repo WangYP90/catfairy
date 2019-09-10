@@ -11,15 +11,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -28,7 +23,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.palette.graphics.Palette;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -43,32 +37,24 @@ import com.tj24.appmanager.adapter.AppsVpAdater;
 import com.tj24.appmanager.bean.event.LaucherEvent;
 import com.tj24.appmanager.common.OrderConfig;
 import com.tj24.appmanager.login.UserHelper;
-import com.tj24.appmanager.model.ApkModel;
 import com.tj24.appmanager.model.BusinessModel;
 import com.tj24.appmanager.model.OrderModel;
 import com.tj24.appmanager.receiver.ApkChangeReceiver;
-import com.tj24.appmanager.service.ScanTopService;
 import com.tj24.appmanager.view.NoScrollViewPager;
 import com.tj24.appmanager.view.dialog.OrderDialog;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.base.ui.PermissionListener;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
-import com.tj24.base.utils.ColorUtil;
-import com.tj24.base.utils.DrawableUtil;
-import com.tj24.base.utils.ListUtil;
-import com.tj24.base.utils.ScreenUtil;
-import com.tj24.base.utils.ToastUtil;
-
+import com.tj24.base.utils.*;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -200,7 +186,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             @Override
             public void onGranted() {
                 initData();
-                ScanTopService.startSkanTopService(mActivity);
             }
 
             @Override
@@ -241,14 +226,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         viewpager.setCurrentItem(position);
         }else {
             vpAdater.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(ApkModel.isUseGranted()&&ScanTopService.permissionDialog!=null){
-            ScanTopService.permissionDialog.dismiss();
         }
     }
 
@@ -474,13 +451,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             userLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    UserHomePageActivity.actionStart(mActivity);
                 }
             });
             descriptionLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    UserEditActivity.actionStart(mActivity);
                 }
             });
         }

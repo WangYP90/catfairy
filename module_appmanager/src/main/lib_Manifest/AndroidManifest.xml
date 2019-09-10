@@ -22,13 +22,19 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/base_AppTheme">
-        <activity android:name=".login.ForgetPwdActivity"
-                  android:theme="@style/App_LoginActivity"
-                  android:windowSoftInputMode="adjustResize|stateVisible">
+        <activity android:name=".activity.UserEditActivity">
         </activity>
-        <activity android:name=".login.RegistActivity"
-                  android:theme="@style/App_LoginActivity"
-                  android:windowSoftInputMode="adjustResize|stateVisible">
+        <activity android:name=".activity.UserHomePageActivity">
+        </activity>
+        <activity
+                android:name=".login.ForgetPwdActivity"
+                android:theme="@style/App_LoginActivity"
+                android:windowSoftInputMode="adjustResize|stateVisible">
+        </activity>
+        <activity
+                android:name=".login.RegistActivity"
+                android:theme="@style/App_LoginActivity"
+                android:windowSoftInputMode="adjustResize|stateVisible">
         </activity>
         <activity
                 android:name=".login.LoginActivity"

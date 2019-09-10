@@ -10,7 +10,6 @@ import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.MainActivity;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.bean.appmanager.login.Version;
-import com.tj24.base.utils.LogUtil;
 
 public class SplashActivity extends BaseActivity {
 
@@ -71,7 +70,6 @@ public class SplashActivity extends BaseActivity {
      */
     private void sendForwardMsg(){
         long spentTime = System.currentTimeMillis() - enterTime;
-        LogUtil.e("dd", "spentTime=" + spentTime + "---enterTime=" + enterTime);
         Message msg = mHandler.obtainMessage();
         msg.what = MSG_FORWARD;
         if(spentTime <TIME_MIN){
@@ -85,8 +83,7 @@ public class SplashActivity extends BaseActivity {
      * 跳转逻辑
      */
     private void forwardToNextActivity() {
-        isLogin = false;
-        if(isLogin){
+        if(UserHelper.getCurrentUser()!=null){
             MainActivity.startMain(mActivity);
         }else {
             if(isActive){

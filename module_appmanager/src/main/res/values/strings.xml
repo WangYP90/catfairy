@@ -81,4 +81,7 @@
     <string name="app_get_back_by_phone">或者：通过客服电话找回</string>
     <string name="app_click_to_call">点击这里语音找回 >></string>
     <string name="app_request_restet_pwd_success_to_email_reset_pwd">重置密码请求成功，请到%1$d进行密码重置操作</string>
+    <string name="app_nick_name">昵称</string>
+    <string name="app_describtion">个人简介</string>
+    <string name="app_user_separator">|</string>
 </resources>
