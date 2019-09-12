@@ -69,7 +69,6 @@
                     />
 
                     <LinearLayout
-                            android:id="@+id/userCountsLayout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
@@ -77,7 +76,7 @@
                     >
 
                         <TextView
-                                android:id="@+id/userFeedsText"
+                                android:id="@+id/tv_installed"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -86,7 +85,7 @@
                                 android:padding="5dp"
                                 android:textColor="@color/base_white_text"
                                 android:textSize="14sp"
-                                tools:text="分享 36"
+                                tools:text="已安装 36"
                         />
 
                         <TextView
@@ -98,7 +97,7 @@
                                 android:textSize="14sp"/>
 
                         <TextView
-                                android:id="@+id/userFollowingsText"
+                                android:id="@+id/tv_collected"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -107,28 +106,7 @@
                                 android:padding="5dp"
                                 android:textColor="@color/base_white_text"
                                 android:textSize="14sp"
-                                tools:text="关注 136"
-                        />
-
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="@string/app_user_separator"
-                                android:textColor="@color/base_white_text"
-                                android:textSize="14sp"/>
-
-                        <TextView
-                                android:id="@+id/userFollowersText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginRight="10dp"
-                                android:padding="5dp"
-                                android:textColor="@color/base_white_text"
-                                android:textSize="14sp"
-                                tools:text="粉丝 16"
+                                tools:text="已收藏 16"
                         />
 
                     </LinearLayout>

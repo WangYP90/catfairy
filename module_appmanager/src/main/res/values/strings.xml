@@ -84,4 +84,12 @@
     <string name="app_nick_name">昵称</string>
     <string name="app_describtion">个人简介</string>
     <string name="app_user_separator">|</string>
+    <string name="app_installed">已安装 %1$d</string>
+    <string name="app_collected">已收藏 %1$d</string>
+    <string name="app_description_content">简介：%1$s</string>
+    <string name="app_nickname_length_too_short">昵称长度太短</string>
+    <string name="app_nickname_length_too_long">昵称长度太长</string>
+    <string name="app_nickname_invalidate">昵称只能包含中英文、数字、下划线、横线</string>
+    <string name="app_over_counter">超出字数限制</string>
+    <string name="app_save">保存</string>
 </resources>

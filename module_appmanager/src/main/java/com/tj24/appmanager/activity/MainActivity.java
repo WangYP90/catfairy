@@ -380,7 +380,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
            vpAdater.getCurrentFragment().editPopup.dismiss();
         }else if(isEditing) {   //   //如果处于编辑状态则需要先退出编辑状态
             EventBus.getDefault().post(new LaucherEvent(LaucherEvent.EVENT_EXIST_EDITING));
-        } else {
+        } else if(drawerLayout.isDrawerOpen(GravityCompat.START)){ //如果drawerlayout未关闭，则需要先关闭
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else {
             if(System.currentTimeMillis() - lastClickBackTime<1500){
                 ToastUtil.cancle();
                 super.onBackPressed();
@@ -393,6 +395,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        drawerLayout.closeDrawer(GravityCompat.START);
         return false;
     }
 
@@ -451,12 +454,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             userLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
                     UserHomePageActivity.actionStart(mActivity);
                 }
             });
             descriptionLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
                     UserEditActivity.actionStart(mActivity);
                 }
             });

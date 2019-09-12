@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class User extends BmobUser implements Serializable {
 
+    private String nickName;
     private String avanta;
     private String bgImage;
     private String describtion;
@@ -14,7 +15,8 @@ public class User extends BmobUser implements Serializable {
     public User() {
     }
 
-    public User(String avanta, String bgImage, String describtion, String nicai) {
+    public User(String nickName, String avanta, String bgImage, String describtion, String nicai) {
+        this.nickName = nickName;
         this.avanta = avanta;
         this.bgImage = bgImage;
         this.describtion = describtion;
@@ -51,5 +53,13 @@ public class User extends BmobUser implements Serializable {
 
     public void setNicai(String nicai) {
         this.nicai = nicai;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 }
