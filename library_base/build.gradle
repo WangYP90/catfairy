@@ -92,4 +92,10 @@ dependencies {
     api 'cn.bmob.android:bmob-sdk:3.5.7'
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
 //    api 'cn.bmob.android:http-legacy:1.0'
+
+    api ('org.devio.takephoto:takephoto_library:4.1.0'){
+        exclude group: 'com.github.bumptech.glide'
+        exclude group: 'io.reactivex'
+    }
+
 }

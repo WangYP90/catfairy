@@ -11,10 +11,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -23,6 +28,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.palette.graphics.Palette;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -46,15 +52,22 @@ import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.base.ui.PermissionListener;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
-import com.tj24.base.utils.*;
-import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import com.tj24.base.bean.appmanager.login.User;
+import com.tj24.base.utils.ColorUtil;
+import com.tj24.base.utils.DrawableUtil;
+import com.tj24.base.utils.ListUtil;
+import com.tj24.base.utils.ScreenUtil;
+import com.tj24.base.utils.ToastUtil;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -66,6 +79,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private FloatingActionButton fbtCompose;
     private NavigationView navView;
     private DrawerLayout drawerLayout;
+    private User currentUser;
 
     //是否正在编辑
     public boolean isEditing = false;
@@ -87,10 +101,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     final List<AppClassfication> appClassfications = new ArrayList<>();
     private OrderModel orderModel;
     private BusinessModel businessModel;
-    private static final int CODE_START_APPCLASSFICATION = 111;
+    private static final int REQUEST_EDIT_USER = 101;
+    private static final int REQUSET_APPCLASSIFICATION = 111;
     public static final int MSG_REFRESH = 100;
-    public static final int CODE_PERMISSION_REQUEST = 10;
-    private static final int REQUEST_SEARCH = 102;
+
     int editPosition = 1;
     private ApkChangeReceiver apkChangeReceiver;
     private Handler mHandler = new Handler(){
@@ -153,6 +167,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        currentUser = UserHelper.getCurrentUser();
         super.onCreate(savedInstanceState);
         setupViews();
         requestPermissions();
@@ -293,7 +308,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.iv_addItem) {
-            startActivityForResult(new Intent(this, AddAppClassficationActivity.class), CODE_START_APPCLASSFICATION);
+            startActivityForResult(new Intent(this, AddAppClassficationActivity.class), REQUSET_APPCLASSIFICATION);
         } else if (i == R.id.fbt_compose) {
         }
     }
@@ -301,7 +316,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.app_menu_toobar_apps, menu);
-        MenuItem searchItem = menu.findItem(R.id.menu_search);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -345,9 +359,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 View searchMenuView = toolbar.findViewById(R.id.menu_search);
                 Bundle options = ActivityOptions.makeSceneTransitionAnimation(this, searchMenuView,
                         getString(R.string.app_transition_search_back)).toBundle();
-                startActivityForResult(new Intent(this, SearchActivity.class), REQUEST_SEARCH, options);
+               SearchActivity.actionStartWithOptions(this,options);
             } else {
-                startActivityForResult(new Intent(this, SearchActivity.class), REQUEST_SEARCH);
+                SearchActivity.actionStart(this);
             }
             // 当进入搜索界面键盘弹出时，composeFab会随着键盘往上偏移。暂时没查到原因，使用隐藏的方式先进行规避
             fbtCompose.setVisibility(View.GONE);
@@ -405,10 +419,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void loadUserInfo() {
         int count = navView.getHeaderCount();
         if (count == 1) {
-            String nickname = UserHelper.USER_NICK_NAME;
-            String avatar = UserHelper.USER_AVATAR;
-            String description = UserHelper.USER_DESCRIPTION;
-            String bgImage = UserHelper.USER_BG_IMAG;
+            String nickname = currentUser!=null?currentUser.getNickName():"";
+            String avatar = currentUser!=null?currentUser.getAvanta():"";
+            String description = currentUser!=null?currentUser.getDescribtion():"";
+            String bgImage = currentUser!=null?currentUser.getBgImage():"";
             View headerView = navView.getHeaderView(0);
             LinearLayout userLayout = headerView.findViewById(R.id.ll_nav_user);
             LinearLayout descriptionLayout = headerView.findViewById(R.id.ll_nav_describe);
@@ -455,14 +469,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 @Override
                 public void onClick(View v) {
                     drawerLayout.closeDrawer(GravityCompat.START);
-                    UserHomePageActivity.actionStart(mActivity);
+                    UserHomePageActivity.actionStartForResult(mActivity, REQUEST_EDIT_USER);
                 }
             });
             descriptionLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     drawerLayout.closeDrawer(GravityCompat.START);
-                    UserEditActivity.actionStart(mActivity);
+                    UserEditActivity.actionStartForResult(mActivity, REQUEST_EDIT_USER,true);
                 }
             });
         }
@@ -507,10 +521,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if(resultCode != RESULT_OK){
             return;
         }
-        if(requestCode == CODE_START_APPCLASSFICATION){
+        if(requestCode == REQUSET_APPCLASSIFICATION){
             appClassfications.clear();
             appClassfications.addAll(businessModel.queryAllAppClassfications());
             vpAdater.notifyDataSetChanged();
+        }else if(requestCode == REQUEST_EDIT_USER){
+           currentUser = UserHelper.getCurrentUser();
+           loadUserInfo();
         }
     }
 

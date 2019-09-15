@@ -32,7 +32,8 @@
                     app:layout_collapseMode="parallax">
 
                 <ImageView
-                        android:id="@+id/userBgImage"
+                        android:id="@+id/iv_userBg"
+                        tools:src="@drawable/login_bg_wall"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fitsSystemWindows="true"

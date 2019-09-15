@@ -1,5 +1,7 @@
 package com.tj24.appmanager.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,10 +22,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.adapter.SearchAdapter;
-import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.model.ApkModel;
 import com.tj24.base.base.ui.BaseActivity;
+import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.utils.ListUtil;
 
 import java.util.ArrayList;
@@ -193,6 +195,16 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         if(!ListUtil.isNullOrEmpty(appBeans)){
             searchAdapter.addFooterView(getLayoutInflater().inflate(R.layout.app_search_footer_view,null));
         }
+    }
+
+    public static void actionStart(Activity context){
+        Intent i = new Intent(context,SearchActivity.class);
+        context.startActivity(i);
+    }
+
+    public static void actionStartWithOptions(Activity context,Bundle options){
+        Intent i = new Intent(context,SearchActivity.class);
+        context.startActivity(i,options);
     }
 
 }

@@ -2,7 +2,7 @@ package com.tj24.appmanager.activity;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -20,6 +21,7 @@ import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -37,15 +39,16 @@ import com.tj24.base.bean.appmanager.login.User;
 import com.tj24.base.utils.ColorUtil;
 import com.tj24.base.utils.DrawableUtil;
 import com.tj24.base.utils.ScreenUtil;
-import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 public class UserHomePageActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener {
-
+    private static final int REQUEST_USER_EDIT = 100;
     private ImageView ivUserBg;
     private ImageView ivAvatan;
     private TextView tvNickName;
@@ -59,10 +62,14 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
     private CoordinatorLayout coordLayout;
 
     int scrollRange = -1;
-    User currentUser;
     boolean isUserBgImageLoaded;
     boolean isUserBgImageDark;
     boolean isToolbarAndStatusbarIconDark;
+
+    String avatar;
+    String nickName;
+    String describtion;
+    String bgImag;
 
     private UserHomePageAdapter mUserHomePageAdapter;
     private List<AppBean> collectionApps = new ArrayList<>();
@@ -105,7 +112,7 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
             int top = bitmapHeight / 2;
             int bottom = bitmapHeight - 1;
             Palette.from(bitmap).maximumColorCount(3).clearFilters()
-                    .setRegion(left,right,top,bottom) // 测量图片下半部分的颜色，以确定用户信息的颜色
+                    .setRegion(left,top,right,bottom) // 测量图片下半部分的颜色，以确定用户信息的颜色
                     .generate(new Palette.PaletteAsyncListener() {
                         @Override
                         public void onGenerated(@Nullable Palette palette) {
@@ -123,8 +130,9 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        currentUser = UserHelper.getCurrentUser();
+        initData();
         super.onCreate(savedInstanceState);
+        transparentStatusBar();
         initView();
         initRecyclerView();
     }
@@ -134,8 +142,17 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
         return R.layout.app_activity_user_home_page;
     }
 
+    private void initData() {
+        User currentUser = UserHelper.getCurrentUser();
+        nickName = currentUser!=null?currentUser.getNickName():"";
+        describtion = currentUser!=null?currentUser.getDescribtion():"";
+        avatar = currentUser!=null?currentUser.getAvanta():"";
+        bgImag = currentUser!=null?currentUser.getBgImage():"";
+    }
+
+
     private void initView() {
-        ivUserBg = (ImageView) findViewById(R.id.userBgImage);
+        ivUserBg = (ImageView) findViewById(R.id.iv_userBg);
         ivAvatan = (ImageView) findViewById(R.id.iv_avatar);
         tvNickName = (TextView) findViewById(R.id.tv_nickName);
         tvCollected = (TextView) findViewById(R.id.tv_collected);
@@ -169,34 +186,31 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
     }
 
     private void setupUserInfo() {
-        tvNickName.setText(currentUser.getNickName());
-        tvDescribtion.setText(currentUser.getDescribtion());
-        if (!TextUtils.isEmpty(currentUser.getDescribtion())) {
+        tvNickName.setText(nickName);
+        tvDescribtion.setText(describtion);
+        if (!TextUtils.isEmpty(describtion)) {
             tvDescribtion.setVisibility(View.VISIBLE);
-            tvDescribtion.setText(getString(R.string.app_description_content,currentUser.getDescribtion()));
+            tvDescribtion.setText(getString(R.string.app_description_content,describtion));
         } else {
             tvDescribtion.setVisibility(View.INVISIBLE);
         }
         isUserBgImageLoaded = false;
-        Glide.with(this)
-                .load(currentUser.getAvanta())
+        Glide.with(this).load(avatar)
                 .bitmapTransform(new CropCircleTransformation(this))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .placeholder(R.drawable.app_loading_bg_circle)
                 .error(R.drawable.avatar_default)
                 .into(ivAvatan);
-        if(TextUtils.isEmpty(currentUser.getBgImage())){
-            if(!TextUtils.isEmpty(currentUser.getAvanta())){
-                Glide.with(this)
-                        .load(currentUser.getBgImage())
+        if(TextUtils.isEmpty(bgImag)){
+            if(!TextUtils.isEmpty(avatar)){
+                Glide.with(this).load(bgImag)
                         .bitmapTransform(new BlurTransformation(this, 15))
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .listener(userBgLoadListner)
                         .into(ivUserBg);
             }
         }else {
-            Glide.with(this)
-                    .load(currentUser.getBgImage())
+            Glide.with(this).load(bgImag)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .listener(userBgLoadListner)
                     .into(ivUserBg);
@@ -215,9 +229,22 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.fab){
-            UserEditActivity.actionStart(mActivity);
+            UserEditActivity.actionStartForResult(mActivity,REQUEST_USER_EDIT,false);
         }else if(v.getId() == R.id.iv_avatar){
 
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != RESULT_OK){
+            return;
+        }
+        if(requestCode == REQUEST_USER_EDIT){
+            initData();
+            setupUserInfo();
+            setResult(RESULT_OK);
         }
     }
 
@@ -227,7 +254,7 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
             scrollRange = appBarLayout.getTotalScrollRange();
         }
         if(scrollRange + verticalOffset < ScreenUtil.dip2px(this,8)){
-            collToolbarLayout.setTitle(currentUser.getNickName());
+            collToolbarLayout.setTitle(nickName);
         }else {
             collToolbarLayout.setTitle("");
         }
@@ -299,8 +326,8 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
         animator.start();
     }
 
-    public static void actionStart(Context context){
+    public static void actionStartForResult(Activity context, int requestCode){
         Intent i = new Intent(context,UserHomePageActivity.class);
-        context.startActivity(i);
+        context.startActivityForResult(i,requestCode);
     }
 }

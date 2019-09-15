@@ -5,4 +5,5 @@
     <string name="base_load_error">加载失败了</string>
     <string name="base_no_more_content">没有更多内容了</string>
     <string name="base_click_reload">点击加载</string>
+    <string name="base_take_photo_error">出现异常，请重新再试</string>
 </resources>

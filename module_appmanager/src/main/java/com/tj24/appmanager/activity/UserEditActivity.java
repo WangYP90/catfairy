@@ -1,6 +1,6 @@
 package com.tj24.appmanager.activity;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -12,9 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
@@ -24,13 +26,18 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.common.AfterTextWacher;
 import com.tj24.appmanager.login.UserHelper;
-import com.tj24.base.base.ui.BaseActivity;
+import com.tj24.appmanager.model.UserEditModel;
+import com.tj24.base.base.ui.CatTakePhotoActivity;
 import com.tj24.base.bean.appmanager.login.User;
 import com.tj24.base.utils.ColorUtil;
+import com.tj24.base.utils.LogUtil;
+
+import org.devio.takephoto.model.TResult;
+
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-public class UserEditActivity extends BaseActivity implements View.OnClickListener {
+public class UserEditActivity extends CatTakePhotoActivity implements View.OnClickListener {
 
     private static final String NICK_NAME_REG_EXP = "^[\u4E00-\u9FA5A-Za-z0-9_\\-]+$";
     private static final String IS_EDIT_DESCRIBTION = "isEditDescribtion";
@@ -45,10 +52,23 @@ public class UserEditActivity extends BaseActivity implements View.OnClickListen
     private TextInputEditText etNickName;
     private TextInputEditText etDescrition;
     private TextView tvSave;
-    private User user;
+
+    //是否是点击编辑简介按钮跳转进来
     boolean isEditDescribtion;
+    //model
+    UserEditModel userEditModel;
+    //拍照后的图像 背景
     String srcAvatar = "";
     String srcBgImag = "";
+    //动作 （更换图像呢还是背景呢）
+    int action;
+    public static final int ACTION_AVATAR = 0;
+    public static final int ACTION_BG = 1;
+    //修改前的
+    String avatar = "";
+    String bgImag = "";
+    String nickName = "";
+    String descrition = "";
 
     TextWatcher nickNameWatcher = new AfterTextWacher() {
         @Override
@@ -131,8 +151,14 @@ public class UserEditActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = UserHelper.getCurrentUser();
+        User user = UserHelper.getCurrentUser();
+        nickName = (user!=null && user.getNickName()!=null)?user.getNickName():"";
+        avatar = user!=null && user.getAvanta()!=null?user.getAvanta():"";
+        bgImag = user!=null && user.getBgImage()!=null?user.getBgImage():"";
+        descrition = user!=null && user.getDescribtion()!=null?user.getDescribtion():"";
+
         isEditDescribtion = getIntent().getBooleanExtra(IS_EDIT_DESCRIBTION,false);
+        userEditModel = new UserEditModel(mActivity,getTakePhoto());
         initView();
         setupViews();
     }
@@ -166,21 +192,20 @@ public class UserEditActivity extends BaseActivity implements View.OnClickListen
         setTitle(" ");
         transparentStatusBar();
         loadBgImage();
-        Glide.with(this).load(user.getAvanta()).asBitmap()
+        Glide.with(this).load(avatar).asBitmap()
                 .transform(new CropCircleTransformation(this))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .placeholder(R.drawable.app_loading_bg_circle)
                 .error(R.drawable.avatar_default)
                 .into(ivAvatar);
-        tvNickName.setText(user.getNickName());
-        etNickName.setText(user.getDescribtion());
 
-        if(TextUtils.isEmpty(user.getDescribtion())){
+        etNickName.setText(nickName);
+        etNickName.setSelection(nickName.length());
+        if(TextUtils.isEmpty(descrition)){
             tvDescribtion.setVisibility(View.GONE);
         }else {
             tvDescribtion.setVisibility(View.VISIBLE);
-            tvDescribtion.setText(getString(R.string.app_description_content,user.getDescribtion()));
-            etDescrition.setText(user.getDescribtion());
+            etDescrition.setText(descrition);
         }
 
         if(isEditDescribtion){ //点击编辑describiton 跳转而来
@@ -197,13 +222,61 @@ public class UserEditActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.avatarCamera){
-
+            action = ACTION_AVATAR;
+            userEditModel.showTakePhotoDialog(action);
         }else if(v.getId()==R.id.bgImageCamera){
-
+            action = ACTION_BG;
+            userEditModel.showTakePhotoDialog(action);
         }else if(v.getId() == R.id.tv_save){
-
+                User user = new User();
+                if(!nickName.equals(etNickName.getText().toString().trim())){
+                    user.setNickName(etNickName.getText().toString().trim());
+                }
+                if(!descrition.equals(etDescrition.getText().toString().trim())){
+                    user.setDescribtion(descrition);
+                }
+                if(!TextUtils.isEmpty(srcAvatar)){
+                    user.setAvanta(srcAvatar);
+                }
+                if(!TextUtils.isEmpty(srcBgImag)){
+                    user.setBgImage(srcBgImag);
+                }
+                userEditModel.save(user);
         }
     }
+
+    @Override
+    public void takeSuccess(TResult result) {
+        super.takeSuccess(result);
+        String path = result.getImage().getOriginalPath();
+        LogUtil.d(TAG, "拍照返回path="+path);
+        if(TextUtils.isEmpty(path)){
+            return;
+        }
+        if(action == ACTION_AVATAR){
+            srcAvatar = path;
+            Glide.with(this).load(srcAvatar).asBitmap()
+                    .transform(new CropCircleTransformation(this))
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.app_loading_bg_circle)
+                    .error(R.drawable.avatar_default)
+                    .into(ivAvatar);
+            if (TextUtils.isEmpty(srcAvatar) && TextUtils.isEmpty(srcBgImag)) {
+                Glide.with(this).load(srcAvatar).asBitmap()
+                        .transform(new BlurTransformation(this, 20))
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .listener(bgLoadListener)
+                        .into(ivBg);
+            }
+        }else if(action == ACTION_BG){
+            srcBgImag = path;
+            Glide.with(this).load(srcBgImag).asBitmap()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .listener(bgLoadListener)
+                    .into(ivBg);
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -221,14 +294,12 @@ public class UserEditActivity extends BaseActivity implements View.OnClickListen
 
     private void exist() {
         if (isUserInfoChanged()) {
-            showIsSaveDialog();
+            userEditModel.showIsSaveDialog();
         } else {
             finish();
         }
     }
 
-    private void showIsSaveDialog() {
-    }
 
     /**
      * 判断用户昵称是否合法。用户昵称长度必须在2-30个字符之间，并且只能包含中英文、数字、下划线和横线。
@@ -250,20 +321,20 @@ public class UserEditActivity extends BaseActivity implements View.OnClickListen
      * @return
      */
     private boolean isUserInfoChanged(){
-        if(user.getNickName().equals(etNickName.getText().toString()) &&
-                user.getDescribtion().equals(etDescrition.getText().toString()) &&
-                TextUtils.isEmpty(srcBgImag) &&
-                TextUtils.isEmpty(srcAvatar)){
+        if(nickName.equals(etNickName.getText().toString())
+                && descrition.equals(etDescrition.getText().toString())
+                && TextUtils.isEmpty(srcBgImag)
+                && TextUtils.isEmpty(srcAvatar)){
             return false;
         }
         return true;
     }
 
     private void loadBgImage() {
-        if (TextUtils.isEmpty(user.getBgImage())) {
-            if (!TextUtils.isEmpty(user.getAvanta())) {
+        if (TextUtils.isEmpty(bgImag)) {
+            if (!TextUtils.isEmpty(avatar)) {
                 Glide.with(this)
-                        .load(user.getAvanta())
+                        .load(avatar)
                         .asBitmap()
                         .transform(new BlurTransformation(this, 15))
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -272,7 +343,7 @@ public class UserEditActivity extends BaseActivity implements View.OnClickListen
             }
         } else {
             Glide.with(this)
-                    .load(user.getBgImage())
+                    .load(bgImag)
                     .asBitmap()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .listener(bgLoadListener)
@@ -293,9 +364,9 @@ public class UserEditActivity extends BaseActivity implements View.OnClickListen
     private void setToolbarAndStatusbarIconIntoLight() {
     }
 
-    public static void actionStart(Context context,boolean isEditDescribtion){
+    public static void actionStartForResult(Activity context,int requstCode, boolean isEditDescribtion){
         Intent i = new Intent(context,UserEditActivity.class);
         i.putExtra(IS_EDIT_DESCRIBTION,isEditDescribtion);
-        context.startActivity(i);
+        context.startActivityForResult(i,requstCode);
     }
 }

@@ -92,4 +92,12 @@
     <string name="app_nickname_invalidate">昵称只能包含中英文、数字、下划线、横线</string>
     <string name="app_over_counter">超出字数限制</string>
     <string name="app_save">保存</string>
+    <string name="app_avatar_dialog_title">选择图像照片</string>
+    <string name="app_bg_dialog_title">选择个人封面照片</string>
+    <string name="app_operation_failed_without_sdcard">您的手机没有SD卡，无法完成操作</string>
+    <string name="app_userinfo_updated_is_save">您已经修改了个人信息，确定放弃保存吗？</string>
+    <string name="app_give_up">放弃</string>
+    <string name="app_leave">留下</string>
+    <string name="app_save_success">保存成功！</string>
+    <string name="app_save_fail">保存失败！</string>
 </resources>

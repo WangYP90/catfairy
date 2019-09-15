@@ -62,6 +62,7 @@
                 android:exported="false"
                 android:grantUriPermissions="true">
             <meta-data
+                    tools:replace="android:resource"
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/app_share_provider_path"/>
         </provider>

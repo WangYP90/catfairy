@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.tj24.catfairy">
+        xmlns:tools="http://schemas.android.com/tools"
+        package="com.tj24.catfairy">
 
     <application
-        android:name="com.tj24.catfairy.MainApplication"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/base_app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/base_AppTheme">
+            android:name="com.tj24.catfairy.MainApplication"
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/base_app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            tools:replace="android:label"
+            android:theme="@style/base_AppTheme">
+
     </application>
 
 </manifest>
