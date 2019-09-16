@@ -10,12 +10,35 @@ import android.os.Environment;
  */
 
 public class Const {
+    /**
+     * bmob application ID
+     */
     public static final String BMOB_APPLICATION_ID = "f3be9ad68b19831f11e9138e619d22bd";
-    public static String BASE_PATH = Environment.getExternalStorageState() + "catFairy";
-    public static class UserInfo{
-        public static final String NICK_NAME = "nickname";
-        public static final String AVATAR = "avatar";
-        public static final String BG_IMAG = "bgimage";
-        public static final String DESCRIPTION = "description";
-    }
+    /**
+     * basepath
+     */
+    public static String BASE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/catFairy/";
+    /**
+     * crash 保存路径
+     */
+    public static String CRASH_PATH = BASE_PATH + "crash/";
+
+    /**
+     * baseAppManager Path
+     */
+    public static String BASE_APP_PATH = BASE_PATH + "appManager/";
+    /**
+     * APPMANAGER 的 图片
+     */
+    public static String BASE_APP_PICTURE = BASE_APP_PATH + "pic/";
+    /**
+     * APPMANAGER  app ico的 图片
+     */
+    public static String BASE_APP_ICO = BASE_APP_PICTURE + "icos/";
+    /**
+     * APPMANAGER  app user的 图像和背景
+     */
+    public static String BASE_APP_USER = BASE_APP_PICTURE + "user/";
+
+
 }

@@ -16,17 +16,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.Settings;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.common.Const;
+import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.base.base.app.BaseApplication;
+import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.utils.LogUtil;
 import com.tj24.base.utils.PinyinUtils;
 import com.tj24.base.utils.ToastUtil;
-import com.tj24.base.bean.appmanager.AppBean;
-import com.tj24.appmanager.common.Const;
-import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -173,9 +172,10 @@ public class ApkModel {
             }
 
             // 首先保存图片
-            File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsoluteFile();//注意小米手机必须这样获得public绝对路径
-            String filePath = "cat_xiaoxian";
-            File appDir = new File(file ,filePath);
+//            File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsoluteFile();//注意小米手机必须这样获得public绝对路径
+//            String filePath = "cat_xiaoxian";
+//            File appDir = new File(file ,filePath);
+            File appDir = new File(com.tj24.base.constant.Const.BASE_APP_ICO);
             if (!appDir.exists()) {
                 appDir.mkdirs();
             }

@@ -1,5 +1,6 @@
 package com.tj24.base.utils;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -8,14 +9,22 @@ import android.os.Environment;
 import android.os.Process;
 import android.util.Log;
 import android.widget.Toast;
+import androidx.core.app.ActivityCompat;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 import com.tj24.base.R;
 import com.tj24.base.base.app.BaseApplication;
+import com.tj24.base.bean.appmanager.CrashLog;
+import com.tj24.base.constant.Const;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 /**
  * @Description:崩溃日志收集类
  * @Createdtime:2019/3/3 0:19
@@ -25,9 +34,6 @@ import java.util.Date;
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static final String TAG = "CrashHandler";
     private static final boolean DEBUG = true;
-    private static final String PATH = "sdcard/";
-    private static final String FILE_NAME = "tj24";
-
     //log文件的后缀名
     private static final String FILE_NAME_SUFFIX = ".txt";
 
@@ -94,24 +100,17 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     private String dumpExceptionToSDCard(Throwable ex) {
         //如果SD卡不存在或无法使用，则无法把异常信息写入SD卡
-        String path = "";
+        String content = "";
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             if (DEBUG) {
                 Log.w(TAG, "sdcard unmounted,skip dump exception");
             }
         } else {
-            File dir = new File(PATH);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
             long current = System.currentTimeMillis();
             String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(current));
-            //以当前时间创建log文件
-            File file = new File(PATH + FILE_NAME + time + FILE_NAME_SUFFIX);
-
             try {
-                StringWriter writer = new StringWriter();
-                PrintWriter pw = new PrintWriter(writer);
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
                 StringBuffer sb = new StringBuffer();
                 //导出发生异常的时间
                 pw.println(time);
@@ -124,13 +123,15 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 ex.printStackTrace(pw);
                 pw.close();
 
-                sb.append(writer.toString());
-                path = sb.toString();
+                sb.append(sw.toString());
+                content = sb.toString();
+                //以当前时间创建log文件
+                input2File(content,time);
             } catch (Exception e) {
                 Log.e(TAG, "dump crash info failed");
             }
         }
-        return path;
+        return content;
     }
 
 
@@ -164,11 +165,61 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         pw.println(Build.CPU_ABI);
     }
 
+    private static void input2File(final String content,String time) {
+        File dir = new File(Const.CRASH_PATH);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        Future<Boolean> submit = Executors.newSingleThreadExecutor().submit(new Callable<Boolean>() {
+            @Override
+            public Boolean call() {
+                BufferedWriter bw = null;
+                try {
+                    bw = new BufferedWriter(new FileWriter(Const.CRASH_PATH + time + FILE_NAME_SUFFIX, true));
+                    bw.write(content);
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                } finally {
+                    try {
+                        if (bw != null) {
+                            bw.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        try {
+            if (submit.get()) return;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 将异常信息进行上传
      * @param sb
      */
     private void uploadExceptionToServer(final String sb) {
+        int permission = ActivityCompat.checkSelfPermission(BaseApplication.getContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        CrashLog crashLog = new CrashLog(sb);
+        crashLog.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if(e == null){
+                    Log.d(TAG,"上传成功");
+                }
+            }
+        });
     }
 }

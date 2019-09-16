@@ -2,31 +2,27 @@ package com.tj24.appmanager.model;
 
 import android.app.Activity;
 import android.net.Uri;
-import android.os.Environment;
+import android.text.TextUtils;
 import android.view.View;
-
 import androidx.annotation.NonNull;
-
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.UserEditActivity;
 import com.tj24.appmanager.login.UserHelper;
 import com.tj24.base.bean.appmanager.login.User;
+import com.tj24.base.constant.Const;
 import com.tj24.base.utils.ScreenUtil;
 import com.tj24.base.utils.ToastUtil;
-
 import org.devio.takephoto.app.TakePhoto;
 import org.devio.takephoto.model.CropOptions;
 import org.devio.takephoto.model.TakePhotoOptions;
 
 import java.io.File;
-import java.util.List;
-
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UpdateListener;
-import cn.bmob.v3.listener.UploadBatchListener;
 
 public class UserEditModel extends BaseAppsManagerModel {
     private TakePhoto takePhoto;
@@ -59,7 +55,7 @@ public class UserEditModel extends BaseAppsManagerModel {
         takePhotoOptions.setWithOwnGallery(false);
         takePhoto.setTakePhotoOptions(takePhotoOptions.create());
 
-        File file = new File(Environment.getExternalStorageDirectory(), "/cat/" + System.currentTimeMillis() + ".jpg");
+        File file = new File(Const.BASE_APP_USER + System.currentTimeMillis() + ".jpg");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
@@ -108,6 +104,18 @@ public class UserEditModel extends BaseAppsManagerModel {
      * 保存
      */
     public void save(User user) {
+        saveUser(user);
+        //向bmob上传文件会报错 应该是没有备案域名
+//        if(!TextUtils.isEmpty(user.getAvanta())){
+//           saveAvatar(user);
+//        }else if(!TextUtils.isEmpty(user.getBgImage())){
+//            saveBg(user);
+//        }else {
+//            saveUser(user);
+//        }
+    }
+
+    private void saveUser(User user) {
         User currentUser = UserHelper.getCurrentUser();
         user.update(currentUser.getObjectId(), new UpdateListener() {
             @Override
@@ -121,25 +129,39 @@ public class UserEditModel extends BaseAppsManagerModel {
                 }
             }
         });
-        String [] pathes = new String[]{user.getAvanta(),user.getBgImage()};
-        BmobFile.uploadBatch(pathes, new UploadBatchListener() {
-            @Override
-            public void onSuccess(List<BmobFile> list, List<String> urls) {
-                if(pathes.length == urls.size()){
+    }
 
+    private void saveBg(User user) {
+        BmobFile bgFile = new BmobFile(new File(user.getBgImage()));
+        bgFile.uploadblock(new UploadFileListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e == null){
+                    user.setBgImage(bgFile.getFileUrl());
+                    saveUser(user);
+                }else {
+                    ToastUtil.showShortToast(mContext,mContext.getString(R.string.app_save_fail));
                 }
-            }
-
-            @Override
-            public void onProgress(int i, int i1, int i2, int i3) {
-
-            }
-
-            @Override
-            public void onError(int i, String s) {
-
             }
         });
     }
 
+    private void saveAvatar(User user) {
+        BmobFile avataFile = new BmobFile(new File(user.getAvanta()));
+        avataFile.uploadblock(new UploadFileListener() {
+            @Override
+            public void done(BmobException e) {
+                if(e == null){
+                    user.setAvanta(avataFile.getFileUrl());
+                    if(!TextUtils.isEmpty(user.getBgImage())){
+                        saveBg(user);
+                    }else {
+                        saveUser(user);
+                    }
+                }else {
+                    ToastUtil.showShortToast(mContext,mContext.getString(R.string.app_save_fail));
+                }
+            }
+        });
+    }
 }

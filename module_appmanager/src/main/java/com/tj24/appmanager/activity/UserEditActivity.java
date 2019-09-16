@@ -12,11 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
@@ -27,15 +25,14 @@ import com.tj24.appmanager.R;
 import com.tj24.appmanager.common.AfterTextWacher;
 import com.tj24.appmanager.login.UserHelper;
 import com.tj24.appmanager.model.UserEditModel;
+import com.tj24.appmanager.util.ViewUtils;
 import com.tj24.base.base.ui.CatTakePhotoActivity;
 import com.tj24.base.bean.appmanager.login.User;
 import com.tj24.base.utils.ColorUtil;
 import com.tj24.base.utils.LogUtil;
-
-import org.devio.takephoto.model.TResult;
-
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import org.devio.takephoto.model.TResult;
 
 public class UserEditActivity extends CatTakePhotoActivity implements View.OnClickListener {
 
@@ -233,7 +230,7 @@ public class UserEditActivity extends CatTakePhotoActivity implements View.OnCli
                     user.setNickName(etNickName.getText().toString().trim());
                 }
                 if(!descrition.equals(etDescrition.getText().toString().trim())){
-                    user.setDescribtion(descrition);
+                    user.setDescribtion(etDescrition.getText().toString().trim());
                 }
                 if(!TextUtils.isEmpty(srcAvatar)){
                     user.setAvanta(srcAvatar);
@@ -333,18 +330,14 @@ public class UserEditActivity extends CatTakePhotoActivity implements View.OnCli
     private void loadBgImage() {
         if (TextUtils.isEmpty(bgImag)) {
             if (!TextUtils.isEmpty(avatar)) {
-                Glide.with(this)
-                        .load(avatar)
-                        .asBitmap()
+                Glide.with(this).load(avatar).asBitmap()
                         .transform(new BlurTransformation(this, 15))
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .listener(bgLoadListener)
                         .into(ivBg);
             }
         } else {
-            Glide.with(this)
-                    .load(bgImag)
-                    .asBitmap()
+            Glide.with(this).load(bgImag).asBitmap()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .listener(bgLoadListener)
                     .into(ivBg);
@@ -355,13 +348,20 @@ public class UserEditActivity extends CatTakePhotoActivity implements View.OnCli
      * 设置toolbar和状态蓝的颜色为深色
      */
     private void setToolbarAndStatusbarIconIntoDark() {
-
+        ViewUtils.setLightStatusBar(getWindow(), ivBg);
+        if(toolbar != null){
+            ViewUtils.setToolbarIconColor(this, toolbar, true);
+        }
     }
 
     /**
      * 设置toolbar和状态栏的颜色为浅色
      */
     private void setToolbarAndStatusbarIconIntoLight() {
+        ViewUtils.setLightStatusBar(getWindow(), ivBg);
+        if(toolbar != null){
+            ViewUtils.setToolbarIconColor(this, toolbar, false);
+        }
     }
 
     public static void actionStartForResult(Activity context,int requstCode, boolean isEditDescribtion){

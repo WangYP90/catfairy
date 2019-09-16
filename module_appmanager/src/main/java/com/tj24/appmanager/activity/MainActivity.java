@@ -11,15 +11,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -28,7 +23,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.palette.graphics.Palette;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -53,21 +47,15 @@ import com.tj24.base.base.ui.PermissionListener;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.base.bean.appmanager.login.User;
-import com.tj24.base.utils.ColorUtil;
-import com.tj24.base.utils.DrawableUtil;
-import com.tj24.base.utils.ListUtil;
-import com.tj24.base.utils.ScreenUtil;
-import com.tj24.base.utils.ToastUtil;
-
+import com.tj24.base.utils.*;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -155,7 +143,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         @Override
                         public void onGenerated(@Nullable Palette palette) {
                             boolean isDark = ColorUtil.isBitmapDark(palette, bitmap);
-                            int color = isDark?ContextCompat.getColor(MainActivity.this,R.color.base_white_text):ContextCompat.getColor(mActivity,R.color.base_colorPrimary);
+                            int color = isDark?ContextCompat.getColor(MainActivity.this,R.color.base_white_text):ContextCompat.getColor(mActivity,R.color.base_black_600);
                             tvNickName.setTextColor(color);
                             tvDescription.setTextColor(color);
                             ivEdit.setColorFilter(color, android.graphics.PorterDuff.Mode.MULTIPLY);
@@ -447,8 +435,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             if (TextUtils.isEmpty(bgImage)) {
                 if (!TextUtils.isEmpty(avatar)) {
-                    Glide.with(this)
-                            .load(avatar)
+                    Glide.with(this).load(avatar)
                             .bitmapTransform(new BlurTransformation(this, 15))
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                             .listener(navHeaderBgLoadListner)
@@ -458,8 +445,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 int bgImageWidth = navView.getWidth();
                 //* 25为补偿系统状态栏高度，不加这个高度值图片顶部会出现状态栏的底色 */)
                 float bgImageHeight = ScreenUtil.dip2px(mActivity,250+25);
-                Glide.with(this)
-                        .load(bgImage)
+                Glide.with(this).load(bgImage)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .override(bgImageWidth, (int) bgImageHeight)
                         .listener(navHeaderBgLoadListner)
