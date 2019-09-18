@@ -6,27 +6,22 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import androidx.annotation.RequiresApi;
 import androidx.core.widget.PopupWindowCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.MainActivity;
 import com.tj24.appmanager.adapter.RcAppGrideAdapter;
 import com.tj24.appmanager.adapter.RcAppLinearAdapter;
-import com.tj24.base.bean.appmanager.AppBean;
-import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.appmanager.bean.event.ApkChangeEvent;
 import com.tj24.appmanager.bean.event.LaucherEvent;
 import com.tj24.appmanager.common.OrderConfig;
+import com.tj24.appmanager.common.ScrollLinearLayoutManager;
 import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.model.ApkModel;
 import com.tj24.appmanager.model.BaseAppsManagerModel;
@@ -37,8 +32,9 @@ import com.tj24.appmanager.view.AppFooterView;
 import com.tj24.appmanager.view.SideBar;
 import com.tj24.appmanager.view.dialog.AppEditPopup;
 import com.tj24.base.base.ui.BaseFragment;
+import com.tj24.base.bean.appmanager.AppBean;
+import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.base.utils.ScreenUtil;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -51,9 +47,9 @@ import java.util.Iterator;
 import java.util.List;
 
 public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener,
-        BaseQuickAdapter.OnItemLongClickListener, SideBar.OnTouchingLetterChangedListener, View.OnClickListener {
+        BaseQuickAdapter.OnItemLongClickListener, SideBar.OnTouchingLetterChangedListener {
 
-    private RecyclerView rcApps;
+    private RecyclerView rvApps;
     private View transView;
     private SideBar sideBar;
     private TextView tvSidebar;
@@ -74,7 +70,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
     public AppEditPopup editPopup;
     private RcAppLinearAdapter mLinearAdapter;
     private RcAppGrideAdapter mGrideAdapter;
-    private LinearLayoutManager mLinearManager;
+    private ScrollLinearLayoutManager mLinearManager;
     private GridLayoutManager mGrideManager;
     private OrderModel orderModel;
     @Override
@@ -91,36 +87,12 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
     }
 
     private void initView() {
-        rcApps = rootView.findViewById(R.id.rc_apps);
-        transView = rootView.findViewById(R.id.trans_view);
+        rvApps = rootView.findViewById(R.id.rc_apps);
+//        transView = rootView.findViewById(R.id.trans_view);
+        transView = ((MainActivity)mActivity).transView;
         sideBar = rootView.findViewById(R.id.sideBar);
         tvSidebar = rootView.findViewById(R.id.tv_sidebar);
         footerView = rootView.findViewById(R.id.apps_footer);
-
-        transView.setOnClickListener(this);
-        //只放行点击事件，其他事件全部拦截
-        transView.setOnTouchListener(new View.OnTouchListener() {
-            float x = 0;
-            float y = 0;
-            long time = 0;
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        x = event.getX();
-                        y = event.getY();
-                        time = System.currentTimeMillis();
-                        return false;
-                    case MotionEvent.ACTION_UP:
-                        if (Math.abs(x - event.getX()) < 2 && Math.abs(y - event.getY()) < 2 && System.currentTimeMillis() - time < 300) {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                }
-                return false;
-            }
-        });
     }
 
 
@@ -151,12 +123,12 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
             if (mLinearManager != null) {
                 scrollPosition = mLinearManager.findFirstVisibleItemPosition();
             }
-            mLinearManager = new LinearLayoutManager(mActivity);
+            mLinearManager = new ScrollLinearLayoutManager(mActivity);
             mLinearManager.setStackFromEnd(false);
-            rcApps.setLayoutManager(mLinearManager);
+            rvApps.setLayoutManager(mLinearManager);
             mLinearAdapter = new RcAppLinearAdapter(R.layout.app_rv_apps_linear_item, appBeans, appClassfication, isEditing);
             mLinearManager.scrollToPosition(scrollPosition);
-            rcApps.setAdapter(mLinearAdapter);
+            rvApps.setAdapter(mLinearAdapter);
             mLinearAdapter.setOnItemChildClickListener(this);
             mLinearAdapter.setOnItemClickListener(this);
             mLinearAdapter.setOnItemLongClickListener(this);
@@ -165,12 +137,12 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
                 scrollPosition = mGrideManager.findFirstVisibleItemPosition();
             }
             mGrideManager = new GridLayoutManager(mActivity, 4);
-            rcApps.setLayoutManager(mGrideManager);
+            rvApps.setLayoutManager(mGrideManager);
             mGrideAdapter = new RcAppGrideAdapter(R.layout.app_rv_apps_gride_item, appBeans, isEditing);
             mGrideManager.scrollToPosition(scrollPosition);
             mGrideAdapter.setOnItemClickListener(this);
             mGrideAdapter.setOnItemLongClickListener(this);
-            rcApps.setAdapter(mGrideAdapter);
+            rvApps.setAdapter(mGrideAdapter);
         }
     }
 
@@ -235,6 +207,8 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
         if (appBean == null) {
             return;
         }
+        transView.setVisibility(View.VISIBLE);
+        mLinearManager.setCanScrollVertically(false);
         editPopup = new AppEditPopup(mActivity, appBean, appClassfication);
         View contentView = editPopup.getContentView();
         //需要先测量，PopupWindow还未弹出时，宽高为0
@@ -247,7 +221,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
         view.getLocationOnScreen(itemLocation);
         //recyclerview 在屏幕中的位置
         int[] rvLocation = new int[2];
-        rcApps.getLocationOnScreen(rvLocation);
+        rvApps.getLocationOnScreen(rvLocation);
 
         int clickX = (int) ((MainActivity) mActivity).getClickPosition()[0];
         int clickY = (int) ((MainActivity) mActivity).getClickPosition()[1];
@@ -257,7 +231,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
         int offX = clickX;
         int offY = 0;
         //计算Y方向偏移量
-        if (itemLocation[1] + view.getHeight() + popupHeight > rvLocation[1] + rcApps.getHeight()) {
+        if (itemLocation[1] + view.getHeight() + popupHeight > rvLocation[1] + rvApps.getHeight()) {
             offY = -(view.getHeight() + popupHeight) + overlapValueY;
         } else {
             offY = offY - overlapValueY;
@@ -274,11 +248,11 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
 
 
         PopupWindowCompat.showAsDropDown(editPopup, view, offX, offY, Gravity.START);
-        transView.setVisibility(View.VISIBLE);
         editPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 transView.setVisibility(View.GONE);
+                mLinearManager.setCanScrollVertically(true);
                 view.setBackgroundColor(mActivity.getColor(R.color.base_white_text));
             }
         });
@@ -467,16 +441,6 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
             mLinearAdapter.notifyDataSetChanged();
         } else {
             mGrideAdapter.notifyDataSetChanged();
-        }
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.trans_view){
-            if (isPopupShowing()) {
-                editPopup.dismiss();
-            }
         }
     }
 }

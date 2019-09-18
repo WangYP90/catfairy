@@ -221,6 +221,7 @@ public class ApkModel {
         } else {
             topApp = getLowerVersionPackageName(BaseApplication.getContext());
         }
+        LogUtil.d(TAG,"topname="+topApp);
         return AppBeanDaoHelper.getInstance().queryObjById(topApp);
     }
 

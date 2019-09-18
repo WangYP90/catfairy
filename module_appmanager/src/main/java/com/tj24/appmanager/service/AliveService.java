@@ -30,7 +30,6 @@ public class AliveService extends Service {
         @Override
         public void onSreenOff() {
             mScreenManager.startActivity();
-
             //关闭扫描service
             ScanTopService.stopTopScanService();
         }

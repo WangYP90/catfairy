@@ -40,6 +40,7 @@ import com.tj24.appmanager.login.UserHelper;
 import com.tj24.appmanager.model.BusinessModel;
 import com.tj24.appmanager.model.OrderModel;
 import com.tj24.appmanager.receiver.ApkChangeReceiver;
+import com.tj24.appmanager.service.ScanTopService;
 import com.tj24.appmanager.view.NoScrollViewPager;
 import com.tj24.appmanager.view.dialog.OrderDialog;
 import com.tj24.base.base.ui.BaseActivity;
@@ -68,7 +69,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private NavigationView navView;
     private DrawerLayout drawerLayout;
     private User currentUser;
-
+    public View transView;
     //是否正在编辑
     public boolean isEditing = false;
 
@@ -160,6 +161,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setupViews();
         requestPermissions();
         regeistReceiver();
+        ScanTopService.startSkanTopService(this);
     }
 
     @Override
@@ -224,9 +226,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         tab.setupWithViewPager(viewpager);
 
         if(vpAdater==null){
-        vpAdater = new AppsVpAdater(getSupportFragmentManager(),appClassfications);
-        viewpager.setAdapter(vpAdater);
-        viewpager.setCurrentItem(position);
+            vpAdater = new AppsVpAdater(getSupportFragmentManager(),appClassfications);
+            viewpager.setAdapter(vpAdater);
+            viewpager.setCurrentItem(position);
         }else {
             vpAdater.notifyDataSetChanged();
         }
@@ -251,6 +253,35 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             public boolean onPreDraw() {
                 navView.getViewTreeObserver().removeOnPreDrawListener(this);
                 loadUserInfo();
+                return false;
+            }
+        });
+        initTransView();
+
+    }
+    //只放行点击事件，其他事件全部拦截
+    private void initTransView() {
+        transView = findViewById(R.id.trans_view);
+        transView.setOnClickListener(this);
+        transView.setOnTouchListener(new View.OnTouchListener() {
+            float x = 0;
+            float y = 0;
+            long time = 0;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        x = event.getX();
+                        y = event.getY();
+                        time = System.currentTimeMillis();
+                        return false;
+                    case MotionEvent.ACTION_UP:
+                        if (Math.abs(x - event.getX()) < 2 && Math.abs(y - event.getY()) < 2 && System.currentTimeMillis() - time < 300) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                }
                 return false;
             }
         });
@@ -298,6 +329,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (i == R.id.iv_addItem) {
             startActivityForResult(new Intent(this, AddAppClassficationActivity.class), REQUSET_APPCLASSIFICATION);
         } else if (i == R.id.fbt_compose) {
+        }else if(i == R.id.trans_view){
+            if(vpAdater.getCurrentFragment()!=null && vpAdater.getCurrentFragment().isPopupShowing()){
+                vpAdater.getCurrentFragment().editPopup.dismiss();
+            }
         }
     }
 
@@ -347,7 +382,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 View searchMenuView = toolbar.findViewById(R.id.menu_search);
                 Bundle options = ActivityOptions.makeSceneTransitionAnimation(this, searchMenuView,
                         getString(R.string.app_transition_search_back)).toBundle();
-               SearchActivity.actionStartWithOptions(this,options);
+                SearchActivity.actionStartWithOptions(this,options);
             } else {
                 SearchActivity.actionStart(this);
             }
@@ -379,7 +414,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onBackPressed() {
         //如果fragment有edipopup弹出 则先隐藏
         if(vpAdater.getCurrentFragment()!=null && vpAdater.getCurrentFragment().isPopupShowing()){
-           vpAdater.getCurrentFragment().editPopup.dismiss();
+            vpAdater.getCurrentFragment().editPopup.dismiss();
         }else if(isEditing) {   //   //如果处于编辑状态则需要先退出编辑状态
             EventBus.getDefault().post(new LaucherEvent(LaucherEvent.EVENT_EXIST_EDITING));
         } else if(drawerLayout.isDrawerOpen(GravityCompat.START)){ //如果drawerlayout未关闭，则需要先关闭
@@ -508,12 +543,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             return;
         }
         if(requestCode == REQUSET_APPCLASSIFICATION){
-            appClassfications.clear();
-            appClassfications.addAll(businessModel.queryAllAppClassfications());
-            vpAdater.notifyDataSetChanged();
+           setVpAdater(viewpager.getCurrentItem());
         }else if(requestCode == REQUEST_EDIT_USER){
-           currentUser = UserHelper.getCurrentUser();
-           loadUserInfo();
+            currentUser = UserHelper.getCurrentUser();
+            loadUserInfo();
         }
     }
 
