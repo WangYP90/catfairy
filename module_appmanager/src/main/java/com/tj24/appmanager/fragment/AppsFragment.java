@@ -257,7 +257,6 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
             }
         });
         view.setBackgroundColor(mActivity.getColor(R.color.app_item_pressed));
-        view.setElevation(4F);
     }
 
 

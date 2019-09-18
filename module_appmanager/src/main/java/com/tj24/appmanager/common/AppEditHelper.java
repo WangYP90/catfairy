@@ -79,9 +79,14 @@ public class AppEditHelper {
      * 分享apk
      */
     public void share() {
+        AppBean currentApp = editingApps.get(0);
+        String sourceDir = currentApp.getApkSourceDir();
+        if(currentApp.getPackageName().equals(context.getPackageName())){
+            sourceDir = context.getPackageResourcePath();
+        }
         new Share2.Builder((Activity) context)
                 .setContentType(ShareContentType.FILE)
-                .setShareFileUri(FileUtil.getFileUri(context, ShareContentType.FILE, new File(editingApps.get(0).getApkSourceDir())))
+                .setShareFileUri(FileUtil.getFileUri(context, ShareContentType.FILE, new File(sourceDir)))
                 .setTitle("Share File")
                 .build()
                 .shareBySystem();

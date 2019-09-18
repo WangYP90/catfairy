@@ -42,7 +42,6 @@ import com.tj24.appmanager.R;
 import com.tj24.appmanager.adapter.AppsVpAdater;
 import com.tj24.appmanager.bean.event.LaucherEvent;
 import com.tj24.appmanager.common.OrderConfig;
-import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.login.UserHelper;
 import com.tj24.appmanager.model.BusinessModel;
 import com.tj24.appmanager.model.OrderModel;
@@ -456,15 +455,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else if (itemId == R.id.item_cloud) {
             SettingsActivity.actionStart(mActivity,SettingsActivity.SETTINGS_CLOUD);
         } else if (itemId == R.id.item_share) {
-            AppBean catFairy = AppBeanDaoHelper.getInstance().queryObjById(getPackageName());
-            if(catFairy != null){
-                File file = new File("/data/app/com.tj24.catfairy-0yc_K2t1wQiJZxxJfYXGgw==/base.apk");
                 new Share2.Builder(mActivity).setContentType(ShareContentType.FILE)
-                        .setShareFileUri(FileUtil.getFileUri(mActivity, ShareContentType.FILE, file))
+                        .setShareFileUri(FileUtil.getFileUri(mActivity, ShareContentType.FILE, new File(getPackageResourcePath())))
                         .setTitle("Share File")
                         .build()
                         .shareBySystem();
-            }
         } else if (itemId == R.id.item_settings) {
             SettingsActivity.actionStart(mActivity,SettingsActivity.SETTINGS_MAIN);
         } else if (itemId == R.id.item_helpsuggest) {
