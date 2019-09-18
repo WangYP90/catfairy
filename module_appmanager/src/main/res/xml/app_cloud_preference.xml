@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+            android:title="数据">
+        <SwitchPreferenceCompat
+                android:key="app_sp_auto_upload"
+                android:defaultValue="true"
+                android:summary="开启后将每天备份一次至云端"
+                android:title="自动备份"/>
+        <Preference
+                android:key="app_sp_upload"
+                android:summary="备份数据至云端"
+                android:title="备份"/>
+        <Preference
+                android:key="app_sp_download"
+                android:summary="从云端还原数据,主要用于更换手机后"
+                android:title="还原"/>
+    </PreferenceCategory>
+</PreferenceScreen>

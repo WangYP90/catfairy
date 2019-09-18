@@ -1,7 +1,10 @@
 package com.tj24.catfairy;
 
 
+import android.content.Context;
 import android.util.Log;
+
+import androidx.multidex.MultiDex;
 
 import com.tj24.base.base.app.BaseApplication;
 
@@ -18,5 +21,11 @@ public class MainApplication extends BaseApplication {
     public void onCreate() {
         super.onCreate();
         Log.e(TAG,"开始初始化application!");
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

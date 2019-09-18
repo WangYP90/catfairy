@@ -1,100 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.tj24.appmanager">
+        xmlns:tools="http://schemas.android.com/tools"
+        package="com.tj24.appmanager">
 
     <uses-permission
             android:name="android.permission.PACKAGE_USAGE_STATS"
-            tools:ignore="ProtectedPermissions"/> <!-- 允许联网 -->
-    <uses-permission android:name="android.permission.INTERNET"/> <!-- 获取GSM（2g）、WCDMA（联通3g）等网络状态的信息 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- 获取wifi网络状态的信息 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/> <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
-    <uses-permission android:name="android.permission.WAKE_LOCK"/> <!-- 获取sd卡写的权限，用于文件上传和下载 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- 允许读取手机状态 用于创建BmobInstallation -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
-    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
-
+            tools:ignore="ProtectedPermissions" /> <!-- 允许联网 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 获取GSM（2g）、WCDMA（联通3g）等网络状态的信息 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 获取wifi网络状态的信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 获取sd卡写的权限，用于文件上传和下载 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 允许读取手机状态 用于创建BmobInstallation -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
 
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-
             android:theme="@style/base_AppTheme">
-        <activity android:name=".activity.PhotoViewActivity">
-        </activity>
-        <activity android:name=".activity.UserEditActivity">
-        </activity>
-        <activity android:name=".activity.UserHomePageActivity">
-        </activity>
+        <activity android:name=".activity.SettingsActivity"></activity>
+        <activity android:name=".activity.PhotoViewActivity"></activity>
+        <activity android:name=".activity.UserEditActivity"></activity>
+        <activity android:name=".activity.UserHomePageActivity"></activity>
         <activity
                 android:name=".login.ForgetPwdActivity"
                 android:theme="@style/App_LoginActivity"
-                android:windowSoftInputMode="adjustResize|stateVisible">
-        </activity>
+                android:windowSoftInputMode="adjustResize|stateVisible"></activity>
         <activity
                 android:name=".login.RegistActivity"
                 android:theme="@style/App_LoginActivity"
-                android:windowSoftInputMode="adjustResize|stateVisible">
-        </activity>
+                android:windowSoftInputMode="adjustResize|stateVisible"></activity>
         <activity
                 android:name=".login.LoginActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/App_LoginActivity"
-                android:windowSoftInputMode="adjustResize|stateHidden">
-        </activity>
+                android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity
                 android:name=".activity.SearchActivity"
-                android:theme="@style/App_SearchActivity">
-        </activity>
-        <activity android:name=".activity.MesageActivity">
-        </activity>
+                android:theme="@style/App_SearchActivity"></activity>
+        <activity android:name=".activity.MesageActivity"></activity>
 
         <receiver
                 android:name=".receiver.ApkChangeReceiver"
                 android:enabled="true"
-                android:exported="true">
-        </receiver>
+                android:exported="true"></receiver>
 
-        <activity android:name=".activity.MainActivity">
-        </activity>
+        <activity android:name=".activity.MainActivity"></activity>
         <activity
                 android:name=".login.SplashActivity"
                 android:theme="@style/app_SplashActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".common.keepAlive.SinglePixelActivity"/>
-        <activity android:name=".activity.AddAppClassficationActivity">
-        </activity>
+        <activity android:name=".common.keepAlive.SinglePixelActivity" />
+        <activity android:name=".activity.AddAppClassficationActivity"></activity>
 
         <service
                 android:name=".service.ScanTopService"
-                android:exported="false">
-        </service>
+                android:exported="false"></service>
         <service
                 android:name=".service.AliveService"
-                android:exported="false">
-        </service>
+                android:exported="false"></service>
 
         <provider
                 android:name=".provider.ShareProvider"
-                tools:replace="android:authorities"
                 android:authorities="${applicationId}.share.fileprovider"
                 android:exported="false"
-                android:grantUriPermissions="true">
+                android:grantUriPermissions="true"
+                tools:replace="android:authorities">
 
             <!-- 元数据 -->
             <meta-data
-                    tools:replace="android:resource"
                     android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/app_share_provider_path"/>
+                    android:resource="@xml/app_share_provider_path"
+                    tools:replace="android:resource" />
         </provider>
     </application>
 

@@ -7,8 +7,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.text.InputType;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.utils.TextUtils;
@@ -21,15 +23,17 @@ import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.base.utils.StringUtil;
 import com.tj24.base.utils.ToastUtil;
-import gdut.bsx.share2.FileUtil;
-import gdut.bsx.share2.Share2;
-import gdut.bsx.share2.ShareContentType;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import gdut.bsx.share2.FileUtil;
+import gdut.bsx.share2.Share2;
+import gdut.bsx.share2.ShareContentType;
 
 public class AppEditHelper {
     private Context context;

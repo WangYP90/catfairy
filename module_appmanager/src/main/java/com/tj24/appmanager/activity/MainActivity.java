@@ -11,10 +11,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -23,6 +28,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.palette.graphics.Palette;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -36,6 +42,7 @@ import com.tj24.appmanager.R;
 import com.tj24.appmanager.adapter.AppsVpAdater;
 import com.tj24.appmanager.bean.event.LaucherEvent;
 import com.tj24.appmanager.common.OrderConfig;
+import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.login.UserHelper;
 import com.tj24.appmanager.model.BusinessModel;
 import com.tj24.appmanager.model.OrderModel;
@@ -48,15 +55,25 @@ import com.tj24.base.base.ui.PermissionListener;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.base.bean.appmanager.login.User;
-import com.tj24.base.utils.*;
-import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import com.tj24.base.utils.ColorUtil;
+import com.tj24.base.utils.DrawableUtil;
+import com.tj24.base.utils.ListUtil;
+import com.tj24.base.utils.ScreenUtil;
+import com.tj24.base.utils.ToastUtil;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import gdut.bsx.share2.FileUtil;
+import gdut.bsx.share2.Share2;
+import gdut.bsx.share2.ShareContentType;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -433,6 +450,26 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         drawerLayout.closeDrawer(GravityCompat.START);
+        int itemId = menuItem.getItemId();
+        if (itemId == R.id.item_homepage) {
+            UserHomePageActivity.actionStartForResult(mActivity,REQUEST_EDIT_USER);
+        } else if (itemId == R.id.item_cloud) {
+            SettingsActivity.actionStart(mActivity,SettingsActivity.SETTINGS_CLOUD);
+        } else if (itemId == R.id.item_share) {
+            AppBean catFairy = AppBeanDaoHelper.getInstance().queryObjById(getPackageName());
+            if(catFairy != null){
+                File file = new File("/data/app/com.tj24.catfairy-0yc_K2t1wQiJZxxJfYXGgw==/base.apk");
+                new Share2.Builder(mActivity).setContentType(ShareContentType.FILE)
+                        .setShareFileUri(FileUtil.getFileUri(mActivity, ShareContentType.FILE, file))
+                        .setTitle("Share File")
+                        .build()
+                        .shareBySystem();
+            }
+        } else if (itemId == R.id.item_settings) {
+            SettingsActivity.actionStart(mActivity,SettingsActivity.SETTINGS_MAIN);
+        } else if (itemId == R.id.item_helpsuggest) {
+
+        }
         return false;
     }
 

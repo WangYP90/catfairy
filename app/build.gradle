@@ -8,8 +8,8 @@ android {
         targetSdkVersion target_Sdk_Version.toInteger()
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {

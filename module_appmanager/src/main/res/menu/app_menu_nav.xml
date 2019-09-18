@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:tools="http://schemas.android.com/tools"
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      tools:ignore="MissingDefaultResource">
-     <group android:checkableBehavior="single">
-         <item
-             android:id="@+id/item_copy"
-             android:icon="@drawable/ico_drawer_copy"
-             android:title="备份" />
-         <item
-             android:id="@+id/item_recover"
-             android:icon="@drawable/ico_drawer_recover"
-             android:title="还原" />
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        tools:ignore="MissingDefaultResource">
+    <group android:checkableBehavior="single">
+        <item
+                android:id="@+id/item_homepage"
+                android:icon="@drawable/ico_drawer_copy"
+                android:title="个人主页" />
+        <item
+                android:id="@+id/item_cloud"
+                android:icon="@drawable/ico_drawer_recover"
+                android:title="云空间" />
 
-         <item
-             android:id="@+id/item_resetPwd"
-             android:icon="@drawable/ico_drawer_updatepwd"
-             android:title="修改密码" />
-         <item
-             android:id="@+id/item_loginout"
-             android:icon="@drawable/ico_drawer_exsit"
-             android:title="退出" />
-     </group>
+        <item
+                android:id="@+id/item_share"
+                android:icon="@drawable/ico_drawer_updatepwd"
+                android:title="分享" />
+        <item
+                android:id="@+id/item_settings"
+                android:icon="@drawable/ico_drawer_exsit"
+                android:title="设置" />
+        <item
+                android:id="@+id/item_helpsuggest"
+                android:icon="@drawable/ico_drawer_exsit"
+                android:title="建议与帮助" />
+    </group>
 </menu>
