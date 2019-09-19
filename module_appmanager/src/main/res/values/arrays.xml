@@ -17,4 +17,20 @@
         <item>sp_value_user_time</item>
         <item>sp_value_custom_property</item>
     </string-array>
+
+    <string-array name="app_entries_orders_no_usetime">
+        <item>按最近使用排序</item>
+        <item>按打开次数排序</item>
+        <item>按安装时间排序</item>
+        <item>按应用名称排序</item>
+        <item>按自定义优先级排序排序</item>
+    </string-array>
+
+    <string-array name="app_entries_orders_values_no_usetime">
+        <item>sp_value_last_use</item>
+        <item>sp_value_open_num</item>
+        <item>sp_value_install_time</item>
+        <item>sp_value_app_name</item>
+        <item>sp_value_custom_property</item>
+    </string-array>
 </resources>

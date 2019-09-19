@@ -3,9 +3,7 @@ package com.tj24.catfairy;
 
 import android.content.Context;
 import android.util.Log;
-
 import androidx.multidex.MultiDex;
-
 import com.tj24.base.base.app.BaseApplication;
 
 /**

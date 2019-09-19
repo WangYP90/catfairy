@@ -66,7 +66,7 @@ public class ScanTopService extends IntentService {
                     .dismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            startSkanTopService(mContext);
+                            dialog.dismiss();
                         }
                     }).show();
         }

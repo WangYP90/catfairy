@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
+        xmlns:tools="http://schemas.android.com/tools"
         xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
             android:title="个性">
         <SwitchPreferenceCompat
                 android:key="app_sp_hide_cant_open_app"
                 android:defaultValue="false"
+                android:iconSpaceReserved = "false"
                 android:summary="将不可打开的一些系统应用不显示"
                 android:title="隐藏不能打开的应用"/>
-        <SwitchPreferenceCompat
+        <Preference
                 android:key="app_sp_permission_other_use"
-                android:defaultValue="false"
-                android:summary="关闭后统计应用时长的功能将失效"
-                android:title="授权查看其他应用使用情况"/>
+                android:title="点击授权查看其他应用使用情况"/>
         <MultiSelectListPreference
                 android:key="app_sp_custom_order"
                 android:dialogTitle="定制排序"
+                android:iconSpaceReserved = "false"
                 android:entries="@array/app_entries_orders"
                 android:entryValues="@array/app_entries_orders_values"
                 android:summary="定制自己的排序方式"
@@ -27,8 +28,10 @@
         <SwitchPreferenceCompat
                 android:key="app_sp_auto_check_update"
                 android:defaultValue="true"
-                android:title="自动检查更新"/>
+                android:iconSpaceReserved = "true"
+                android:title="自动检查更新" />
         <Preference
+                android:iconSpaceReserved = "false"
                 android:key="app_sp_check_update"
                 android:title="检查更新"/>
         <Preference

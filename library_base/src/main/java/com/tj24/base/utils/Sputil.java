@@ -5,6 +5,8 @@ import android.preference.PreferenceManager;
 
 import com.tj24.base.base.app.BaseApplication;
 
+import java.util.Set;
+
 /**
  * @Description:偏好设置工具类
  * @Createdtime:2019/3/3 0:22
@@ -85,6 +87,20 @@ public class Sputil {
     }
 
     /**
+     * 存储String类型的键值对到SharedPreferences文件当中。
+     * @param key
+     *          存储的键
+     * @param value
+     *          存储的值
+     */
+    public static void save(String key, Set<String> value) {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(
+                BaseApplication.getContext()).edit();
+        editor.putStringSet(key, value);
+        editor.apply();
+    }
+
+    /**
      * 从SharedPreferences文件当中读取参数传入键相应的boolean类型的值。
      * @param key
      *          读取的键
@@ -150,6 +166,19 @@ public class Sputil {
     }
 
     /**
+     * 从SharedPreferences文件当中读取参数传入键相应的String类型的值。
+     * @param key
+     *          读取的键
+     * @param defValue
+     *          如果读取不到值，返回的默认值
+     * @return String类型的值，如果读取不到，则返回默认值
+     */
+    public static Set<String> read(String key, Set<String> defValue) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(BaseApplication.getContext());
+        return prefs.getStringSet(key, defValue);
+    }
+
+    /**
      * 判断SharedPreferences文件当中是否包含指定的键值。
      * @param key
      *          判断键是否存在
@@ -159,6 +188,7 @@ public class Sputil {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(BaseApplication.getContext());
         return prefs.contains(key);
     }
+
 
     /**
      * 清理SharedPreferences文件当中传入键所对应的值。
