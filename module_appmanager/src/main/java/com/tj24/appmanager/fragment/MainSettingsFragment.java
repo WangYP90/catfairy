@@ -1,11 +1,18 @@
 package com.tj24.appmanager.fragment;
 
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import com.tj24.appmanager.R;
 import com.tj24.base.utils.LogUtil;
 import com.tj24.base.utils.Sputil;
@@ -22,6 +29,7 @@ public class MainSettingsFragment extends PreferenceFragmentCompat {
          permissionpreference = (Preference) findPreference("app_sp_permission_other_use");
          listPreference = (MultiSelectListPreference) findPreference("app_sp_custom_order");
         setEntries();
+        permissionpreference.setShouldDisableView(true);
         permissionpreference.setIconSpaceReserved(false);
         permissionpreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -34,6 +42,20 @@ public class MainSettingsFragment extends PreferenceFragmentCompat {
             }
         });
     }
+    RecyclerView rv;
+    ViewGroup container;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.container = container;
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        int count = container.getChildCount();
+    }
+
 
     public void setEntries(){
             listPreference.setEntries(R.array.app_entries_orders);
@@ -47,11 +69,11 @@ public class MainSettingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public void setDivider(Drawable divider) {
-        super.setDivider(new ColorDrawable(getResources().getColor(R.color.app_scrim)));
+        super.setDivider(new ColorDrawable(Color.TRANSPARENT));
     }
 
     @Override
     public void setDividerHeight(int height) {
-        super.setDividerHeight(5);
+        super.setDividerHeight(0);
     }
 }
