@@ -11,15 +11,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -28,7 +23,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.palette.graphics.Palette;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -54,12 +48,12 @@ import com.tj24.base.base.ui.PermissionListener;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.base.bean.appmanager.login.User;
-import com.tj24.base.utils.ColorUtil;
-import com.tj24.base.utils.DrawableUtil;
-import com.tj24.base.utils.ListUtil;
-import com.tj24.base.utils.ScreenUtil;
-import com.tj24.base.utils.ToastUtil;
-
+import com.tj24.base.utils.*;
+import gdut.bsx.share2.FileUtil;
+import gdut.bsx.share2.Share2;
+import gdut.bsx.share2.ShareContentType;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -67,12 +61,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import gdut.bsx.share2.FileUtil;
-import gdut.bsx.share2.Share2;
-import gdut.bsx.share2.ShareContentType;
-import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 

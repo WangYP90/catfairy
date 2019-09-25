@@ -2,51 +2,59 @@
 <PreferenceScreen
         xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-            android:title="个性">
+            android:title="@string/app_personality">
         <SwitchPreferenceCompat
-                android:key="app_sp_hide_cant_open_app"
+                android:icon="@drawable/ico_drawer_copy"
+                android:singleLineTitle="true"
+                android:key="@string/app_sp_hide_cant_open_app"
                 android:defaultValue="false"
-                android:iconSpaceReserved = "false"
-                android:summary="将不可打开的一些系统应用不显示"
-                android:title="隐藏不能打开的应用"/>
+                android:summary="@string/app_summary_hide_cannot_open_app"
+                android:title="@string/app_title_hide_cannot_open_app"/>
         <Preference
-                android:key="app_sp_permission_other_use"
-                android:title="点击授权查看其他应用使用情况"/>
+                android:icon="@drawable/ico_drawer_copy"
+                android:key="@string/app_sp_permission_other_use"
+                android:title="@string/app_title_look_other_use"/>
         <MultiSelectListPreference
-                android:key="app_sp_custom_order"
-                android:dialogTitle="定制排序"
-                android:iconSpaceReserved = "false"
+                android:icon="@drawable/ico_drawer_copy"
+                android:key="@string/app_sp_custom_order"
+                android:dialogTitle="@string/app_dialog_title_custom_order"
                 android:entries="@array/app_entries_orders"
                 android:entryValues="@array/app_entries_orders_values"
-                android:summary="定制自己的排序方式"
-                android:title="定制排序"/>
+                android:summary="@string/app_summary_custom_order"
+                android:title="@string/app_title_custom_order"/>
     </PreferenceCategory>
 
     <PreferenceCategory
-            android:title="常规">
+            android:title="@string/app_routine">
         <SwitchPreferenceCompat
-                android:key="app_sp_auto_check_update"
+                android:icon="@drawable/ico_drawer_copy"
+                android:key="@string/app_sp_auto_check_update"
                 android:defaultValue="true"
-                android:iconSpaceReserved = "true"
-                android:title="自动检查更新" />
+                android:title="@string/app_title_auto_test_update" />
         <Preference
-                android:iconSpaceReserved = "false"
-                android:key="app_sp_check_update"
-                android:title="检查更新"/>
+                android:icon="@drawable/ico_drawer_copy"
+                android:padding = "10dp"
+                android:key="@string/app_sp_check_update"
+                android:title="@string/app_title_test_update"/>
         <Preference
-                android:key="app_sp_about"
-                android:title="关于"/>
+                android:icon="@drawable/ico_drawer_copy"
+                android:key="@string/app_sp_about"
+                android:title="@string/app_title_about"/>
         <Preference
-                android:key="app_sp_user_terms"
-                android:title="用户协议"/>
+                android:icon="@drawable/ico_drawer_copy"
+                android:key="@string/app_sp_user_agreenment"
+                android:title="@string/app_title_user_agreenment"/>
         <Preference
-                android:key="app_sp_app_info"
-                android:title="应用信息"/>
+                android:icon="@drawable/ico_drawer_copy"
+                android:key="@string/app_sp_app_info"
+                android:title="@string/app_title_app_info"/>
         <Preference
-                android:key="app_sp_reset_pwd"
-                android:title="修改密码"/>
+                android:icon="@drawable/ico_drawer_copy"
+                android:key="@string/app_sp_reset_pwd"
+                android:title="@string/app_title_update_pwd"/>
         <Preference
-                android:key="app_sp_login_out"
-                android:title="退出当前账号"/>
+                android:icon="@drawable/ico_drawer_copy"
+                android:key="@string/app_sp_login_out"
+                android:title="@string/app_title_loginout"/>
     </PreferenceCategory>
 </PreferenceScreen>

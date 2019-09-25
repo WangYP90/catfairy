@@ -100,4 +100,42 @@
     <string name="app_leave">留下</string>
     <string name="app_save_success">保存成功！</string>
     <string name="app_save_fail">保存失败！</string>
+    <string name="app_personality">个性</string>
+    <string name="app_summary_hide_cannot_open_app">将不可打开的一些系统应用不显示</string>
+    <string name="app_title_hide_cannot_open_app">隐藏不能打开的应用</string>
+    <string name="app_title_look_other_use">点击授权查看其他应用使用情况</string>
+    <string name="app_dialog_title_custom_order">定制排序</string>
+    <string name="app_title_custom_order">定制排序</string>
+    <string name="app_summary_custom_order">定制自己的排序方式</string>
+    <string name="app_routine">常规</string>
+    <string name="app_title_auto_test_update">自动检查更新</string>
+    <string name="app_title_test_update">检查更新</string>
+    <string name="app_title_about">关于</string>
+    <string name="app_title_user_agreenment">用户协议</string>
+    <string name="app_title_app_info">应用信息</string>
+    <string name="app_title_update_pwd">修改密码</string>
+    <string name="app_title_loginout">退出当前账号</string>
+    <string name="app_data">数据</string>
+    <string name="app_title_auto_upload">自动备份</string>
+    <string name="app_summary_auto_upload">开启后将每天备份一次至云端</string>
+    <string name="app_title_upload">备份</string>
+    <string name="app_summary_upload">备份数据至云端</string>
+    <string name="app_title_download">还原</string>
+    <string name="app_summary_download">从云端还原数据,主要用于更换手机后</string>
+
+                          <!--sp 的key-->
+    <string name="app_sp_hide_cant_open_app">app_sp_hide_cant_open_app</string>
+    <string name="app_sp_permission_other_use">app_sp_permission_other_use</string>
+    <string name="app_sp_custom_order">app_sp_custom_order</string>
+    <string name="app_sp_auto_check_update">app_sp_auto_check_update</string>
+    <string name="app_sp_check_update">app_sp_check_update</string>
+    <string name="app_sp_about">app_sp_about</string>
+    <string name="app_sp_user_agreenment">app_sp_user_agreenment</string>
+    <string name="app_sp_app_info">app_sp_app_info</string>
+    <string name="app_sp_reset_pwd">app_sp_reset_pwd</string>
+    <string name="app_sp_login_out">app_sp_login_out</string>
+    <string name="app_sp_auto_upload">app_sp_auto_upload</string>
+    <string name="app_sp_upload">app_sp_upload</string>
+    <string name="app_sp_download">app_sp_download</string>
+
 </resources>

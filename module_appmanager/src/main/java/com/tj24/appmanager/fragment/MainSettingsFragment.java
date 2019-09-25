@@ -1,79 +1,109 @@
 package com.tj24.appmanager.fragment;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.preference.SwitchPreferenceCompat;
 import com.tj24.appmanager.R;
-import com.tj24.base.utils.LogUtil;
 import com.tj24.base.utils.Sputil;
 
 import java.util.HashSet;
 
-public class MainSettingsFragment extends PreferenceFragmentCompat {
+public class MainSettingsFragment extends PreferenceFragmentCompat implements
+        Preference.OnPreferenceClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String TAG = "MainSettingsFragment";
-    Preference permissionpreference;
-    MultiSelectListPreference listPreference;
+
+    SwitchPreferenceCompat spSwitchHideApp;
+    Preference spLookOtherUse;
+    MultiSelectListPreference spListCustomOrder;
+    SwitchPreferenceCompat spSwitchAutoUpdate;
+    Preference spUpdate;
+    Preference spAbout;
+    Preference spUserAgreement;
+    Preference spAppInfo;
+    Preference spUpdatePwd;
+    Preference spLoginout;
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.app_main_preference);
-         permissionpreference = (Preference) findPreference("app_sp_permission_other_use");
-         listPreference = (MultiSelectListPreference) findPreference("app_sp_custom_order");
-        setEntries();
-        permissionpreference.setShouldDisableView(true);
-        permissionpreference.setIconSpaceReserved(false);
-        permissionpreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                LogUtil.e(TAG,"preference onclick");
-                setEntries();
-//                boolean b =Sputil.read("app_sp_permission_other_use",false);
-//                LogUtil.e(TAG,"b="+b);
-                return true;
-            }
-        });
+        initPreference();
     }
-    RecyclerView rv;
-    ViewGroup container;
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.container = container;
-        return super.onCreateView(inflater, container, savedInstanceState);
+
+    private void initPreference() {
+        spSwitchHideApp = (SwitchPreferenceCompat) findPreference(getString(R.string.app_sp_hide_cant_open_app));
+        spLookOtherUse = findPreference(getString(R.string.app_sp_permission_other_use));
+        spListCustomOrder = (MultiSelectListPreference) findPreference(getString(R.string.app_sp_custom_order));
+        spSwitchAutoUpdate = (SwitchPreferenceCompat) findPreference(getString(R.string.app_sp_auto_check_update));
+        spUpdate = findPreference(getString(R.string.app_sp_check_update));
+        spAbout = findPreference(getString(R.string.app_sp_about));
+        spUserAgreement = findPreference(getString(R.string.app_sp_user_agreenment));
+        spAppInfo = findPreference(getString(R.string.app_sp_app_info));
+        spUpdatePwd = findPreference(getString(R.string.app_sp_reset_pwd));
+        spLoginout = findPreference(getString(R.string.app_sp_login_out));
+
+        spLookOtherUse.setOnPreferenceClickListener(this);
+        spUpdate.setOnPreferenceClickListener(this);
+        spAbout.setOnPreferenceClickListener(this);
+        spUserAgreement.setOnPreferenceClickListener(this);
+        spAppInfo.setOnPreferenceClickListener(this);
+        spUpdatePwd.setOnPreferenceClickListener(this);
+        spLoginout.setOnPreferenceClickListener(this);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        int count = container.getChildCount();
+    public void onResume() {
+        super.onResume();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
 
     public void setEntries(){
-            listPreference.setEntries(R.array.app_entries_orders);
-            listPreference.setEntryValues(R.array.app_entries_orders_values);
 
-            listPreference.setEntries(R.array.app_entries_orders_no_usetime);
-            listPreference.setEntryValues(R.array.app_entries_orders_values_no_usetime);
+        spListCustomOrder.setEntries(R.array.app_entries_orders);
+        spListCustomOrder.setEntryValues(R.array.app_entries_orders_values);
+
+        spListCustomOrder.setEntries(R.array.app_entries_orders_no_usetime);
+        spListCustomOrder.setEntryValues(R.array.app_entries_orders_values_no_usetime);
 
         Sputil.read("app_sp_custom_order",new HashSet<String>());
     }
 
     @Override
-    public void setDivider(Drawable divider) {
-        super.setDivider(new ColorDrawable(Color.TRANSPARENT));
+    public boolean onPreferenceClick(Preference preference) {
+        if(preference.getKey().equals(spLookOtherUse.getKey())){
+
+        }else if(preference.getKey().equals(spUpdate.getKey())){
+
+        }else if(preference.getKey().equals(spAbout.getKey())){
+
+        }else if(preference.getKey().equals(spUserAgreement.getKey())){
+
+        }else if(preference.getKey().equals(spAppInfo.getKey())){
+
+        }else if(preference.getKey().equals(spUpdatePwd.getKey())){
+
+        }else if(preference.getKey().equals(spLoginout.getKey())){
+
+        }
+        return false;
     }
 
     @Override
-    public void setDividerHeight(int height) {
-        super.setDividerHeight(0);
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals(spSwitchHideApp.getKey())){
+
+        }else if(key.equals(spSwitchAutoUpdate.getKey())){
+
+        }else if(key.equals(spListCustomOrder.getKey())){
+
+        }
     }
 }
