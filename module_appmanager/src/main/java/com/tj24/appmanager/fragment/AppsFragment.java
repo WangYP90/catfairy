@@ -79,6 +79,18 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        isVisibleToUser = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isVisibleToUser = false;
+    }
+
+    @Override
     public void init(View view) {
         initView();
         initData();
@@ -323,12 +335,6 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
                 footerView.onEdittingAppChanged(editingApps, appClassfication);
                 break;
         }
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        this.isVisibleToUser = isVisibleToUser;
     }
 
     @Override

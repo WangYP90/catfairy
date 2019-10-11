@@ -26,7 +26,7 @@ public class AppsVpAdater extends FragmentStatePagerAdapter {
     private AppsFragment mCurrentFragment;
 
     public AppsVpAdater(FragmentManager fm,List<AppClassfication> appClassfications) {
-        super(fm);
+        super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.appClassfications = appClassfications;
     }
 
@@ -37,7 +37,6 @@ public class AppsVpAdater extends FragmentStatePagerAdapter {
         appBeans.addAll(getItemAppBeans(classfication));
         return AppsFragment.newInstance(appBeans, classfication);
     }
-
 
     @Override
     public int getCount() {
@@ -82,5 +81,4 @@ public class AppsVpAdater extends FragmentStatePagerAdapter {
     public AppsFragment getCurrentFragment() {
         return mCurrentFragment;
     }
-
 }
