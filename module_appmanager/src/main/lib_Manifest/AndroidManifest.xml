@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.tj24.appmanager">
+        xmlns:tools="http://schemas.android.com/tools"
+        package="com.tj24.appmanager">
 
     <uses-permission
             android:name="android.permission.PACKAGE_USAGE_STATS"
@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 获取sd卡写的权限，用于文件上传和下载 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 允许读取手机状态 用于创建BmobInstallation -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
@@ -22,35 +23,6 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/base_AppTheme">
-        <activity android:name=".activity.SettingsActivity"
-                  android:theme="@style/app_SettingsActivity"></activity>
-        <activity android:name=".activity.PhotoViewActivity"></activity>
-        <activity android:name=".activity.UserEditActivity"></activity>
-        <activity android:name=".activity.UserHomePageActivity"></activity>
-        <activity
-                android:name=".login.ForgetPwdActivity"
-                android:theme="@style/App_LoginActivity"
-                android:windowSoftInputMode="adjustResize|stateVisible"></activity>
-        <activity
-                android:name=".login.RegistActivity"
-                android:theme="@style/App_LoginActivity"
-                android:windowSoftInputMode="adjustResize|stateVisible"></activity>
-        <activity
-                android:name=".login.LoginActivity"
-                android:screenOrientation="portrait"
-                android:theme="@style/App_LoginActivity"
-                android:windowSoftInputMode="adjustResize|stateHidden"></activity>
-        <activity
-                android:name=".activity.SearchActivity"
-                android:theme="@style/App_SearchActivity"></activity>
-        <activity android:name=".activity.MesageActivity"></activity>
-
-        <receiver
-                android:name=".receiver.ApkChangeReceiver"
-                android:enabled="true"
-                android:exported="true"></receiver>
-
-        <activity android:name=".activity.MainActivity"></activity>
         <activity
                 android:name=".login.SplashActivity"
                 android:theme="@style/app_SplashActivity">
@@ -60,15 +32,51 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.HelpSuggestActivity"></activity>
+        <activity
+                android:name=".activity.SettingsActivity"
+                android:theme="@style/app_SettingsActivity" />
+        <activity android:name=".activity.PhotoViewActivity" />
+        <activity android:name=".activity.UserEditActivity" />
+        <activity android:name=".activity.UserHomePageActivity" />
+        <activity
+                android:name=".login.ForgetPwdActivity"
+                android:theme="@style/App_LoginActivity"
+                android:windowSoftInputMode="adjustResize|stateVisible" />
+        <activity
+                android:name=".login.RegistActivity"
+                android:theme="@style/App_LoginActivity"
+                android:windowSoftInputMode="adjustResize|stateVisible" />
+        <activity
+                android:name=".login.LoginActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/App_LoginActivity"
+                android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+                android:name=".activity.SearchActivity"
+                android:theme="@style/App_SearchActivity" />
+        <activity android:name=".activity.MesageActivity" />
+
+        <receiver
+                android:name=".receiver.ApkChangeReceiver"
+                android:enabled="true"
+                android:exported="true" />
+
+        <activity android:name=".activity.MainActivity" />
         <activity android:name=".common.keepAlive.SinglePixelActivity" />
-        <activity android:name=".activity.AddAppClassficationActivity"></activity>
+        <activity android:name=".activity.AddAppClassficationActivity" />
+
+        <activity
+                android:name="cn.bmob.v3.update.UpdateDialogActivity"
+                android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
 
         <service
                 android:name=".service.ScanTopService"
-                android:exported="false"></service>
+                android:exported="false" />
         <service
                 android:name=".service.AliveService"
-                android:exported="false"></service>
+                android:exported="false" />
 
         <provider
                 android:name=".provider.ShareProvider"
@@ -82,6 +90,15 @@
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/app_share_provider_path"
                     tools:replace="android:resource" />
+        </provider>
+        <provider
+                android:name=".provider.BmobUpdateProvider"
+                android:authorities="${applicationId}.update.fileprovider"
+                android:grantUriPermissions="true"
+                android:exported="false">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/app_bmob_update_path" />
         </provider>
     </application>
 

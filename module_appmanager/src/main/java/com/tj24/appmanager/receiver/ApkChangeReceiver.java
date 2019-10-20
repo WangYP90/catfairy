@@ -106,7 +106,9 @@ public class ApkChangeReceiver extends BroadcastReceiver {
     }
 
     public void unregister(Context context) {
-        context.unregisterReceiver(this);
+        if(context != null){
+            context.unregisterReceiver(this);
+        }
     }
 
 }

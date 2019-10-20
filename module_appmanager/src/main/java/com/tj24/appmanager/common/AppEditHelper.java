@@ -66,14 +66,14 @@ public class AppEditHelper {
      * 去应用详情
      */
     public void goAppInfoActivity(){
-    Intent localIntent = new Intent();
-    localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    if (Build.VERSION.SDK_INT >= 9) {
-        localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-        localIntent.setData(Uri.fromParts("package", editingApps.get(0).getPackageName(), null));
+        Intent localIntent = new Intent();
+        localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= 9) {
+            localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+            localIntent.setData(Uri.fromParts("package", editingApps.get(0).getPackageName(), null));
+        }
+        context.startActivity(localIntent);
     }
-    context.startActivity(localIntent);
-}
 
     /**
      * 分享apk

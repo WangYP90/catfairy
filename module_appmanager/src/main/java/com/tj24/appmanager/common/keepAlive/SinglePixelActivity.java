@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.tj24.appmanager.model.ApkModel;
 import com.tj24.base.utils.LogUtil;
 import com.tj24.appmanager.activity.MainActivity;
 
@@ -43,8 +45,8 @@ public class SinglePixelActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-            Log.e(TAG,"onDestroy--->1像素保活被终止");
-        if(! isRun(this,"tj24.com.myapps")){
+        Log.e(TAG,"onDestroy--->1像素保活被终止");
+        if(!isRun(this, ApkModel.getPackageName(this))){
             Intent intentAlive = new Intent(this, MainActivity.class);
             intentAlive.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intentAlive);

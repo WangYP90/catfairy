@@ -12,5 +12,6 @@
     <color name="base_secondary_text">#757575</color>
     <color name="base_app_popup_menu_bac">#524c4c</color>
 
+    <color name="base_blue">#2179F3</color>
     <color name="base_red">#ff0000</color>
 </resources>

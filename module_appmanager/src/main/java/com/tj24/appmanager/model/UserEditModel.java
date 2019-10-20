@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
+
 import androidx.annotation.NonNull;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UpdateListener;
-import cn.bmob.v3.listener.UploadFileListener;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tj24.appmanager.R;
@@ -18,11 +16,17 @@ import com.tj24.base.bean.appmanager.login.User;
 import com.tj24.base.constant.Const;
 import com.tj24.base.utils.ScreenUtil;
 import com.tj24.base.utils.ToastUtil;
+
 import org.devio.takephoto.app.TakePhoto;
 import org.devio.takephoto.model.CropOptions;
 import org.devio.takephoto.model.TakePhotoOptions;
 
 import java.io.File;
+
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
 public class UserEditModel extends BaseAppsManagerModel {
     private TakePhoto takePhoto;
@@ -95,7 +99,7 @@ public class UserEditModel extends BaseAppsManagerModel {
                 }).onPositive(new MaterialDialog.SingleButtonCallback() {
             @Override
             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                mContext.finish();
+                ((Activity)mContext).finish();
             }
         }).show();
     }
@@ -122,8 +126,8 @@ public class UserEditModel extends BaseAppsManagerModel {
             public void done(BmobException e) {
                 if(e==null){
                     ToastUtil.showShortToast(mContext,mContext.getString(R.string.app_save_success));
-                    mContext.setResult(Activity.RESULT_OK);
-                    mContext.finish();
+                    ((Activity)mContext).setResult(Activity.RESULT_OK);
+                    ((Activity)mContext).finish();
                 }else {
                     ToastUtil.showShortToast(mContext,mContext.getString(R.string.app_save_fail));
                 }

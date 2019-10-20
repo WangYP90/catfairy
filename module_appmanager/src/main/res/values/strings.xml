@@ -123,7 +123,7 @@
     <string name="app_title_download">还原</string>
     <string name="app_summary_download">从云端还原数据,主要用于更换手机后</string>
 
-                          <!--sp 的key-->
+    <!--sp 的key-->
     <string name="app_sp_hide_cant_open_app">app_sp_hide_cant_open_app</string>
     <string name="app_sp_permission_other_use">app_sp_permission_other_use</string>
     <string name="app_sp_custom_order">app_sp_custom_order</string>
@@ -137,5 +137,41 @@
     <string name="app_sp_auto_upload">app_sp_auto_upload</string>
     <string name="app_sp_upload">app_sp_upload</string>
     <string name="app_sp_download">app_sp_download</string>
+
+
+    <string name="app_help_suggest">帮助建议</string>
+    <string name="app_help">帮助</string>
+    <string name="app_goto_heip">任何疑问，都可拨打客服电话或者添加qq寻求帮助！</string>
+    <string name="app_click_to_phone">客服：%1$s\n 点我拨打</string>
+    <string name="app_click_copy_qq">QQ：%1$s\n 点我复制</string>
+    <string name="app_suggestions">建议反馈</string>
+    <string name="app_your_concat_information">您的联系方式</string>
+    <string name="app_suggest_content">反馈内容</string>
+    <string name="app_commit">提交</string>
+    <string name="app_copy_success">复制成功！</string>
+    <string name="app_custom_service_qq">1427748211</string>
+    <string name="app_custom_service_phone">18691788126</string>
+    <string name="app_suggestion_cant_empy">建议内容不能为空！</string>
+    <string name="app_cant_submit_frequently">不能频繁提交！</string>
+    <string name="app_upload_success">上传成功！</string>
+    <string name="app_uploading">正在上传</string>
+    <string name="app_reset_pwd">密码重置</string>
+    <string name="app_input_old_pwd">请输入旧密码</string>
+    <string name="app_input_new_pwd">请输入新密码</string>
+    <string name="app_reinput_new_pwd">请再次输入新密码</string>
+    <string name="app_new_pwd_cant_empy">新密码不能为空</string>
+    <string name="app_reset_pwd_succes">密码修改成功，可以用新密码进行登录啦</string>
+    <string name="app_reset_pwd_fail">密码修改失败:</string>
+    <string name="app_user_agreenment">用户协议</string>
+    <string name="app_load_data_fail">数据获取失败</string>
+    <string name="app_copyright">Copyright @2019-2019 Tj24.All\nRights Reserved.</string>
+    <string name="app_about_appinfo">一款全新的，简单的，可定制的，功能强大的，Android应用管理器。</string>
+    <string name="app_about">关于</string>
+    <string name="app_version_neednot_update">版本无更新</string>
+    <string name="app_version_emptyfield">请检查你AppVersion表的必填项，1、target_size（文件大小）是否填写；2、path或者android_url两者必填其中一项。</string>
+    <string name="app_viersion_ignored">该版本已被忽略更新</string>
+    <string name="app_version_error_sizeformat">请检查target_size填写的格式，请使用file.length()方法获取apk大小。</string>
+    <string name="app_version_timeout">查询出错或查询超时</string>
+    <string name="app_granted_permission">已经授权！</string>
 
 </resources>

@@ -52,15 +52,14 @@ public class AppEditPopup extends PopupWindow implements View.OnClickListener {
         tvUninstall = rootView.findViewById(R.id.tv_uninstall);
         tvInfo = rootView.findViewById(R.id.tv_info);
         tvPrority = rootView.findViewById(R.id.tv_prority);
-        tvShare = rootView.findViewById(R.id.tv_share);
 
+        tvShare = rootView.findViewById(R.id.tv_share);
         tvMove.setOnClickListener(this);
         tvUninstall.setOnClickListener(this);
         tvInfo.setOnClickListener(this);
         tvPrority.setOnClickListener(this);
         tvShare.setOnClickListener(this);
     }
-
 
 
     /**

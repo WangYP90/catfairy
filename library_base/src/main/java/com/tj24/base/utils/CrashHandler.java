@@ -9,21 +9,29 @@ import android.os.Environment;
 import android.os.Process;
 import android.util.Log;
 import android.widget.Toast;
+
 import androidx.core.app.ActivityCompat;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
+
 import com.tj24.base.R;
 import com.tj24.base.base.app.BaseApplication;
-import com.tj24.base.bean.appmanager.CrashLog;
+import com.tj24.base.bean.CrashLog;
 import com.tj24.base.constant.Const;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 /**
  * @Description:崩溃日志收集类

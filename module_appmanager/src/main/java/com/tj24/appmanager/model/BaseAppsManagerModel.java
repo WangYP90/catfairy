@@ -1,6 +1,6 @@
 package com.tj24.appmanager.model;
 
-import android.app.Activity;
+import android.content.Context;
 
 /**
  * @Description:基类model
@@ -10,8 +10,8 @@ import android.app.Activity;
  */
 public abstract class BaseAppsManagerModel {
 
-    public Activity mContext;
-    public BaseAppsManagerModel(Activity mContext) {
+    public Context mContext;
+    public BaseAppsManagerModel(Context mContext) {
         this.mContext = mContext;
     }
 

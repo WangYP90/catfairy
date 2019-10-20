@@ -7,4 +7,6 @@ public class Const {
     public static final String CLASSFICATION_CUSTOM_ID = "704e9703-26db-4173-a08c-97033fb48a85";
     public static final String CLASSFICATION_CUSTOM_NAME = "我的应用";
 
+
+    public static final String SP_LAST_UPDATE = "lastUpdateTimes";
 }

@@ -1,4 +1,4 @@
-package com.tj24.base.bean.appmanager;
+package com.tj24.base.bean;
 
 import cn.bmob.v3.BmobObject;
 

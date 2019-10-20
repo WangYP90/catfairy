@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.ResetPwdActivity">
+
+    <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:fitsSystemWindows="true"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:title="@string/app_reset_pwd"
+            app:titleTextColor="@color/base_white_text"
+            tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/appTextinputlayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_old_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/app_input_old_pwd" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/appTextinputlayout4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/appTextinputlayout3"
+            app:layout_constraintStart_toStartOf="@+id/appTextinputlayout3"
+            app:layout_constraintTop_toBottomOf="@+id/appTextinputlayout3">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_new_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/app_input_new_pwd" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/appTextinputlayout5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="@+id/appTextinputlayout4"
+            app:layout_constraintStart_toStartOf="@+id/appTextinputlayout4"
+            app:layout_constraintTop_toBottomOf="@+id/appTextinputlayout4">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_renew_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/app_reinput_new_pwd" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+            android:id="@+id/btn_submint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/app_commit"
+            android:textColor="@color/base_white_text"
+            android:textSize="16sp"
+            android:background="@color/base_colorPrimary"
+            app:layout_constraintEnd_toEndOf="@+id/appTextinputlayout5"
+            app:layout_constraintStart_toStartOf="@+id/appTextinputlayout5"
+            app:layout_constraintTop_toBottomOf="@+id/appTextinputlayout5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,10 +11,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -23,6 +28,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.palette.graphics.Palette;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -40,6 +46,7 @@ import com.tj24.appmanager.login.UserHelper;
 import com.tj24.appmanager.model.BusinessModel;
 import com.tj24.appmanager.model.OrderModel;
 import com.tj24.appmanager.receiver.ApkChangeReceiver;
+import com.tj24.appmanager.service.AliveService;
 import com.tj24.appmanager.service.ScanTopService;
 import com.tj24.appmanager.view.NoScrollViewPager;
 import com.tj24.appmanager.view.dialog.OrderDialog;
@@ -48,12 +55,13 @@ import com.tj24.base.base.ui.PermissionListener;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.base.bean.appmanager.login.User;
-import com.tj24.base.utils.*;
-import gdut.bsx.share2.FileUtil;
-import gdut.bsx.share2.Share2;
-import gdut.bsx.share2.ShareContentType;
-import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import com.tj24.base.utils.ColorUtil;
+import com.tj24.base.utils.DrawableUtil;
+import com.tj24.base.utils.ListUtil;
+import com.tj24.base.utils.ScreenUtil;
+import com.tj24.base.utils.Sputil;
+import com.tj24.base.utils.ToastUtil;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -61,6 +69,16 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FetchUserInfoListener;
+import cn.bmob.v3.update.BmobUpdateAgent;
+import gdut.bsx.share2.FileUtil;
+import gdut.bsx.share2.Share2;
+import gdut.bsx.share2.ShareContentType;
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -165,7 +183,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setupViews();
         requestPermissions();
         regeistReceiver();
-        ScanTopService.startSkanTopService(this);
+        AliveService.startAliveService(this);
+        ScanTopService.startSkanTopService(this,false);
+        autoUpdate();
+        fetchUserInfo();
     }
 
     @Override
@@ -204,6 +225,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
     }
 
+    /**
+     * 自动更新
+     */
+    private void autoUpdate() {
+        if(Sputil.read(getString(R.string.app_sp_auto_check_update),true)){
+            BmobUpdateAgent.setUpdateOnlyWifi(false);
+            BmobUpdateAgent.update(this);
+        }
+    }
 
     /**
      * 初始化数据
@@ -436,7 +466,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        drawerLayout.closeDrawer(GravityCompat.START);
         int itemId = menuItem.getItemId();
         if (itemId == R.id.item_homepage) {
             UserHomePageActivity.actionStartForResult(mActivity,REQUEST_EDIT_USER);
@@ -451,7 +480,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else if (itemId == R.id.item_settings) {
             SettingsActivity.actionStart(mActivity,SettingsActivity.SETTINGS_MAIN);
         } else if (itemId == R.id.item_helpsuggest) {
-
+            HelpSuggestActivity.actionStart(this);
         }
         return false;
     }
@@ -522,8 +551,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             });
         }
     }
-
-
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshUI(LaucherEvent laucherEvent){
@@ -613,5 +640,27 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static void startMain(Context context){
         Intent i = new Intent(context,MainActivity.class);
         context.startActivity(i);
+    }
+
+    /**
+     * 更新本地用户信息
+     * 注意：需要先登录，否则会报9024错误
+     *
+     * @see cn.bmob.v3.helper.ErrorCode#E9024S
+     */
+    private void fetchUserInfo() {
+        if(UserHelper.getCurrentUser()==null){
+            return;
+        }
+        BmobUser.fetchUserJsonInfo(new FetchUserInfoListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+
+                } else {
+
+                }
+            }
+        });
     }
 }

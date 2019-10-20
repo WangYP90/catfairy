@@ -8,8 +8,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
+
+import com.tj24.appmanager.R;
+import com.tj24.appmanager.common.Const;
 import com.tj24.appmanager.common.keepAlive.ScreenManager;
 import com.tj24.appmanager.common.keepAlive.ScreenReceiverUtil;
+import com.tj24.appmanager.login.UserHelper;
+import com.tj24.appmanager.model.CloudModel;
+import com.tj24.base.utils.LogUtil;
+import com.tj24.base.utils.Sputil;
 
 public class AliveService extends Service {
 
@@ -25,13 +32,16 @@ public class AliveService extends Service {
             mScreenManager.finishActivity();
 
             //开启扫描service
-            ScanTopService.startSkanTopService(AliveService.this);
+            ScanTopService.startSkanTopService(AliveService.this,true);
         }
         @Override
         public void onSreenOff() {
             mScreenManager.startActivity();
             //关闭扫描service
             ScanTopService.stopTopScanService();
+
+            //检查是否要自动备份 必须登录，自动备份开启并且距离上次备份超过一天则备份
+            testAutoUpload();
         }
         @Override
         public void onUserPresent() {
@@ -83,5 +93,20 @@ public class AliveService extends Service {
         AliveService.startAliveService(this);
         mScreenListener.stopScreenReceiverListener();
         super.onDestroy();
+    }
+
+
+    /**
+     * 检测自动备份
+     */
+    private void testAutoUpload() {
+        if(UserHelper.getCurrentUser()!=null){
+            if(Sputil.read(getString(R.string.app_sp_auto_upload),true)){
+                if(System.currentTimeMillis() - (Sputil.read(Const.SP_LAST_UPDATE, 0L)) >24*3600*1000){
+                    new CloudModel(this).readyPush(true);
+                    LogUtil.i(TAG,"自动备份开始！");
+                }
+            }
+        }
     }
 }

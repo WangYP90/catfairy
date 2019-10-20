@@ -80,7 +80,7 @@ public class BusinessModel extends BaseAppsManagerModel {
                                     AppBeanDaoHelper.getInstance().insertList(appBeans);
                                     handler.sendEmptyMessage(MainActivity.MSG_REFRESH);
                                 }
-                                mContext.runOnUiThread(new Runnable() {
+                                ((Activity)mContext).runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         progressDialog.setContent(mContext.getString(R.string.app_scaned_apps_num,packageInfos.size()));

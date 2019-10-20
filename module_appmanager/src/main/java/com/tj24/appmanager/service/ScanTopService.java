@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.Settings;
+
 import androidx.annotation.NonNull;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tj24.appmanager.R;
@@ -13,6 +15,7 @@ import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.model.ApkModel;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.utils.LogUtil;
+import com.tj24.base.utils.ToastUtil;
 
 public class ScanTopService extends IntentService {
     private static final String TAG = ScanTopService.class.getSimpleName();
@@ -42,16 +45,21 @@ public class ScanTopService extends IntentService {
         }
     }
 
+
     /**
      * 确保有查看其他应用的使用情况的权限 并开启扫描时长的service
+     * @param mContext
+     * @param isScreenOnStart  是否是接收到亮屏广播而来 。若是，则不弹出引导权限的dialog，
+     *                          引导权限的dialog只在首页弹出 和 设置页面手动开启时弹出
      */
-    public static void startSkanTopService(final Context mContext) {
+    public static void startSkanTopService(final Context mContext, boolean isScreenOnStart) {
         if(ApkModel.isUseGranted()){
             isScan = true;
             Intent intent=new Intent(mContext,ScanTopService.class);
             mContext.startService(intent);
             LogUtil.i(TAG,"ScanTopService已经开启！");
-        }else {
+            ToastUtil.showShortToast(mContext,mContext.getString(R.string.app_granted_permission));
+        }else if(!isScreenOnStart){
             permissionDialog = new MaterialDialog.Builder(mContext)
                     .content(mContext.getString(R.string.app_open_permission))
                     .positiveText(mContext.getString(R.string.app_confirm))
@@ -62,7 +70,7 @@ public class ScanTopService extends IntentService {
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             mContext.startActivity(i);
                         }
-                    }).canceledOnTouchOutside(false)
+                    }).canceledOnTouchOutside(true)
                     .dismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
@@ -72,6 +80,9 @@ public class ScanTopService extends IntentService {
         }
     }
 
+    /**
+     * 停止扫描
+     */
     public static void stopTopScanService(){
         isScan = false;
         LogUtil.i(TAG,"ScanTopService已经关闭！");
