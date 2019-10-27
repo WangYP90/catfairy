@@ -42,6 +42,7 @@ import com.tj24.appmanager.R;
 import com.tj24.appmanager.adapter.AppsVpAdater;
 import com.tj24.appmanager.bean.event.LaucherEvent;
 import com.tj24.appmanager.common.OrderConfig;
+import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.appmanager.model.BusinessModel;
 import com.tj24.appmanager.model.OrderModel;
 import com.tj24.appmanager.receiver.ApkChangeReceiver;
@@ -470,7 +471,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (itemId == R.id.item_homepage) {
             UserHomePageActivity.actionStartForResult(mActivity,REQUEST_EDIT_USER);
         } else if (itemId == R.id.item_cloud) {
-            SettingsActivity.actionStart(mActivity,SettingsActivity.SETTINGS_CLOUD);
+            if(UserHelper.getCurrentUser() == null){
+                LoginInterceptorCallBack.interruptToLogin(mActivity);
+            }else {
+                SettingsActivity.actionStart(mActivity,SettingsActivity.SETTINGS_CLOUD);
+            }
         } else if (itemId == R.id.item_share) {
                 new Share2.Builder(mActivity).setContentType(ShareContentType.FILE)
                         .setShareFileUri(FileUtil.getFileUri(mActivity, ShareContentType.FILE, new File(getPackageResourcePath())))

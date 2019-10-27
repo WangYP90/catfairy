@@ -8,13 +8,10 @@ import android.widget.FrameLayout;
 
 import androidx.fragment.app.Fragment;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.fragment.CloudSettingsFragment;
 import com.tj24.appmanager.fragment.MainSettingsFragment;
-import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.base.base.ui.BaseActivity;
-import com.tj24.base.constant.ARouterPath;
-import com.tj24.base.utils.UserHelper;
 
 public class SettingsActivity extends BaseActivity {
 
@@ -39,7 +36,7 @@ public class SettingsActivity extends BaseActivity {
 
     private void initView() {
         fragmentContainer = findViewById(R.id.fragment_container);
-        setTitle("设置");
+        setTitle(R.string.app_settings);
     }
 
     private void gotoSettings() {
@@ -47,12 +44,7 @@ public class SettingsActivity extends BaseActivity {
         if(settingsType == SETTINGS_MAIN){
             mFragment = new MainSettingsFragment();
         }else if(settingsType == SETTINGS_CLOUD){
-           if(UserHelper.getCurrentUser() == null){
-               LoginInterceptorCallBack.interruptToLogin(mActivity);
-           }else {
-               mFragment = (Fragment) ARouter.getInstance().build(ARouterPath.AppManager.CLOUD_SETTING_FRAGMENT)
-                       .navigation(mActivity,new LoginInterceptorCallBack(mActivity));
-           }
+            mFragment = new CloudSettingsFragment();
         }
 
         if (mFragment != null) {
