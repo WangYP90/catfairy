@@ -14,7 +14,7 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.daohelper.SuggestionDaoHelper;
-import com.tj24.appmanager.login.UserHelper;
+import com.tj24.base.utils.UserHelper;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.base.ui.PermissionListener;
 import com.tj24.base.bean.appmanager.login.Suggestion;

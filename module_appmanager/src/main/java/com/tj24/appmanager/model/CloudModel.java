@@ -17,7 +17,7 @@ import com.tj24.appmanager.common.Const;
 import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.daohelper.AppClassificationDaoHelper;
 import com.tj24.appmanager.daohelper.MsgApkDaoHelper;
-import com.tj24.appmanager.login.UserHelper;
+import com.tj24.base.utils.UserHelper;
 import com.tj24.base.bean.AppData;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;

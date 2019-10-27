@@ -8,9 +8,12 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.model.CloudModel;
+import com.tj24.base.constant.ARouterPath;
 
+@Route(path = ARouterPath.AppManager.CLOUD_SETTING_FRAGMENT,extras = ARouterPath.NEED_LOGIN)
 public class CloudSettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
     public static final String TAG = "CloudSettingsFragment";
     private Context mContext;

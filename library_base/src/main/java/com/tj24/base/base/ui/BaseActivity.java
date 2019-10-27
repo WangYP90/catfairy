@@ -19,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
@@ -27,9 +28,11 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import butterknife.ButterKnife;
+
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.tj24.base.R;
 import com.tj24.base.utils.ToastUtil;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -38,6 +41,8 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 /**
  * @Description:activity 基类
@@ -121,6 +126,7 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestL
         mActivity = this;
         weakRefActivity = new WeakReference(this);
         ActivityCollector.add(weakRefActivity);
+        ARouter.getInstance().inject(this);
         EventBus.getDefault().register(this);
     }
 

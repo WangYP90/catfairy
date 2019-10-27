@@ -20,21 +20,21 @@ import androidx.annotation.Nullable;
 import androidx.transition.Fade;
 import androidx.transition.TransitionManager;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.textfield.TextInputEditText;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.MainActivity;
 import com.tj24.appmanager.common.SimpleTransitionListener;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.bean.appmanager.login.User;
-import com.tj24.base.bean.appmanager.login.Version;
+import com.tj24.base.constant.ARouterPath;
 import com.tj24.base.constant.BmobErrorCode;
+import com.tj24.base.utils.UserHelper;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
-
+@Route(path = ARouterPath.AppManager.LOGIN_ACTIVITY)
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
-    private static final String EXT_HAS_NEW_VERSION = "hasNewVersion";
-    private static final String EXT_VERSION = "version";
     private static final String EXT_IS_WITH_TRANSITION = "isWithTransition";
     private static final String EXT_USER_NAME = "userName";
     private static final String EXT_USER_PWD = "userPwd";
@@ -133,17 +133,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
 
-    public static void actionStart(Activity activity, boolean hasNewVersion, Version version) {
+    public static void actionStart(Activity activity) {
         Intent intent = new Intent(activity, LoginActivity.class);
-        intent.putExtra(EXT_HAS_NEW_VERSION,hasNewVersion);
-        intent.putExtra(EXT_VERSION,version);
         activity.startActivity(intent);
     }
 
-    public static void actionStartWithTransition(Activity activity, View view, boolean hasNewVersion, Version version) {
+    public static void actionStartWithTransition(Activity activity, View view) {
         Intent intent = new Intent(activity, LoginActivity.class);
-        intent.putExtra(EXT_HAS_NEW_VERSION,hasNewVersion);
-        intent.putExtra(EXT_VERSION,version);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ){
             intent.putExtra(EXT_IS_WITH_TRANSITION,true);
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, view,

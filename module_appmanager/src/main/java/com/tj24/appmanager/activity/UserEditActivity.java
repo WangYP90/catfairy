@@ -1,7 +1,6 @@
 package com.tj24.appmanager.activity;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,9 +11,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
+
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
@@ -23,17 +27,22 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.common.AfterTextWacher;
-import com.tj24.appmanager.login.UserHelper;
+import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.appmanager.model.UserEditModel;
 import com.tj24.appmanager.util.ViewUtils;
 import com.tj24.base.base.ui.CatTakePhotoActivity;
 import com.tj24.base.bean.appmanager.login.User;
+import com.tj24.base.constant.ARouterPath;
 import com.tj24.base.utils.ColorUtil;
 import com.tj24.base.utils.LogUtil;
-import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import com.tj24.base.utils.UserHelper;
+
 import org.devio.takephoto.model.TResult;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
+@Route(path = ARouterPath.AppManager.EDIT_USER_ACTIVITY,extras = ARouterPath.NEED_LOGIN)
 public class UserEditActivity extends CatTakePhotoActivity implements View.OnClickListener {
 
     private static final String NICK_NAME_REG_EXP = "^[\u4E00-\u9FA5A-Za-z0-9_\\-]+$";
@@ -51,7 +60,8 @@ public class UserEditActivity extends CatTakePhotoActivity implements View.OnCli
     private TextView tvSave;
 
     //是否是点击编辑简介按钮跳转进来
-    boolean isEditDescribtion;
+    @Autowired(name = IS_EDIT_DESCRIBTION)
+    public boolean isEditDescribtion;
     //model
     UserEditModel userEditModel;
     //拍照后的图像 背景
@@ -154,7 +164,7 @@ public class UserEditActivity extends CatTakePhotoActivity implements View.OnCli
         bgImag = user!=null && user.getBgImage()!=null?user.getBgImage():"";
         descrition = user!=null && user.getDescribtion()!=null?user.getDescribtion():"";
 
-        isEditDescribtion = getIntent().getBooleanExtra(IS_EDIT_DESCRIBTION,false);
+//        isEditDescribtion = getIntent().getBooleanExtra(IS_EDIT_DESCRIBTION,false);
         userEditModel = new UserEditModel(mActivity,getTakePhoto());
         initView();
         setupViews();
@@ -193,7 +203,7 @@ public class UserEditActivity extends CatTakePhotoActivity implements View.OnCli
                 .transform(new CropCircleTransformation(this))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .placeholder(R.drawable.app_loading_bg_circle)
-                .error(R.drawable.avatar_default)
+                .error(R.drawable.base_avatar_default)
                 .into(ivAvatar);
 
         etNickName.setText(nickName);
@@ -256,7 +266,7 @@ public class UserEditActivity extends CatTakePhotoActivity implements View.OnCli
                     .transform(new CropCircleTransformation(this))
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .placeholder(R.drawable.app_loading_bg_circle)
-                    .error(R.drawable.avatar_default)
+                    .error(R.drawable.base_avatar_default)
                     .into(ivAvatar);
             if (TextUtils.isEmpty(srcAvatar) && TextUtils.isEmpty(srcBgImag)) {
                 Glide.with(this).load(srcAvatar).asBitmap()
@@ -365,8 +375,8 @@ public class UserEditActivity extends CatTakePhotoActivity implements View.OnCli
     }
 
     public static void actionStartForResult(Activity context,int requstCode, boolean isEditDescribtion){
-        Intent i = new Intent(context,UserEditActivity.class);
-        i.putExtra(IS_EDIT_DESCRIBTION,isEditDescribtion);
-        context.startActivityForResult(i,requstCode);
+        ARouter.getInstance().build(ARouterPath.AppManager.EDIT_USER_ACTIVITY)
+                .withBoolean(IS_EDIT_DESCRIBTION,isEditDescribtion)
+                .navigation(context, requstCode, new LoginInterceptorCallBack(context));
     }
 }

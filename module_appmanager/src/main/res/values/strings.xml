@@ -173,5 +173,8 @@
     <string name="app_version_error_sizeformat">请检查target_size填写的格式，请使用file.length()方法获取apk大小。</string>
     <string name="app_version_timeout">查询出错或查询超时</string>
     <string name="app_granted_permission">已经授权！</string>
+    <string name="app_no_login_and_to_login">亲，您还没有登录，点击确定立马登录！！</string>
+    <string name="app_confirm_login_out">确定退出登录？</string>
+    <string name="app_login_out_sucess">已经退出登录</string>
 
 </resources>

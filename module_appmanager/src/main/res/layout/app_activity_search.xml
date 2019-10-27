@@ -34,7 +34,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
-                    android:src="@drawable/ic_arrow_back_white_24dp"/>
+                    android:src="@drawable/app_ic_arrow_back_white_24dp"/>
 
             <androidx.appcompat.widget.SearchView
                     android:id="@+id/searchView"

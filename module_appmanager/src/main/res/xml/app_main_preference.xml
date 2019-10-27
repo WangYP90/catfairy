@@ -4,18 +4,18 @@
     <PreferenceCategory
             android:title="@string/app_personality">
         <SwitchPreferenceCompat
-                android:icon="@drawable/ico_drawer_copy"
+                android:icon="@drawable/app_ico_drawer_copy"
                 android:singleLineTitle="true"
                 android:key="@string/app_sp_hide_cant_open_app"
                 android:defaultValue="false"
                 android:summary="@string/app_summary_hide_cannot_open_app"
                 android:title="@string/app_title_hide_cannot_open_app"/>
         <Preference
-                android:icon="@drawable/ico_drawer_copy"
+                android:icon="@drawable/app_ico_drawer_copy"
                 android:key="@string/app_sp_permission_other_use"
                 android:title="@string/app_title_look_other_use"/>
         <MultiSelectListPreference
-                android:icon="@drawable/ico_drawer_copy"
+                android:icon="@drawable/app_ico_drawer_copy"
                 android:key="@string/app_sp_custom_order"
                 android:dialogTitle="@string/app_dialog_title_custom_order"
                 android:entries="@array/app_entries_orders"
@@ -27,33 +27,33 @@
     <PreferenceCategory
             android:title="@string/app_routine">
         <SwitchPreferenceCompat
-                android:icon="@drawable/ico_drawer_copy"
+                android:icon="@drawable/app_ico_drawer_copy"
                 android:key="@string/app_sp_auto_check_update"
                 android:defaultValue="true"
                 android:title="@string/app_title_auto_test_update" />
         <Preference
-                android:icon="@drawable/ico_drawer_copy"
+                android:icon="@drawable/app_ico_drawer_copy"
                 android:padding = "10dp"
                 android:key="@string/app_sp_check_update"
                 android:title="@string/app_title_test_update"/>
         <Preference
-                android:icon="@drawable/ico_drawer_copy"
+                android:icon="@drawable/app_ico_drawer_copy"
                 android:key="@string/app_sp_about"
                 android:title="@string/app_title_about"/>
         <Preference
-                android:icon="@drawable/ico_drawer_copy"
+                android:icon="@drawable/app_ico_drawer_copy"
                 android:key="@string/app_sp_user_agreenment"
                 android:title="@string/app_title_user_agreenment"/>
         <Preference
-                android:icon="@drawable/ico_drawer_copy"
+                android:icon="@drawable/app_ico_drawer_copy"
                 android:key="@string/app_sp_app_info"
                 android:title="@string/app_title_app_info"/>
         <Preference
-                android:icon="@drawable/ico_drawer_copy"
+                android:icon="@drawable/app_ico_drawer_copy"
                 android:key="@string/app_sp_reset_pwd"
                 android:title="@string/app_title_update_pwd"/>
         <Preference
-                android:icon="@drawable/ico_drawer_copy"
+                android:icon="@drawable/app_ico_drawer_copy"
                 android:key="@string/app_sp_login_out"
                 android:title="@string/app_title_loginout"/>
     </PreferenceCategory>

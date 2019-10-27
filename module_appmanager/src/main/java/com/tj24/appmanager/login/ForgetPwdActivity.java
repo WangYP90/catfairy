@@ -11,17 +11,20 @@ import android.transition.Transition;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
 import androidx.annotation.NonNull;
 import androidx.transition.Fade;
 import androidx.transition.TransitionManager;
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UpdateListener;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.common.SimpleTransitionListener;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.constant.BmobErrorCode;
+
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class ForgetPwdActivity extends BaseActivity implements View.OnClickListener {
 

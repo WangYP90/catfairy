@@ -42,7 +42,6 @@ import com.tj24.appmanager.R;
 import com.tj24.appmanager.adapter.AppsVpAdater;
 import com.tj24.appmanager.bean.event.LaucherEvent;
 import com.tj24.appmanager.common.OrderConfig;
-import com.tj24.appmanager.login.UserHelper;
 import com.tj24.appmanager.model.BusinessModel;
 import com.tj24.appmanager.model.OrderModel;
 import com.tj24.appmanager.receiver.ApkChangeReceiver;
@@ -61,6 +60,7 @@ import com.tj24.base.utils.ListUtil;
 import com.tj24.base.utils.ScreenUtil;
 import com.tj24.base.utils.Sputil;
 import com.tj24.base.utils.ToastUtil;
+import com.tj24.base.utils.UserHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -325,7 +325,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void setupToolbar() {
         super.setupToolbar();
         setTitle(isEditing?getString(R.string.app_edit):getString(R.string.app_app_name));
-        toolbar.setNavigationIcon(isEditing?R.drawable.md_nav_back:R.drawable.ico_footer_more);
+        toolbar.setNavigationIcon(isEditing?R.drawable.md_nav_back:R.drawable.app_ico_footer_more);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -384,7 +384,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         toolbar.setTitle(isEditing?getString(R.string.app_selected,selectedNum):getString(R.string.app_app_name));
-        toolbar.setNavigationIcon(isEditing?R.drawable.md_nav_back:R.drawable.ic_person_outline_white_24dp);
+        toolbar.setNavigationIcon(isEditing?R.drawable.md_nav_back:R.drawable.app_ic_person_outline_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -513,7 +513,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     .load(avatar)
                     .bitmapTransform(new CropCircleTransformation(this))
                     .placeholder(R.drawable.app_loading_bg_circle)
-                    .error(R.drawable.avatar_default)
+                    .error(R.drawable.base_avatar_default)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(ivAvatar);
 

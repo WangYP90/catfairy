@@ -21,7 +21,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/ico_select"
+            android:src="@drawable/app_ico_select"
             android:scaleType="centerCrop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

@@ -1,4 +1,4 @@
-package com.tj24.appmanager.login;
+package com.tj24.base.utils;
 
 import com.tj24.base.bean.appmanager.login.User;
 

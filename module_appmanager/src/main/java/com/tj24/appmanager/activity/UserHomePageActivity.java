@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -20,6 +21,9 @@ import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -30,20 +34,23 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.adapter.UserHomePageAdapter;
-import com.tj24.appmanager.login.UserHelper;
+import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.appmanager.util.ViewUtils;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.login.User;
+import com.tj24.base.constant.ARouterPath;
 import com.tj24.base.utils.ColorUtil;
 import com.tj24.base.utils.DrawableUtil;
 import com.tj24.base.utils.ScreenUtil;
-import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import com.tj24.base.utils.UserHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+@Route(path = ARouterPath.AppManager.USER_HOMEPAGE_ACTIVITY,extras = ARouterPath.NEED_LOGIN)
 public class UserHomePageActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener {
     private static final int REQUEST_USER_EDIT = 100;
@@ -197,7 +204,7 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
                 .bitmapTransform(new CropCircleTransformation(this))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .placeholder(R.drawable.app_loading_bg_circle)
-                .error(R.drawable.avatar_default)
+                .error(R.drawable.base_avatar_default)
                 .into(ivAvatan);
         if(TextUtils.isEmpty(bgImag)){
             if(!TextUtils.isEmpty(avatar)){
@@ -315,7 +322,7 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
      * 使用pop动画的方式将fab按钮显示出来。
      */
     private void  popFab() {
-        fab.setImageResource(R.drawable.ic_edit);
+        fab.setImageResource(R.drawable.app_ic_edit);
         fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.base_colorAccent)));
 
         fab.show();
@@ -332,7 +339,7 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
     }
 
     public static void actionStartForResult(Activity context, int requestCode){
-        Intent i = new Intent(context,UserHomePageActivity.class);
-        context.startActivityForResult(i,requestCode);
+        ARouter.getInstance().build(ARouterPath.AppManager.USER_HOMEPAGE_ACTIVITY)
+                .navigation(context,requestCode,new LoginInterceptorCallBack(context));
     }
 }

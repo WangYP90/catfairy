@@ -6,10 +6,11 @@ import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.MainActivity;
 import com.tj24.base.base.ui.BaseActivity;
-import com.tj24.base.bean.appmanager.login.Version;
+import com.tj24.base.utils.UserHelper;
 
 public class SplashActivity extends BaseActivity {
 
@@ -87,9 +88,9 @@ public class SplashActivity extends BaseActivity {
             MainActivity.startMain(mActivity);
         }else {
             if(isActive){
-                LoginActivity.actionStartWithTransition(this,ivLeague,false,new Version());
+                LoginActivity.actionStartWithTransition(this,ivLeague);
             }else {
-                LoginActivity.actionStart(this,false,new Version());
+                LoginActivity.actionStart(this);
             }
         }
         finish();

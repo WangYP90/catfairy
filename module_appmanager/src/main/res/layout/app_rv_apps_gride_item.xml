@@ -14,7 +14,7 @@
             android:layout_below="@+id/iv_selected"
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/app_ic_launcher"
             android:layout_width="60dp"
             android:layout_height="60dp"/>
     <ImageView
@@ -22,7 +22,7 @@
             android:layout_marginBottom="-10dp"
             android:layout_marginLeft="-10dp"
             android:layout_toRightOf="@+id/iv_ico"
-            android:src="@drawable/ico_app_selected"
+            android:src="@drawable/app_ico_app_selected"
             android:scaleType="fitCenter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

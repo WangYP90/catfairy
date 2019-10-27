@@ -19,9 +19,11 @@ import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.AboutActivity;
 import com.tj24.appmanager.activity.ResetPwdActivity;
 import com.tj24.appmanager.activity.UserAgreenmentActivity;
+import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.appmanager.model.ApkModel;
 import com.tj24.appmanager.service.ScanTopService;
 import com.tj24.base.utils.ToastUtil;
+import com.tj24.base.utils.UserHelper;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.BmobUpdateListener;
@@ -130,13 +132,13 @@ public class MainSettingsFragment extends PreferenceFragmentCompat implements
      * 手动检查更新
      */
     private void updateVersion() {
-        BmobUpdateAgent.forceUpdate(mContext);
+        BmobUpdateAgent.update(mContext);
         BmobUpdateAgent.setUpdateListener(new BmobUpdateListener() {
             @Override
             public void onUpdateReturned(int updateStatus, UpdateResponse updateInfo) {
                 // TODO Auto-generated method stub
                 if (updateStatus == UpdateStatus.Yes) {//版本有更新
-
+                    ToastUtil.showShortToast(mContext,"ceshi");
                 }else if(updateStatus == UpdateStatus.No){
                     ToastUtil.showShortToast(mContext, getString(R.string.app_version_neednot_update));
                 }else if(updateStatus==UpdateStatus.EmptyField){//此提示只是提醒开发者关注那些必填项，测试成功后，无需对用户提示
@@ -181,13 +183,18 @@ public class MainSettingsFragment extends PreferenceFragmentCompat implements
      * 退出登录
      */
     private void loginout() {
-        new MaterialDialog.Builder(mContext).content("确定退出登录？")
-                .positiveText("取消").negativeText("确定")
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
+        if(UserHelper.getCurrentUser() == null){
+            LoginInterceptorCallBack.interruptToLogin(mContext);
+            return;
+        }
+        new MaterialDialog.Builder(mContext).content(getString(R.string.app_confirm_login_out))
+                .negativeText(R.string.app_cancle).positiveText(R.string.app_confirm)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         BmobUser.logOut();
+                        ToastUtil.showShortToast(mContext,getString(R.string.app_login_out_sucess));
                     }
-                });
+                }).show();
     }
 }

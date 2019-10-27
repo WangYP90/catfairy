@@ -33,7 +33,7 @@
 
                 <ImageView
                         android:id="@+id/iv_userBg"
-                        tools:src="@drawable/login_bg_wall"
+                        tools:src="@drawable/app_login_bg_wall"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fitsSystemWindows="true"
@@ -53,7 +53,7 @@
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             android:layout_gravity="center_horizontal"
-                            tools:src="@drawable/avatar_default"
+                            tools:src="@drawable/base_avatar_default"
                     />
 
                     <TextView
@@ -156,7 +156,7 @@
             android:visibility="gone"
             app:layout_anchor="@id/appBar"
             app:layout_anchorGravity="bottom|end"
-            tools:src="@drawable/ic_follow"
+            tools:src="@drawable/app_ic_follow"
             tools:visibility="visible"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

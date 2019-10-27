@@ -71,26 +71,26 @@ public class AppFooterView extends LinearLayout implements View.OnClickListener 
         this.edittingApps = edittingApps;
         this.currentClassification = currentClassification;
         if(edittingApps.size()<=0){
-            setTextCanNotTouch(tvDelete,R.drawable.ico_footer_del);
-            setTextCanNotTouch(tvInfo,R.drawable.ico_footer_info);
-            setTextCanNotTouch(tvMore,R.drawable.ico_footer_more);
-            setTextCanNotTouch(tvMove,R.drawable.ico_footer_move);
-            setTextCanNotTouch(tvLevle,R.drawable.ico_footer_prority);
-            setTextCanNotTouch(tvShare,R.drawable.ico_footer_share);
+            setTextCanNotTouch(tvDelete,R.drawable.app_ico_footer_del);
+            setTextCanNotTouch(tvInfo,R.drawable.app_ico_footer_info);
+            setTextCanNotTouch(tvMore,R.drawable.app_ico_footer_more);
+            setTextCanNotTouch(tvMove,R.drawable.app_ico_footer_move);
+            setTextCanNotTouch(tvLevle,R.drawable.app_ico_footer_prority);
+            setTextCanNotTouch(tvShare,R.drawable.app_ico_footer_share);
         }else if(edittingApps.size()==1){
-            setTextCanTouch(tvDelete,R.drawable.ico_footer_del);
-            setTextCanTouch(tvInfo,R.drawable.ico_footer_info);
-            setTextCanTouch(tvMore,R.drawable.ico_footer_more);
-            setTextCanTouch(tvMove,R.drawable.ico_footer_move);
-            setTextCanTouch(tvLevle,R.drawable.ico_footer_prority);
-            setTextCanTouch(tvShare,R.drawable.ico_footer_share);
+            setTextCanTouch(tvDelete,R.drawable.app_ico_footer_del);
+            setTextCanTouch(tvInfo,R.drawable.app_ico_footer_info);
+            setTextCanTouch(tvMore,R.drawable.app_ico_footer_more);
+            setTextCanTouch(tvMove,R.drawable.app_ico_footer_move);
+            setTextCanTouch(tvLevle,R.drawable.app_ico_footer_prority);
+            setTextCanTouch(tvShare,R.drawable.app_ico_footer_share);
         }else {
-            setTextCanTouch(tvDelete,R.drawable.ico_footer_del);
-            setTextCanNotTouch(tvInfo,R.drawable.ico_footer_info);
-            setTextCanTouch(tvMore,R.drawable.ico_footer_more);
-            setTextCanTouch(tvMove,R.drawable.ico_footer_move);
-            setTextCanNotTouch(tvLevle,R.drawable.ico_footer_prority);
-            setTextCanNotTouch(tvShare,R.drawable.ico_footer_share);
+            setTextCanTouch(tvDelete,R.drawable.app_ico_footer_del);
+            setTextCanNotTouch(tvInfo,R.drawable.app_ico_footer_info);
+            setTextCanTouch(tvMore,R.drawable.app_ico_footer_more);
+            setTextCanTouch(tvMove,R.drawable.app_ico_footer_move);
+            setTextCanNotTouch(tvLevle,R.drawable.app_ico_footer_prority);
+            setTextCanNotTouch(tvShare,R.drawable.app_ico_footer_share);
         }
     }
 

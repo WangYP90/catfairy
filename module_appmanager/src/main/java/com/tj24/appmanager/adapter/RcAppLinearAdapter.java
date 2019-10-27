@@ -37,7 +37,7 @@ public class RcAppLinearAdapter extends BaseQuickAdapter<AppBean,BaseViewHolder>
                 .setVisible(R.id.iv_isType,!isTyped(item))
                 .setGone(R.id.tv_open,!isEditing)
                 .setGone(R.id.iv_selected,isEditing)
-                .setImageResource(R.id.iv_selected,item.getIsSelected()?R.drawable.ico_app_selected:R.drawable.ico_app_unselected)
+                .setImageResource(R.id.iv_selected,item.getIsSelected()?R.drawable.app_ico_app_selected :R.drawable.app_ico_app_unselected)
                 .addOnClickListener(R.id.tv_open);
     }
 

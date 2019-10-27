@@ -54,7 +54,7 @@
                             android:id="@+id/iv_addItem"
                             android:padding="10dp"
                             android:foreground="?attr/selectableItemBackground"
-                            android:src="@drawable/ic_add_white_36dp"
+                            android:src="@drawable/app_ic_add_white_36dp"
                             android:scaleType="fitXY"
                             android:layout_alignBottom="@+id/tab"
                             android:layout_alignTop="@+id/tab"
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
                     android:layout_margin="16dp"
-                    android:src="@drawable/ic_compose"
+                    android:src="@drawable/app_ic_compose"
                     android:visibility="gone"
                     tools:visibility="visible" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

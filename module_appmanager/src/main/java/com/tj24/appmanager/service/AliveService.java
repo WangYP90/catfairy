@@ -13,7 +13,7 @@ import com.tj24.appmanager.R;
 import com.tj24.appmanager.common.Const;
 import com.tj24.appmanager.common.keepAlive.ScreenManager;
 import com.tj24.appmanager.common.keepAlive.ScreenReceiverUtil;
-import com.tj24.appmanager.login.UserHelper;
+import com.tj24.base.utils.UserHelper;
 import com.tj24.appmanager.model.CloudModel;
 import com.tj24.base.utils.LogUtil;
 import com.tj24.base.utils.Sputil;

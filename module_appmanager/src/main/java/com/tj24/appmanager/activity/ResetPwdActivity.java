@@ -1,20 +1,24 @@
 package com.tj24.appmanager.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.android.material.textfield.TextInputEditText;
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.base.base.ui.BaseActivity;
+import com.tj24.base.constant.ARouterPath;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 
+@Route(path = ARouterPath.AppManager.RESET_PWD_ACTIVITY,extras = ARouterPath.NEED_LOGIN)
 public class ResetPwdActivity extends BaseActivity {
 
     TextInputEditText etOldPwd;
@@ -83,7 +87,7 @@ public class ResetPwdActivity extends BaseActivity {
 
 
     public static void actionStart(Context context){
-        Intent i = new Intent(context,ResetPwdActivity.class);
-        context.startActivity(i);
+        ARouter.getInstance().build(ARouterPath.AppManager.RESET_PWD_ACTIVITY)
+                .navigation(context,new LoginInterceptorCallBack(context));
     }
 }

@@ -23,14 +23,18 @@ public class DaoMaster extends AbstractDaoMaster {
     public static void createAllTables(Database db, boolean ifNotExists) {
         AppBeanDao.createTable(db, ifNotExists);
         AppClassficationDao.createTable(db, ifNotExists);
+        VersionDao.createTable(db, ifNotExists);
         MsgApkDao.createTable(db, ifNotExists);
+        SuggestionDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
         AppBeanDao.dropTable(db, ifExists);
         AppClassficationDao.dropTable(db, ifExists);
+        VersionDao.dropTable(db, ifExists);
         MsgApkDao.dropTable(db, ifExists);
+        SuggestionDao.dropTable(db, ifExists);
     }
 
     /**
@@ -51,7 +55,9 @@ public class DaoMaster extends AbstractDaoMaster {
         super(db, SCHEMA_VERSION);
         registerDaoClass(AppBeanDao.class);
         registerDaoClass(AppClassficationDao.class);
+        registerDaoClass(VersionDao.class);
         registerDaoClass(MsgApkDao.class);
+        registerDaoClass(SuggestionDao.class);
     }
 
     public DaoSession newSession() {

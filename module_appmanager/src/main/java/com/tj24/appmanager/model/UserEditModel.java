@@ -11,7 +11,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.UserEditActivity;
-import com.tj24.appmanager.login.UserHelper;
+import com.tj24.base.utils.UserHelper;
 import com.tj24.base.bean.appmanager.login.User;
 import com.tj24.base.constant.Const;
 import com.tj24.base.utils.ScreenUtil;
