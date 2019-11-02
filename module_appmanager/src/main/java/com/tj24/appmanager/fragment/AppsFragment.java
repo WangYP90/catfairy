@@ -9,9 +9,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.widget.PopupWindowCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tj24.appmanager.R;
@@ -73,6 +76,9 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
     private ScrollLinearLayoutManager mLinearManager;
     private GridLayoutManager mGrideManager;
     private OrderModel orderModel;
+    //记录上次recyclerview的位置和偏移量
+    int lastPosition = 0 ;
+    int lastOffset = 0;
     @Override
     public int getCreateViewLayoutId() {
         return R.layout.app_fragment_apps;
@@ -100,13 +106,18 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
 
     private void initView() {
         rvApps = rootView.findViewById(R.id.rc_apps);
-//        transView = rootView.findViewById(R.id.trans_view);
         transView = ((MainActivity)mActivity).transView;
         sideBar = rootView.findViewById(R.id.sideBar);
         tvSidebar = rootView.findViewById(R.id.tv_sidebar);
         footerView = rootView.findViewById(R.id.apps_footer);
+        rvApps.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                getPositionAndOffset();
+            }
+        });
     }
-
 
     private void initSideBar() {
         sideBar.setTextView(tvSidebar);
@@ -130,28 +141,21 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
      * 初始化recycleView
      */
     private void initRecyclerView() {
-        int scrollPosition = 0;
         if (orderModel.getLayoutType() == OrderConfig.LAYOUT_LINEAR) {
-            if (mLinearManager != null) {
-                scrollPosition = mLinearManager.findFirstVisibleItemPosition();
-            }
             mLinearManager = new ScrollLinearLayoutManager(mActivity);
             mLinearManager.setStackFromEnd(false);
             rvApps.setLayoutManager(mLinearManager);
             mLinearAdapter = new RcAppLinearAdapter(R.layout.app_rv_apps_linear_item, appBeans, appClassfication, isEditing);
-            mLinearManager.scrollToPosition(scrollPosition);
+            mLinearManager.scrollToPositionWithOffset(lastPosition,lastOffset);
             rvApps.setAdapter(mLinearAdapter);
             mLinearAdapter.setOnItemChildClickListener(this);
             mLinearAdapter.setOnItemClickListener(this);
             mLinearAdapter.setOnItemLongClickListener(this);
         } else if (orderModel.getLayoutType() == OrderConfig.LAYOUT_Gride) {
-            if (mGrideManager != null) {
-                scrollPosition = mGrideManager.findFirstVisibleItemPosition();
-            }
             mGrideManager = new GridLayoutManager(mActivity, 4);
             rvApps.setLayoutManager(mGrideManager);
             mGrideAdapter = new RcAppGrideAdapter(R.layout.app_rv_apps_gride_item, appBeans, isEditing);
-            mGrideManager.scrollToPosition(scrollPosition);
+            mGrideManager.scrollToPositionWithOffset(lastPosition,lastOffset);
             mGrideAdapter.setOnItemClickListener(this);
             mGrideAdapter.setOnItemLongClickListener(this);
             rvApps.setAdapter(mGrideAdapter);
@@ -446,6 +450,26 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
             mLinearAdapter.notifyDataSetChanged();
         } else {
             mGrideAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * 记录RecyclerView当前位置
+     */
+    private void getPositionAndOffset() {
+        //获取可视的第一个view
+        LinearLayoutManager linearLayoutManager;
+        if(orderModel.getLayoutType() == OrderConfig.LAYOUT_Gride){
+            linearLayoutManager = mGrideManager;
+        }else {
+            linearLayoutManager = mLinearManager;
+        }
+        View topView = linearLayoutManager.getChildAt(0);
+        if(topView != null) {
+            //获取与该view的顶部的偏移量
+            lastOffset = topView.getTop();
+            //得到该View的数组位置
+            lastPosition = linearLayoutManager.getPosition(topView);
         }
     }
 }

@@ -91,7 +91,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private FloatingActionButton fbtCompose;
     private NavigationView navView;
     private DrawerLayout drawerLayout;
-    private User currentUser;
     public View transView;
     //是否正在编辑
     public boolean isEditing = false;
@@ -179,7 +178,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        currentUser = UserHelper.getCurrentUser();
         super.onCreate(savedInstanceState);
         setupViews();
         requestPermissions();
@@ -496,6 +494,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void loadUserInfo() {
         int count = navView.getHeaderCount();
         if (count == 1) {
+            User currentUser = UserHelper.getCurrentUser();
             String nickname = currentUser!=null?currentUser.getNickName():"";
             String avatar = currentUser!=null?currentUser.getAvanta():"";
             String description = currentUser!=null?currentUser.getDescribtion():"";
@@ -597,7 +596,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if(requestCode == REQUSET_APPCLASSIFICATION){
            setVpAdater(viewpager.getCurrentItem());
         }else if(requestCode == REQUEST_EDIT_USER){
-            currentUser = UserHelper.getCurrentUser();
             loadUserInfo();
         }
     }

@@ -14,17 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MsgApkDaoHelper extends BaseDao<MsgApk, MsgApkDao> {
-    public static MsgApkDaoHelper daoHelper;
-    public static MsgApkDaoHelper getInstance(){
-        if(daoHelper == null){
-            synchronized (MsgApkDaoHelper.class){
-                if(daoHelper ==null){
-                    daoHelper = new MsgApkDaoHelper();
+        public static MsgApkDaoHelper daoHelper;
+        public static MsgApkDaoHelper getInstance(){
+            if(daoHelper == null){
+                synchronized (MsgApkDaoHelper.class){
+                    if(daoHelper ==null){
+                        daoHelper = new MsgApkDaoHelper();
+                    }
                 }
             }
+            return daoHelper;
         }
-        return daoHelper;
-    }
     @Override
     public AbstractDao getDao() {
         return mDaosession.getMsgApkDao();
