@@ -283,7 +283,7 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestL
             return;
         }
         @SuppressLint("WrongViewCast")
-        ViewStub viewStub = findViewById(R.id.loadErrorView); findViewById(R.id.loadErrorView);
+        ViewStub viewStub = findViewById(R.id.loadErrorView);
         if (viewStub != null) {
             erroView = viewStub.inflate();
             TextView loadErrorText = erroView.findViewById(R.id.loadErrorText);

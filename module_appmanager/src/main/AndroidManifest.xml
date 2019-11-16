@@ -26,9 +26,6 @@
             android:supportsRtl="true"
             android:theme="@style/base_AppTheme"
             tools:replace="android:label">
-        <activity android:name=".activity.AboutActivity"></activity>
-        <activity android:name=".activity.UserAgreenmentActivity" />
-        <activity android:name=".activity.ResetPwdActivity" />
         <activity
                 android:name=".login.SplashActivity"
                 android:theme="@style/app_SplashActivity">
@@ -74,6 +71,9 @@
                 android:name="cn.bmob.v3.update.UpdateDialogActivity"
                 android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
+        <activity android:name=".activity.AboutActivity"></activity>
+        <activity android:name=".activity.UserAgreenmentActivity" />
+        <activity android:name=".activity.ResetPwdActivity" />
         <service
                 android:name=".service.ScanTopService"
                 android:exported="false" />

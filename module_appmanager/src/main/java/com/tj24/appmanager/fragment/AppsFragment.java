@@ -16,8 +16,10 @@ import androidx.core.widget.PopupWindowCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.R2;
 import com.tj24.appmanager.activity.MainActivity;
 import com.tj24.appmanager.adapter.RcAppGrideAdapter;
 import com.tj24.appmanager.adapter.RcAppLinearAdapter;
@@ -38,6 +40,7 @@ import com.tj24.base.base.ui.BaseFragment;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.base.utils.ScreenUtil;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -49,15 +52,21 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import butterknife.BindView;
+
 public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener,
         BaseQuickAdapter.OnItemLongClickListener, SideBar.OnTouchingLetterChangedListener {
 
-    private RecyclerView rvApps;
-    private View transView;
-    private SideBar sideBar;
-    private TextView tvSidebar;
-    private AppFooterView footerView;
+    @BindView(R2.id.rc_apps)
+    RecyclerView rcApps;
+    @BindView(R2.id.sideBar)
+    SideBar sideBar;
+    @BindView(R2.id.tv_sidebar)
+    TextView tvSidebar;
+    @BindView(R2.id.apps_footer)
+    AppFooterView appsFooter;
 
+    View transView;
     //是否正在编辑
     private boolean isEditing;
     //是否全选
@@ -77,8 +86,9 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
     private GridLayoutManager mGrideManager;
     private OrderModel orderModel;
     //记录上次recyclerview的位置和偏移量
-    int lastPosition = 0 ;
+    int lastPosition = 0;
     int lastOffset = 0;
+
     @Override
     public int getCreateViewLayoutId() {
         return R.layout.app_fragment_apps;
@@ -105,12 +115,8 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
     }
 
     private void initView() {
-        rvApps = rootView.findViewById(R.id.rc_apps);
-        transView = ((MainActivity)mActivity).transView;
-        sideBar = rootView.findViewById(R.id.sideBar);
-        tvSidebar = rootView.findViewById(R.id.tv_sidebar);
-        footerView = rootView.findViewById(R.id.apps_footer);
-        rvApps.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        transView = ((MainActivity) mActivity).transView;
+        rcApps.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -144,21 +150,21 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
         if (orderModel.getLayoutType() == OrderConfig.LAYOUT_LINEAR) {
             mLinearManager = new ScrollLinearLayoutManager(mActivity);
             mLinearManager.setStackFromEnd(false);
-            rvApps.setLayoutManager(mLinearManager);
+            rcApps.setLayoutManager(mLinearManager);
             mLinearAdapter = new RcAppLinearAdapter(R.layout.app_rv_apps_linear_item, appBeans, appClassfication, isEditing);
-            mLinearManager.scrollToPositionWithOffset(lastPosition,lastOffset);
-            rvApps.setAdapter(mLinearAdapter);
+            mLinearManager.scrollToPositionWithOffset(lastPosition, lastOffset);
+            rcApps.setAdapter(mLinearAdapter);
             mLinearAdapter.setOnItemChildClickListener(this);
             mLinearAdapter.setOnItemClickListener(this);
             mLinearAdapter.setOnItemLongClickListener(this);
         } else if (orderModel.getLayoutType() == OrderConfig.LAYOUT_Gride) {
             mGrideManager = new GridLayoutManager(mActivity, 4);
-            rvApps.setLayoutManager(mGrideManager);
+            rcApps.setLayoutManager(mGrideManager);
             mGrideAdapter = new RcAppGrideAdapter(R.layout.app_rv_apps_gride_item, appBeans, isEditing);
-            mGrideManager.scrollToPositionWithOffset(lastPosition,lastOffset);
+            mGrideManager.scrollToPositionWithOffset(lastPosition, lastOffset);
             mGrideAdapter.setOnItemClickListener(this);
             mGrideAdapter.setOnItemLongClickListener(this);
-            rvApps.setAdapter(mGrideAdapter);
+            rcApps.setAdapter(mGrideAdapter);
         }
     }
 
@@ -193,7 +199,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
             }
             notifyRecyclerView();
             ((MainActivity) mActivity).onAppSelected(editingApps);
-            footerView.onEdittingAppChanged(editingApps, appClassfication);
+            appsFooter.onEdittingAppChanged(editingApps, appClassfication);
         } else if (orderModel.getLayoutType() == OrderConfig.LAYOUT_Gride) {
             ApkModel.openApp(mActivity, clickBean);
         }
@@ -237,7 +243,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
         view.getLocationOnScreen(itemLocation);
         //recyclerview 在屏幕中的位置
         int[] rvLocation = new int[2];
-        rvApps.getLocationOnScreen(rvLocation);
+        rcApps.getLocationOnScreen(rvLocation);
 
         int clickX = (int) ((MainActivity) mActivity).getClickPosition()[0];
         int clickY = (int) ((MainActivity) mActivity).getClickPosition()[1];
@@ -247,7 +253,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
         int offX = clickX;
         int offY = 0;
         //计算Y方向偏移量
-        if (itemLocation[1] + view.getHeight() + popupHeight > rvLocation[1] + rvApps.getHeight()) {
+        if (itemLocation[1] + view.getHeight() + popupHeight > rvLocation[1] + rcApps.getHeight()) {
             offY = -(view.getHeight() + popupHeight) + overlapValueY;
         } else {
             offY = offY - overlapValueY;
@@ -297,14 +303,14 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
                     appBean.setIsSelected(false);
                 }
                 editingApps.clear();
-                footerView.setVisibility(View.GONE);
+                appsFooter.setVisibility(View.GONE);
                 ((MainActivity) mActivity).onAppSelected(editingApps);
                 break;
             case LaucherEvent.EVENT_START_EDITING:
                 isEditing = true;
                 initRecyclerView();
-                footerView.setVisibility(View.VISIBLE);
-                footerView.onEdittingAppChanged(editingApps, appClassfication);
+                appsFooter.setVisibility(View.VISIBLE);
+                appsFooter.onEdittingAppChanged(editingApps, appClassfication);
                 break;
             case LaucherEvent.EVENT_CHANGE_ORDERTYPE:
                 initRecyclerView();
@@ -318,25 +324,25 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
                 break;
             case LaucherEvent.EVENT_ALL_SELECTED:
                 //首先需要判断是否可见 否则appBeans会错乱到其他item
-                if(!isVisibleToUser){
+                if (!isVisibleToUser) {
                     return;
                 }
                 isAllSelected = !isAllSelected;
-                if(isAllSelected){
+                if (isAllSelected) {
                     editingApps.clear();
-                    for(AppBean bean : appBeans){
+                    for (AppBean bean : appBeans) {
                         bean.setIsSelected(true);
                         editingApps.add(bean);
                     }
-                }else {
+                } else {
                     editingApps.clear();
-                    for(AppBean bean : appBeans){
+                    for (AppBean bean : appBeans) {
                         bean.setIsSelected(false);
                     }
                 }
                 notifyRecyclerView();
-                ((MainActivity) mActivity).onAppAllSelected(isAllSelected,editingApps.size());
-                footerView.onEdittingAppChanged(editingApps, appClassfication);
+                ((MainActivity) mActivity).onAppAllSelected(isAllSelected, editingApps.size());
+                appsFooter.onEdittingAppChanged(editingApps, appClassfication);
                 break;
         }
     }
@@ -363,6 +369,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
 
     /**
      * 接受到安装卸载或更新的消息
+     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -459,13 +466,13 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
     private void getPositionAndOffset() {
         //获取可视的第一个view
         LinearLayoutManager linearLayoutManager;
-        if(orderModel.getLayoutType() == OrderConfig.LAYOUT_Gride){
+        if (orderModel.getLayoutType() == OrderConfig.LAYOUT_Gride) {
             linearLayoutManager = mGrideManager;
-        }else {
+        } else {
             linearLayoutManager = mLinearManager;
         }
         View topView = linearLayoutManager.getChildAt(0);
-        if(topView != null) {
+        if (topView != null) {
             //获取与该view的顶部的偏移量
             lastOffset = topView.getTop();
             //得到该View的数组位置

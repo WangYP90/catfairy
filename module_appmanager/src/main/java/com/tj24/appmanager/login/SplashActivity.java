@@ -3,28 +3,34 @@ package com.tj24.appmanager.login;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.R2;
 import com.tj24.appmanager.activity.MainActivity;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.utils.UserHelper;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 public class SplashActivity extends BaseActivity {
 
     private static final long TIME_MIN = 1500;
-    private static final int  TIME_MAX = 3100;
+    private static final int TIME_MAX = 3100;
     private static final int MSG_FORWARD = 0;
-    private TextView tvJump;
-    private ImageView ivLeague;
+    @BindView(R2.id.tv_jump)
+    TextView tvJump;
+    @BindView(R2.id.iv_league)
+    ImageView ivLeague;
+
     private boolean isLogin;
-    Handler mHandler = new Handler(){
+    Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if(msg.what == MSG_FORWARD){
+            if (msg.what == MSG_FORWARD) {
                 mHandler.removeMessages(MSG_FORWARD);
                 forwardToNextActivity();
             }
@@ -36,10 +42,10 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initView();
+        enterTime = System.currentTimeMillis();
         //开启最大延迟跳转
-        mHandler.sendEmptyMessageDelayed(MSG_FORWARD,TIME_MAX);
-        initSth();
+        mHandler.sendEmptyMessageDelayed(MSG_FORWARD, TIME_MAX);
+        sendForwardMsg();
     }
 
     @Override
@@ -47,35 +53,22 @@ public class SplashActivity extends BaseActivity {
         return R.layout.app_activity_spanish;
     }
 
-    private void initView() {
-        tvJump = findViewById(R.id.tv_jump);
-        ivLeague = findViewById(R.id.iv_league);
-        enterTime = System.currentTimeMillis();
-        tvJump.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mHandler.sendEmptyMessage(MSG_FORWARD);
-            }
-        });
-    }
 
-    /**
-     * 初始化需要的工作
-     */
-    private void initSth() {
-        sendForwardMsg();
+    @OnClick(R2.id.tv_jump)
+    public void onClick() {
+        mHandler.sendEmptyMessage(MSG_FORWARD);
     }
 
     /**
      * 发送跳转的消息
      */
-    private void sendForwardMsg(){
+    private void sendForwardMsg() {
         long spentTime = System.currentTimeMillis() - enterTime;
         Message msg = mHandler.obtainMessage();
         msg.what = MSG_FORWARD;
-        if(spentTime <TIME_MIN){
-            mHandler.sendMessageDelayed(msg,TIME_MIN - spentTime);
-        }else {
+        if (spentTime < TIME_MIN) {
+            mHandler.sendMessageDelayed(msg, TIME_MIN - spentTime);
+        } else {
             mHandler.sendMessage(msg);
         }
     }
@@ -84,12 +77,12 @@ public class SplashActivity extends BaseActivity {
      * 跳转逻辑
      */
     private void forwardToNextActivity() {
-        if(UserHelper.getCurrentUser()!=null){
+        if (UserHelper.getCurrentUser() != null) {
             MainActivity.startMain(mActivity);
-        }else {
-            if(isActive){
-                LoginActivity.actionStartWithTransition(this,ivLeague);
-            }else {
+        } else {
+            if (isActive) {
+                LoginActivity.actionStartWithTransition(this, ivLeague);
+            } else {
                 LoginActivity.actionStart(this);
             }
         }

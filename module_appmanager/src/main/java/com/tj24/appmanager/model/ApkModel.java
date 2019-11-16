@@ -12,11 +12,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.common.Const;
@@ -386,20 +389,37 @@ public class ApkModel {
      * @param context
      */
     public static synchronized Bitmap getBitmap(Context context) {
-        PackageManager packageManager = null;
-        ApplicationInfo applicationInfo = null;
+
         try {
-            packageManager = context.getApplicationContext()
-                    .getPackageManager();
-            applicationInfo = packageManager.getApplicationInfo(
-                    context.getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            applicationInfo = null;
+            PackageManager packageManager = context.getApplicationContext().getPackageManager();
+            String packageName = context.getApplicationContext().getPackageName();
+            Drawable drawable = packageManager.getApplicationIcon(packageName);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (drawable instanceof BitmapDrawable) {
+                    return ((BitmapDrawable) drawable).getBitmap();
+                } else if (drawable instanceof AdaptiveIconDrawable) {
+                    Drawable[] drr = new Drawable[2];
+                    drr[0] = ((AdaptiveIconDrawable) drawable).getBackground();
+                    drr[1] = ((AdaptiveIconDrawable) drawable).getForeground();
+
+                    LayerDrawable layerDrawable = new LayerDrawable(drr);
+                    int width = layerDrawable.getIntrinsicWidth();
+                    int height = layerDrawable.getIntrinsicHeight();
+
+                    Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(bitmap);
+                    layerDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+                    layerDrawable.draw(canvas);
+                    return bitmap;
+                }
+            } else {
+                return ((BitmapDrawable) drawable).getBitmap();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        Drawable d = packageManager.getApplicationIcon(applicationInfo); //xxx根据自己的情况获取drawable
-        BitmapDrawable bd = (BitmapDrawable) d;
-        Bitmap bm = bd.getBitmap();
-        return bm;
+        return null;
     }
 
 }

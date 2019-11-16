@@ -9,22 +9,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.R2;
 import com.tj24.appmanager.adapter.RcFlowAdapter;
-import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.appmanager.daohelper.AppClassificationDaoHelper;
 import com.tj24.appmanager.model.AppClassificationEditModel;
 import com.tj24.base.base.ui.BaseActivity;
+import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.base.common.recyclerview.FlowLayoutManager;
 import com.tj24.base.common.recyclerview.itemTouchhelper.DragHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddAppClassficationActivity extends BaseActivity implements View.OnClickListener,
-        BaseQuickAdapter.OnItemClickListener,AppClassificationEditModel.OnEditListner {
+import butterknife.BindView;
+import butterknife.OnClick;
+public class AddAppClassficationActivity extends BaseActivity implements
+        BaseQuickAdapter.OnItemClickListener, AppClassificationEditModel.OnEditListner {
 
-    private RecyclerView rcAppclassfication;
-    private FloatingActionButton fabAdd;
+    @BindView(R2.id.rc_appclassfication)
+    RecyclerView rcAppclassfication;
+    @BindView(R2.id.fab_add)
+    FloatingActionButton fabAdd;
 
     private FlowLayoutManager layoutManager;
     private List<AppClassfication> appClassfications = new ArrayList<>();
@@ -34,7 +39,6 @@ public class AddAppClassficationActivity extends BaseActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initView();
         mModel = new AppClassificationEditModel(this);
         mModel.setOnEditListner(this);
         appClassfications = AppClassificationDaoHelper.getInstance().queryAllAndSort();
@@ -43,11 +47,6 @@ public class AddAppClassficationActivity extends BaseActivity implements View.On
         initAdapter();
     }
 
-    private void initView() {
-        rcAppclassfication = findViewById(R.id.rc_appclassfication);
-        fabAdd = findViewById(R.id.fab_add);
-        fabAdd.setOnClickListener(this);
-    }
 
     @Override
     public int getLayoutId() {
@@ -55,37 +54,28 @@ public class AddAppClassficationActivity extends BaseActivity implements View.On
     }
 
     private void initAdapter() {
-        if(flowAdapter == null){
-            flowAdapter = new RcFlowAdapter(R.layout.app_rc_flow_appclassification,appClassfications);
+        if (flowAdapter == null) {
+            flowAdapter = new RcFlowAdapter(R.layout.app_rc_flow_appclassification, appClassfications);
             rcAppclassfication.setAdapter(flowAdapter);
             ItemTouchHelper.Callback callback = new DragHelper(flowAdapter);
             ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
             touchHelper.attachToRecyclerView(rcAppclassfication);
             flowAdapter.setOnItemClickListener(this);
             setResult(RESULT_OK);
-        }else {
+        } else {
             flowAdapter.notifyDataSetChanged();
         }
     }
 
-
-    @Override
-    public void setupToolbar() {
-        super.setupToolbar();
-        setTitle(R.string.app_edit_files);
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.fab_add){
-            mModel.showNewClassificationDialog();
-        }
+    @OnClick(R2.id.fab_add)
+    public void onClick() {
+        mModel.showNewClassificationDialog();
     }
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        if(position>=2){
-            mModel.showSelectOperationDialog(appClassfications.get(position),position);
+        if (position >= 2) {
+            mModel.showSelectOperationDialog(appClassfications.get(position), position);
         }
     }
 
@@ -96,13 +86,13 @@ public class AddAppClassficationActivity extends BaseActivity implements View.On
     }
 
     @Override
-    public void onUpdateClassification(AppClassfication classfication,int position) {
-        appClassfications.set(position,classfication);
+    public void onUpdateClassification(AppClassfication classfication, int position) {
+        appClassfications.set(position, classfication);
         flowAdapter.notifyItemChanged(position);
     }
 
     @Override
-    public void onDeletClassification(AppClassfication classfication,int position) {
+    public void onDeletClassification(AppClassfication classfication, int position) {
         appClassfications.remove(classfication);
         flowAdapter.notifyItemRemoved(position);
     }

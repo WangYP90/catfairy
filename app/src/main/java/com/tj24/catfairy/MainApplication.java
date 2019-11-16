@@ -18,7 +18,7 @@ public class MainApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e(TAG,"开始初始化application!");
+        Log.e(TAG,"开始初始化MainApplication!");
     }
 
     @Override

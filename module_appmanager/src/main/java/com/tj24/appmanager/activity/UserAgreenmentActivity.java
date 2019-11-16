@@ -9,20 +9,26 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.R2;
 import com.tj24.appmanager.bean.UserAgrement;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.utils.ListUtil;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
 public class UserAgreenmentActivity extends BaseActivity {
 
+    @BindView(R2.id.tv_title)
     TextView tvTitle;
+    @BindView(R2.id.tv_content)
     TextView tvContent;
+    @BindView(R2.id.tv_reload)
     TextView tvReload;
 
     @Override
@@ -39,32 +45,29 @@ public class UserAgreenmentActivity extends BaseActivity {
 
 
     private void initView() {
-        tvContent = findViewById(R.id.tv_content);
-        tvTitle = findViewById(R.id.tv_title);
         tvTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         tvContent.setMovementMethod(ScrollingMovementMethod.getInstance());
-        tvReload = findViewById(R.id.tv_reload);
-        tvReload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initData();
-            }
-        });
+
+    }
+
+    @OnClick(R2.id.tv_reload)
+    public void onClick() {
+        initData();
     }
 
     private void initData() {
-        showProgressDialog("","");
+        showProgressDialog("", "");
         BmobQuery<UserAgrement> query = new BmobQuery<>();
-        query.addWhereEqualTo("isUsing",true).findObjects(new FindListener<UserAgrement>() {
+        query.addWhereEqualTo("isUsing", true).findObjects(new FindListener<UserAgrement>() {
             @Override
             public void done(List<UserAgrement> list, BmobException e) {
                 hideProgressDialog();
-                if(e==null && !ListUtil.isNullOrEmpty(list)){
+                if (e == null && !ListUtil.isNullOrEmpty(list)) {
                     UserAgrement userAgrement = list.get(0);
                     tvTitle.setText(userAgrement.getTitle());
                     tvContent.setText(userAgrement.getContent());
                     tvReload.setVisibility(View.GONE);
-                }else {
+                } else {
                     showShortToast(getString(R.string.app_load_data_fail));
                     tvReload.setVisibility(View.VISIBLE);
                 }
@@ -74,10 +77,11 @@ public class UserAgreenmentActivity extends BaseActivity {
 
     /**
      * 启动
+     *
      * @param context
      */
-    public static void actionStart(Context context){
-        Intent i = new Intent(context,UserAgreenmentActivity.class);
+    public static void actionStart(Context context) {
+        Intent i = new Intent(context, UserAgreenmentActivity.class);
         context.startActivity(i);
     }
 }

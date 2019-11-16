@@ -23,6 +23,7 @@ import androidx.transition.TransitionManager;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.textfield.TextInputEditText;
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.R2;
 import com.tj24.appmanager.activity.MainActivity;
 import com.tj24.appmanager.common.SimpleTransitionListener;
 import com.tj24.base.base.ui.BaseActivity;
@@ -31,29 +32,45 @@ import com.tj24.base.constant.ARouterPath;
 import com.tj24.base.constant.BmobErrorCode;
 import com.tj24.base.utils.UserHelper;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
+
 @Route(path = ARouterPath.AppManager.LOGIN_ACTIVITY)
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
+
     private static final String EXT_IS_WITH_TRANSITION = "isWithTransition";
     private static final String EXT_USER_NAME = "userName";
     private static final String EXT_USER_PWD = "userPwd";
     private static final int REQUEST_CODE_REGIST = 100;
-    ImageView ivLoginWall;
-    LinearLayout llLoginWall;
-    RelativeLayout rlLoginTop;
-    ProgressBar prbLogin;
-    TextInputEditText etPhoneNumber;
-    TextInputEditText etPwd;
-    LinearLayout llInputElements;
+
+    @BindView(R2.id.fl_login_bottom)
     FrameLayout flLoginBottom;
+    @BindView(R2.id.iv_login_wall)
+    ImageView ivLoginWall;
+    @BindView(R2.id.ll_login_wall)
+    LinearLayout llLoginWall;
+    @BindView(R2.id.iv_shareElement)
     ImageView ivShareElement;
-    Button btnLogin;
+    @BindView(R2.id.tv_login_next)
     TextView tvLoginNext;
-    TextView tvForgetPwd;
+    @BindView(R2.id.rl_login_top)
+    RelativeLayout rlLoginTop;
+    @BindView(R2.id.prb_login)
+    ProgressBar prbLogin;
+    @BindView(R2.id.et_phoneNumber)
+    TextInputEditText etPhoneNumber;
+    @BindView(R2.id.et_pwd)
+    TextInputEditText etPwd;
+    @BindView(R2.id.btn_login)
+    Button btnLogin;
+    @BindView(R2.id.tv_regist)
     TextView tvRegist;
-    String userName;
-    String userPwd;
+    @BindView(R2.id.tv_forget_pwd)
+    TextView tvForgetPwd;
+    @BindView(R2.id.ll_inputElements)
+    LinearLayout llInputElements;
 
     /**
      * 是否正在进行transition动画
@@ -64,55 +81,36 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      */
     User mUser;
 
+    String userName;
+    String userPwd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initView();
         initTransition();
         mUser = new User();
     }
+
     @Override
     public int getLayoutId() {
         return R.layout.app_activity_login;
     }
 
     private void initTransition() {
-        boolean isWithTransition = getIntent().getBooleanExtra(EXT_IS_WITH_TRANSITION,false);
-        if(isWithTransition && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ){
+        boolean isWithTransition = getIntent().getBooleanExtra(EXT_IS_WITH_TRANSITION, false);
+        if (isWithTransition && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             isTranstioning = true;
-            getWindow().getSharedElementEnterTransition().addListener(new SimpleTransitionListener(){
+            getWindow().getSharedElementEnterTransition().addListener(new SimpleTransitionListener() {
                 @Override
                 public void onTransitionEnd(@NonNull Transition transition) {
                     isTranstioning = false;
                     fadeElementsIn();
                 }
             });
-        }else {
+        } else {
             flLoginBottom.setVisibility(View.VISIBLE);
             llLoginWall.setVisibility(View.VISIBLE);
         }
-    }
-
-
-    private void initView() {
-        llLoginWall =findViewById(R.id.ll_login_wall);
-        ivLoginWall=findViewById(R.id.iv_login_wall);
-        rlLoginTop =findViewById(R.id.rl_login_top);
-        prbLogin =findViewById(R.id.prb_login);
-        etPhoneNumber =findViewById(R.id.et_phoneNumber);
-        etPwd =findViewById(R.id.et_pwd);
-        btnLogin =findViewById(R.id.btn_login);
-        llInputElements =findViewById(R.id.ll_inputElements);
-        flLoginBottom =findViewById(R.id.fl_login_bottom);
-        tvForgetPwd = findViewById(R.id.tv_forget_pwd);
-        tvLoginNext = findViewById(R.id.tv_login_next);
-        tvRegist = findViewById(R.id.tv_regist);
-        ivShareElement = findViewById(R.id.iv_shareElement);
-
-        btnLogin.setOnClickListener(this);
-        tvRegist.setOnClickListener(this);
-        tvLoginNext.setOnClickListener(this);
-        tvForgetPwd.setOnClickListener(this);
     }
 
     /**
@@ -121,7 +119,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void fadeElementsIn() {
         TransitionManager.beginDelayedTransition(flLoginBottom, new Fade());
         flLoginBottom.setVisibility(View.VISIBLE);
-        TransitionManager.beginDelayedTransition(llLoginWall,new Fade());
+        TransitionManager.beginDelayedTransition(llLoginWall, new Fade());
         llLoginWall.setVisibility(View.VISIBLE);
     }
 
@@ -140,27 +138,28 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     public static void actionStartWithTransition(Activity activity, View view) {
         Intent intent = new Intent(activity, LoginActivity.class);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ){
-            intent.putExtra(EXT_IS_WITH_TRANSITION,true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            intent.putExtra(EXT_IS_WITH_TRANSITION, true);
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(activity, view,
                     activity.getString(R.string.app_login_shareElementName));
-            activity.startActivity(intent,options.toBundle());
-        }else {
+            activity.startActivity(intent, options.toBundle());
+        } else {
             activity.startActivity(intent);
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.btn_login) {
+    @OnClick({R2.id.tv_login_next, R2.id.btn_login, R2.id.tv_regist, R2.id.tv_forget_pwd})
+    public void onClick(View view) {
+        int viewId = view.getId();
+        if (viewId == R.id.btn_login) {
             login();
-        }else if(v.getId() == R.id.tv_login_next){
+        } else if (viewId == R.id.tv_login_next) {
             MainActivity.startMain(mActivity);
             finish();
-        }else if(v.getId() == R.id.tv_forget_pwd){
-            ForgetPwdActivity.actionStart(this,ivShareElement);
-        }else if(v.getId() == R.id.tv_regist){
-           RegistActivity.startForResult(this,ivShareElement,REQUEST_CODE_REGIST);
+        } else if (viewId == R.id.tv_forget_pwd) {
+            ForgetPwdActivity.actionStart(this, ivShareElement);
+        } else if (viewId == R.id.tv_regist) {
+            RegistActivity.startForResult(this, ivShareElement, REQUEST_CODE_REGIST);
         }
     }
 
@@ -174,12 +173,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mUser.login(new SaveListener<User>() {
             @Override
             public void done(User bmobUser, BmobException e) {
-                if(e==null){        //登录成功
+                if (e == null) {        //登录成功
                     prbLogin.setVisibility(View.GONE);
-                    mUser  = UserHelper.getCurrentUser();
+                    mUser = UserHelper.getCurrentUser();
                     MainActivity.startMain(mActivity);
                     finish();
-                }else{
+                } else {
                     prbLogin.setVisibility(View.GONE);
                     showShortToast(BmobErrorCode.getInstance().getErro(e.getErrorCode()));
                 }
@@ -190,8 +189,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
-            if(requestCode == REQUEST_CODE_REGIST){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_REGIST) {
                 userName = getIntent().getStringExtra(EXT_USER_NAME);
                 userPwd = getIntent().getStringExtra(EXT_USER_PWD);
                 etPhoneNumber.setText(userName);
@@ -200,10 +199,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-    public static void setResult(Activity activity,String userName,String userPwd){
+    public static void setResult(Activity activity, String userName, String userPwd) {
         Intent intent = new Intent();
-        intent.putExtra(EXT_USER_NAME,userName);
-        intent.putExtra(EXT_USER_PWD,userPwd);
-        activity.setResult(RESULT_OK,intent);
+        intent.putExtra(EXT_USER_NAME, userName);
+        intent.putExtra(EXT_USER_PWD, userPwd);
+        activity.setResult(RESULT_OK, intent);
     }
 }

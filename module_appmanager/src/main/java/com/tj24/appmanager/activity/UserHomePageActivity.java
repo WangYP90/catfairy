@@ -33,6 +33,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.R2;
 import com.tj24.appmanager.adapter.UserHomePageAdapter;
 import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.appmanager.util.ViewUtils;
@@ -48,23 +49,35 @@ import com.tj24.base.utils.UserHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-@Route(path = ARouterPath.AppManager.USER_HOMEPAGE_ACTIVITY,extras = ARouterPath.NEED_LOGIN)
+
+@Route(path = ARouterPath.AppManager.USER_HOMEPAGE_ACTIVITY, extras = ARouterPath.NEED_LOGIN)
 public class UserHomePageActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener {
     private static final int REQUEST_USER_EDIT = 100;
-    private ImageView ivUserBg;
-    private ImageView ivAvatan;
-    private TextView tvNickName;
-    private TextView tvInstalled;
-    private TextView tvCollected;
-    private TextView tvDescribtion;
-    private CollapsingToolbarLayout collToolbarLayout;
-    private AppBarLayout appBarLayout;
-    private RecyclerView rvView;
-    private FloatingActionButton fab;
-    private CoordinatorLayout coordLayout;
+    @BindView(R2.id.iv_userBg)
+    ImageView ivUserBg;
+    @BindView(R2.id.iv_avatar)
+    ImageView ivAvatar;
+    @BindView(R2.id.tv_nickName)
+    TextView tvNickName;
+    @BindView(R2.id.tv_installed)
+    TextView tvInstalled;
+    @BindView(R2.id.tv_collected)
+    TextView tvCollected;
+    @BindView(R2.id.tv_describtion)
+    TextView tvDescribtion;
+    @BindView(R2.id.collapsingToolbar)
+    CollapsingToolbarLayout collapsingToolbar;
+    @BindView(R2.id.appBar)
+    AppBarLayout appBar;
+    @BindView(R2.id.rv_view)
+    RecyclerView rvView;
+    @BindView(R2.id.fab)
+    FloatingActionButton fab;
 
     int scrollRange = -1;
     boolean isUserBgImageLoaded;
@@ -86,25 +99,25 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
 
         @Override
         public boolean onResourceReady(GlideDrawable resource, Object model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-            if(resource == null){
+            if (resource == null) {
                 return false;
             }
             Bitmap bitmap = DrawableUtil.toBitmap(resource);
             int bitmapWidth = bitmap.getWidth();
             int bitmapHeight = bitmap.getHeight();
-            if(bitmapWidth <= 0 || bitmapHeight <= 0){
+            if (bitmapWidth <= 0 || bitmapHeight <= 0) {
                 return false;
             }
             Palette.from(bitmap).maximumColorCount(3).clearFilters()
-                    .setRegion(0,0 ,bitmapWidth-1, (int) (bitmapHeight*0.1))// 测量图片头部的颜色，以确定状态栏和导航栏的颜色
+                    .setRegion(0, 0, bitmapWidth - 1, (int) (bitmapHeight * 0.1))// 测量图片头部的颜色，以确定状态栏和导航栏的颜色
                     .generate(new Palette.PaletteAsyncListener() {
                         @Override
                         public void onGenerated(@Nullable Palette palette) {
-                            isUserBgImageDark = ColorUtil.isBitmapDark(palette,bitmap);
-                            if(isUserBgImageDark){
+                            isUserBgImageDark = ColorUtil.isBitmapDark(palette, bitmap);
+                            if (isUserBgImageDark) {
                                 isToolbarAndStatusbarIconDark = false;
                                 setToolbarAndStatusbarIconIntoLight();
-                            }else {
+                            } else {
                                 isToolbarAndStatusbarIconDark = true;
                                 setToolbarAndStatusbarIconIntoDark();
                             }
@@ -117,13 +130,13 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
             int top = bitmapHeight / 2;
             int bottom = bitmapHeight - 1;
             Palette.from(bitmap).maximumColorCount(3).clearFilters()
-                    .setRegion(left,top,right,bottom) // 测量图片下半部分的颜色，以确定用户信息的颜色
+                    .setRegion(left, top, right, bottom) // 测量图片下半部分的颜色，以确定用户信息的颜色
                     .generate(new Palette.PaletteAsyncListener() {
                         @Override
                         public void onGenerated(@Nullable Palette palette) {
-                            boolean isDark = ColorUtil.isBitmapDark(palette,bitmap);
-                            int color = isDark?ContextCompat.getColor(mActivity,R.color.base_white_text)
-                                    :ContextCompat.getColor(mActivity,R.color.base_black_600);
+                            boolean isDark = ColorUtil.isBitmapDark(palette, bitmap);
+                            int color = isDark ? ContextCompat.getColor(mActivity, R.color.base_white_text)
+                                    : ContextCompat.getColor(mActivity, R.color.base_black_600);
                             tvNickName.setTextColor(color);
                             tvDescribtion.setTextColor(color);
 
@@ -149,43 +162,28 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
 
     private void initData() {
         User currentUser = UserHelper.getCurrentUser();
-        nickName = currentUser!=null?currentUser.getNickName():"";
-        describtion = currentUser!=null?currentUser.getDescribtion():"";
-        avatar = currentUser!=null?currentUser.getAvanta():"";
-        bgImag = currentUser!=null?currentUser.getBgImage():"";
+        nickName = currentUser != null ? currentUser.getNickName() : "";
+        describtion = currentUser != null ? currentUser.getDescribtion() : "";
+        avatar = currentUser != null ? currentUser.getAvanta() : "";
+        bgImag = currentUser != null ? currentUser.getBgImage() : "";
     }
 
-
     private void initView() {
-        ivUserBg = (ImageView) findViewById(R.id.iv_userBg);
-        ivAvatan = (ImageView) findViewById(R.id.iv_avatar);
-        tvNickName = (TextView) findViewById(R.id.tv_nickName);
-        tvCollected = (TextView) findViewById(R.id.tv_collected);
-        tvInstalled = (TextView) findViewById(R.id.tv_installed);
-        tvDescribtion = (TextView) findViewById(R.id.tv_describtion);
-        collToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
-        appBarLayout = (AppBarLayout) findViewById(R.id.appBar);
-        rvView = (RecyclerView) findViewById(R.id.rv_view);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        coordLayout = (CoordinatorLayout) findViewById(R.id.rootLayout);
-
-        ivAvatan.setOnClickListener(this);
-        fab.setOnClickListener(this);
-        appBarLayout.addOnOffsetChangedListener(this);
-        appBarLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        appBar.addOnOffsetChangedListener(this);
+        appBar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                appBarLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                appBar.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 setAppBarLayoutCanDrag(false);
             }
         });
-        collToolbarLayout.setTitle(" "); //隐藏title
-        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        collapsingToolbar.setTitle(" "); //隐藏title
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             tvNickName.setLetterSpacing(0.1f);
         }
 
-        tvInstalled.setText(getString(R.string.app_installed,20));
-        tvCollected.setText(getString(R.string.app_collected,20));
+        tvInstalled.setText(getString(R.string.app_installed, 20));
+        tvCollected.setText(getString(R.string.app_collected, 20));
         setupUserInfo();
         popFab();
     }
@@ -195,7 +193,7 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
         tvDescribtion.setText(describtion);
         if (!TextUtils.isEmpty(describtion)) {
             tvDescribtion.setVisibility(View.VISIBLE);
-            tvDescribtion.setText(getString(R.string.app_description_content,describtion));
+            tvDescribtion.setText(getString(R.string.app_description_content, describtion));
         } else {
             tvDescribtion.setVisibility(View.INVISIBLE);
         }
@@ -205,16 +203,16 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .placeholder(R.drawable.app_loading_bg_circle)
                 .error(R.drawable.base_avatar_default)
-                .into(ivAvatan);
-        if(TextUtils.isEmpty(bgImag)){
-            if(!TextUtils.isEmpty(avatar)){
+                .into(ivAvatar);
+        if (TextUtils.isEmpty(bgImag)) {
+            if (!TextUtils.isEmpty(avatar)) {
                 Glide.with(this).load(bgImag)
                         .bitmapTransform(new BlurTransformation(this, 15))
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .listener(userBgLoadListner)
                         .into(ivUserBg);
             }
-        }else {
+        } else {
             Glide.with(this).load(bgImag)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .listener(userBgLoadListner)
@@ -227,15 +225,15 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
         rvView.setVisibility(View.INVISIBLE);
         rvView.setHasFixedSize(true);
         rvView.setLayoutManager(new LinearLayoutManager(this));
-        mUserHomePageAdapter = new UserHomePageAdapter(R.layout.app_rv_collections,collectionApps);
+        mUserHomePageAdapter = new UserHomePageAdapter(R.layout.app_rv_collections, collectionApps);
         rvView.setAdapter(mUserHomePageAdapter);
     }
 
-    @Override
+    @OnClick({R2.id.iv_avatar, R2.id.fab})
     public void onClick(View v) {
-        if(v.getId()==R.id.fab){
-            UserEditActivity.actionStartForResult(mActivity,REQUEST_USER_EDIT,false);
-        }else if(v.getId() == R.id.iv_avatar){
+        if (v.getId() == R.id.fab) {
+            UserEditActivity.actionStartForResult(mActivity, REQUEST_USER_EDIT, false);
+        } else if (v.getId() == R.id.iv_avatar) {
 
         }
     }
@@ -243,10 +241,10 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode != RESULT_OK){
+        if (resultCode != RESULT_OK) {
             return;
         }
-        if(requestCode == REQUEST_USER_EDIT){
+        if (requestCode == REQUEST_USER_EDIT) {
             initData();
             setupUserInfo();
             setResult(RESULT_OK);
@@ -255,24 +253,24 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        if(scrollRange == -1){
+        if (scrollRange == -1) {
             scrollRange = appBarLayout.getTotalScrollRange();
         }
-        if(scrollRange + verticalOffset < ScreenUtil.dip2px(this,8)){
-            collToolbarLayout.setTitle(nickName);
-        }else {
-            collToolbarLayout.setTitle("");
+        if (scrollRange + verticalOffset < ScreenUtil.dip2px(this, 8)) {
+            collapsingToolbar.setTitle(nickName);
+        } else {
+            collapsingToolbar.setTitle("");
         }
-        if(!isUserBgImageLoaded){
+        if (!isUserBgImageLoaded) {
             return;
         }
-        if(collToolbarLayout.getHeight() + verticalOffset <collToolbarLayout.getScrimVisibleHeightTrigger()){
+        if (collapsingToolbar.getHeight() + verticalOffset < collapsingToolbar.getScrimVisibleHeightTrigger()) {
             // 先判断背景图是否是深色的，因为深色情况下不用改变状态栏和Toolbar的颜色，保持默认即可。
             if (!isUserBgImageDark && isToolbarAndStatusbarIconDark) {
                 setToolbarAndStatusbarIconIntoLight();
                 isToolbarAndStatusbarIconDark = false;
             }
-        }else {    // 用户信息和状态栏分离
+        } else {    // 用户信息和状态栏分离
             // 先判断背景图是否是深色的，因为深色情况下不用改变状态栏和Toolbar的颜色，保持默认即可。
             if (!isUserBgImageDark && !isToolbarAndStatusbarIconDark) {
                 setToolbarAndStatusbarIconIntoDark();
@@ -286,7 +284,7 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
      */
     private void setToolbarAndStatusbarIconIntoDark() {
         ViewUtils.setLightStatusBar(getWindow(), ivUserBg);
-        if(toolbar != null){
+        if (toolbar != null) {
             ViewUtils.setToolbarIconColor(this, toolbar, true);
         }
     }
@@ -296,20 +294,20 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
      */
     private void setToolbarAndStatusbarIconIntoLight() {
         ViewUtils.setLightStatusBar(getWindow(), ivUserBg);
-        if(toolbar != null){
+        if (toolbar != null) {
             ViewUtils.setToolbarIconColor(this, toolbar, false);
         }
     }
 
     /**
      * 设置AppBarLayout是否可拖动。
-     * @param canDrag
-     * true表示可以拖动，false表示不可以。
+     *
+     * @param canDrag true表示可以拖动，false表示不可以。
      */
     private void setAppBarLayoutCanDrag(boolean canDrag) {
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) appBar.getLayoutParams();
         AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) layoutParams.getBehavior();
-        if(behavior !=null){
+        if (behavior != null) {
             behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
                 @Override
                 public boolean canDrag(@NonNull AppBarLayout appBarLayout) {
@@ -318,10 +316,11 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
             });
         }
     }
+
     /**
      * 使用pop动画的方式将fab按钮显示出来。
      */
-    private void  popFab() {
+    private void popFab() {
         fab.setImageResource(R.drawable.app_ic_edit);
         fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.base_colorAccent)));
 
@@ -338,8 +337,8 @@ public class UserHomePageActivity extends BaseActivity implements AppBarLayout.O
         animator.start();
     }
 
-    public static void actionStartForResult(Activity context, int requestCode){
+    public static void actionStartForResult(Activity context, int requestCode) {
         ARouter.getInstance().build(ARouterPath.AppManager.USER_HOMEPAGE_ACTIVITY)
-                .navigation(context,requestCode,new LoginInterceptorCallBack(context));
+                .navigation(context, requestCode, new LoginInterceptorCallBack(context));
     }
 }

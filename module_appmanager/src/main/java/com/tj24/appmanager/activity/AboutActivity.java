@@ -7,21 +7,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.R2;
 import com.tj24.appmanager.model.ApkModel;
 import com.tj24.base.base.ui.BaseActivity;
 
+import butterknife.BindView;
+
 public class AboutActivity extends BaseActivity {
 
-    TextView tvName;
-    TextView tvVersion;
+    @BindView(R2.id.iv_pic)
     ImageView ivPic;
+    @BindView(R2.id.tv_name)
+    TextView tvName;
+    @BindView(R2.id.tv_version)
+    TextView tvVersion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tvName = findViewById(R.id.tv_name);
-        tvVersion = findViewById(R.id.tv_version);
-        ivPic = findViewById(R.id.iv_pic);
-
         tvName.setText(ApkModel.getAppName(this));
         tvVersion.setText(ApkModel.getVersionName(this));
         ivPic.setImageBitmap(ApkModel.getBitmap(this));
@@ -34,10 +37,11 @@ public class AboutActivity extends BaseActivity {
 
     /**
      * 启动
+     *
      * @param context
      */
-    public static void actionStart(Context context){
-        Intent i = new Intent(context,AboutActivity.class);
+    public static void actionStart(Context context) {
+        Intent i = new Intent(context, AboutActivity.class);
         context.startActivity(i);
     }
 }

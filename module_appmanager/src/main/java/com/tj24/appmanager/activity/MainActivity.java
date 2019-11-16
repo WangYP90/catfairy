@@ -6,6 +6,7 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +40,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.R2;
 import com.tj24.appmanager.adapter.AppsVpAdater;
 import com.tj24.appmanager.bean.event.LaucherEvent;
 import com.tj24.appmanager.common.OrderConfig;
@@ -71,8 +73,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.helper.ErrorCode;
 import cn.bmob.v3.listener.FetchUserInfoListener;
 import cn.bmob.v3.update.BmobUpdateAgent;
 import gdut.bsx.share2.FileUtil;
@@ -83,15 +88,25 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-    private TabLayout tab;
-    private AppCompatImageView ivAddItem;
-    private AppBarLayout appBarLayout;
-    private NoScrollViewPager viewpager;
-    private TextView tvShadowOrder;
-    private FloatingActionButton fbtCompose;
-    private NavigationView navView;
-    private DrawerLayout drawerLayout;
+    @BindView(R2.id.tab)
+    TabLayout tab;
+    @BindView(R2.id.iv_addItem)
+    AppCompatImageView ivAddItem;
+    @BindView(R2.id.appBar)
+    AppBarLayout appBar;
+    @BindView(R2.id.viewpager)
+    NoScrollViewPager viewpager;
+    @BindView(R2.id.tv_shadow_order)
+    TextView tvShadowOrder;
+    @BindView(R2.id.fbt_compose)
+    FloatingActionButton fbtCompose;
+    @BindView(R2.id.nav_view)
+    NavigationView navView;
+    @BindView(R2.id.drawerLayout)
+    DrawerLayout drawerLayout;
+    @BindView(R2.id.trans_view)
     public View transView;
+
     //是否正在编辑
     public boolean isEditing = false;
 
@@ -118,17 +133,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     int editPosition = 1;
     private ApkChangeReceiver apkChangeReceiver;
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case MSG_REFRESH:
                     hideProgressDialog();
                     progressDialog = null;
                     setVpAdater(1);
                     break;
-                default:break;
+                default:
+                    break;
             }
         }
     };
@@ -137,7 +153,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     /**
      * glide 加载图片的监听
      */
-    RequestListener<Object,GlideDrawable> navHeaderBgLoadListner = new RequestListener<Object, GlideDrawable>() {
+    RequestListener<Object, GlideDrawable> navHeaderBgLoadListner = new RequestListener<Object, GlideDrawable>() {
         @Override
         public boolean onException(Exception e, Object model, Target<GlideDrawable> target, boolean isFirstResource) {
             return false;
@@ -166,10 +182,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         @Override
                         public void onGenerated(@Nullable Palette palette) {
                             boolean isDark = ColorUtil.isBitmapDark(palette, bitmap);
-                            int color = isDark?ContextCompat.getColor(MainActivity.this,R.color.base_white_text):ContextCompat.getColor(mActivity,R.color.base_black_600);
+                            int color = isDark ? ContextCompat.getColor(MainActivity.this, R.color.base_white_text) : ContextCompat.getColor(mActivity, R.color.base_black_600);
                             tvNickName.setTextColor(color);
                             tvDescription.setTextColor(color);
-                            ivEdit.setColorFilter(color, android.graphics.PorterDuff.Mode.MULTIPLY);
+                            ivEdit.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
                         }
                     });
             return false;
@@ -183,7 +199,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         requestPermissions();
         regeistReceiver();
         AliveService.startAliveService(this);
-        ScanTopService.startSkanTopService(this,false);
+        ScanTopService.startSkanTopService(this, false);
         autoUpdate();
         fetchUserInfo();
     }
@@ -228,7 +244,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 自动更新
      */
     private void autoUpdate() {
-        if(Sputil.read(getString(R.string.app_sp_auto_check_update),true)){
+        if (Sputil.read(getString(R.string.app_sp_auto_check_update), true)) {
             BmobUpdateAgent.setUpdateOnlyWifi(false);
             BmobUpdateAgent.update(this);
         }
@@ -241,10 +257,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         orderModel = new OrderModel(this);
         businessModel = new BusinessModel(this);
         List<AppClassfication> classfications = businessModel.queryAllAppClassfications();
-        if(ListUtil.isNullOrEmpty(classfications)){
+        if (ListUtil.isNullOrEmpty(classfications)) {
             businessModel.initDeafultData();
             businessModel.refreshApp(mHandler);
-        }else {
+        } else {
             setVpAdater(1);
         }
     }
@@ -258,11 +274,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         appClassfications.addAll(businessModel.queryAllAppClassfications());
         tab.setupWithViewPager(viewpager);
 
-        if(vpAdater==null){
-            vpAdater = new AppsVpAdater(getSupportFragmentManager(),appClassfications);
+        if (vpAdater == null) {
+            vpAdater = new AppsVpAdater(getSupportFragmentManager(), appClassfications);
             viewpager.setAdapter(vpAdater);
             viewpager.setCurrentItem(position);
-        }else {
+        } else {
             vpAdater.notifyDataSetChanged();
         }
     }
@@ -271,7 +287,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         toolbar = findViewById(R.id.toolbar);
         tab = findViewById(R.id.tab);
         ivAddItem = findViewById(R.id.iv_addItem);
-        appBarLayout = findViewById(R.id.appBar);
+        appBar = findViewById(R.id.appBar);
         viewpager = findViewById(R.id.viewpager);
         tvShadowOrder = findViewById(R.id.tv_shadow_order);
         fbtCompose = findViewById(R.id.fbt_compose);
@@ -292,6 +308,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         initTransView();
 
     }
+
     //只放行点击事件，其他事件全部拦截
     private void initTransView() {
         transView = findViewById(R.id.trans_view);
@@ -300,6 +317,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             float x = 0;
             float y = 0;
             long time = 0;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -323,14 +341,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void setupToolbar() {
         super.setupToolbar();
-        setTitle(isEditing?getString(R.string.app_edit):getString(R.string.app_app_name));
-        toolbar.setNavigationIcon(isEditing?R.drawable.md_nav_back:R.drawable.app_ico_footer_more);
+        setTitle(isEditing ? getString(R.string.app_edit) : getString(R.string.app_app_name));
+        toolbar.setNavigationIcon(isEditing ? R.drawable.md_nav_back : R.drawable.app_ico_footer_more);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isEditing) {
+                if (isEditing) {
                     EventBus.getDefault().post(new LaucherEvent(LaucherEvent.EVENT_EXIST_EDITING));
-                }else {
+                } else {
                     drawerLayout.openDrawer(GravityCompat.START);
                 }
             }
@@ -343,7 +361,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 使用缩放动画的方式将Toolbar标题显示出来。
      */
     private void animateToolbar() {
-        if(toolbar==null) return;
+        if (toolbar == null) return;
         View t = toolbar.getChildAt(0);
         if (t != null && t instanceof TextView) {
             t.setAlpha(0f);
@@ -356,14 +374,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        int i = v.getId();
+    @OnClick({R2.id.iv_addItem, R2.id.fbt_compose})
+    public void onClick(View view) {
+        int i = view.getId();
         if (i == R.id.iv_addItem) {
             startActivityForResult(new Intent(this, AddAppClassficationActivity.class), REQUSET_APPCLASSIFICATION);
         } else if (i == R.id.fbt_compose) {
-        }else if(i == R.id.trans_view){
-            if(vpAdater.getCurrentFragment()!=null && vpAdater.getCurrentFragment().isPopupShowing()){
+        } else if (i == R.id.trans_view) {
+            if (vpAdater.getCurrentFragment() != null && vpAdater.getCurrentFragment().isPopupShowing()) {
                 vpAdater.getCurrentFragment().editPopup.dismiss();
             }
         }
@@ -377,19 +395,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     /**
      * 动态刷新菜单栏
+     *
      * @param menu
      * @return
      */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        toolbar.setTitle(isEditing?getString(R.string.app_selected,selectedNum):getString(R.string.app_app_name));
-        toolbar.setNavigationIcon(isEditing?R.drawable.md_nav_back:R.drawable.app_ic_person_outline_white_24dp);
+        toolbar.setTitle(isEditing ? getString(R.string.app_selected, selectedNum) : getString(R.string.app_app_name));
+        toolbar.setNavigationIcon(isEditing ? R.drawable.md_nav_back : R.drawable.app_ic_person_outline_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isEditing){
+                if (isEditing) {
                     EventBus.getDefault().post(new LaucherEvent(LaucherEvent.EVENT_EXIST_EDITING));
-                }else {
+                } else {
                     drawerLayout.openDrawer(GravityCompat.START);
                 }
             }
@@ -415,7 +434,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 View searchMenuView = toolbar.findViewById(R.id.menu_search);
                 Bundle options = ActivityOptions.makeSceneTransitionAnimation(this, searchMenuView,
                         getString(R.string.app_transition_search_back)).toBundle();
-                SearchActivity.actionStartWithOptions(this,options);
+                SearchActivity.actionStartWithOptions(this, options);
             } else {
                 SearchActivity.actionStart(this);
             }
@@ -435,28 +454,27 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             EventBus.getDefault().post(new LaucherEvent(LaucherEvent.EVENT_CHANGE_ORDERTYPE));
         } else if (i == R.id.menu_notice) {
             startActivity(new Intent(this, MesageActivity.class));
-        }else if (i == R.id.menu_selected) {
+        } else if (i == R.id.menu_selected) {
             EventBus.getDefault().post(new LaucherEvent(LaucherEvent.EVENT_ALL_SELECTED));
         }
         return super.onOptionsItemSelected(item);
     }
 
 
-
     @Override
     public void onBackPressed() {
         //如果fragment有edipopup弹出 则先隐藏
-        if(vpAdater.getCurrentFragment()!=null && vpAdater.getCurrentFragment().isPopupShowing()){
+        if (vpAdater.getCurrentFragment() != null && vpAdater.getCurrentFragment().isPopupShowing()) {
             vpAdater.getCurrentFragment().editPopup.dismiss();
-        }else if(isEditing) {   //   //如果处于编辑状态则需要先退出编辑状态
+        } else if (isEditing) {   //   //如果处于编辑状态则需要先退出编辑状态
             EventBus.getDefault().post(new LaucherEvent(LaucherEvent.EVENT_EXIST_EDITING));
-        } else if(drawerLayout.isDrawerOpen(GravityCompat.START)){ //如果drawerlayout未关闭，则需要先关闭
+        } else if (drawerLayout.isDrawerOpen(GravityCompat.START)) { //如果drawerlayout未关闭，则需要先关闭
             drawerLayout.closeDrawer(GravityCompat.START);
-        }else {
-            if(System.currentTimeMillis() - lastClickBackTime<1500){
+        } else {
+            if (System.currentTimeMillis() - lastClickBackTime < 1500) {
                 ToastUtil.cancle();
                 super.onBackPressed();
-            }else {
+            } else {
                 showShortToast(getString(R.string.app_click_more_to_exist));
                 lastClickBackTime = System.currentTimeMillis();
             }
@@ -467,21 +485,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int itemId = menuItem.getItemId();
         if (itemId == R.id.item_homepage) {
-            UserHomePageActivity.actionStartForResult(mActivity,REQUEST_EDIT_USER);
+            UserHomePageActivity.actionStartForResult(mActivity, REQUEST_EDIT_USER);
         } else if (itemId == R.id.item_cloud) {
-            if(UserHelper.getCurrentUser() == null){
+            if (UserHelper.getCurrentUser() == null) {
                 LoginInterceptorCallBack.interruptToLogin(mActivity);
-            }else {
-                SettingsActivity.actionStart(mActivity,SettingsActivity.SETTINGS_CLOUD);
+            } else {
+                SettingsActivity.actionStart(mActivity, SettingsActivity.SETTINGS_CLOUD);
             }
         } else if (itemId == R.id.item_share) {
-                new Share2.Builder(mActivity).setContentType(ShareContentType.FILE)
-                        .setShareFileUri(FileUtil.getFileUri(mActivity, ShareContentType.FILE, new File(getPackageResourcePath())))
-                        .setTitle("Share File")
-                        .build()
-                        .shareBySystem();
+            new Share2.Builder(mActivity).setContentType(ShareContentType.FILE)
+                    .setShareFileUri(FileUtil.getFileUri(mActivity, ShareContentType.FILE, new File(getPackageResourcePath())))
+                    .setTitle("Share File")
+                    .build()
+                    .shareBySystem();
         } else if (itemId == R.id.item_settings) {
-            SettingsActivity.actionStart(mActivity,SettingsActivity.SETTINGS_MAIN);
+            SettingsActivity.actionStart(mActivity, SettingsActivity.SETTINGS_MAIN);
         } else if (itemId == R.id.item_helpsuggest) {
             HelpSuggestActivity.actionStart(this);
         }
@@ -495,10 +513,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         int count = navView.getHeaderCount();
         if (count == 1) {
             User currentUser = UserHelper.getCurrentUser();
-            String nickname = currentUser!=null?currentUser.getNickName():"";
-            String avatar = currentUser!=null?currentUser.getAvanta():"";
-            String description = currentUser!=null?currentUser.getDescribtion():"";
-            String bgImage = currentUser!=null?currentUser.getBgImage():"";
+            String nickname = currentUser != null ? currentUser.getNickName() : "";
+            String avatar = currentUser != null ? currentUser.getAvanta() : "";
+            String description = currentUser != null ? currentUser.getDescribtion() : "";
+            String bgImage = currentUser != null ? currentUser.getBgImage() : "";
             View headerView = navView.getHeaderView(0);
             LinearLayout userLayout = headerView.findViewById(R.id.ll_nav_user);
             LinearLayout descriptionLayout = headerView.findViewById(R.id.ll_nav_describe);
@@ -511,7 +529,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             if (TextUtils.isEmpty(description)) {
                 tvDescription.setText(getString(R.string.app_edit_personal_profile));
             } else {
-                tvDescription.setText(getString(R.string.app_profile)+description);
+                tvDescription.setText(getString(R.string.app_profile) + description);
             }
             Glide.with(this)
                     .load(avatar)
@@ -532,7 +550,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             } else {
                 int bgImageWidth = navView.getWidth();
                 //* 25为补偿系统状态栏高度，不加这个高度值图片顶部会出现状态栏的底色 */)
-                float bgImageHeight = ScreenUtil.dip2px(mActivity,250+25);
+                float bgImageHeight = ScreenUtil.dip2px(mActivity, 250 + 25);
                 Glide.with(this).load(bgImage)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .override(bgImageWidth, (int) bgImageHeight)
@@ -550,18 +568,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 @Override
                 public void onClick(View v) {
                     drawerLayout.closeDrawer(GravityCompat.START);
-                    UserEditActivity.actionStartForResult(mActivity, REQUEST_EDIT_USER,true);
+                    UserEditActivity.actionStartForResult(mActivity, REQUEST_EDIT_USER, true);
                 }
             });
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRefreshUI(LaucherEvent laucherEvent){
-        View mAppBarChildAt = appBarLayout.getChildAt(0);
-        AppBarLayout.LayoutParams  mAppBarParams = (AppBarLayout.LayoutParams) mAppBarChildAt.getLayoutParams();
+    public void onRefreshUI(LaucherEvent laucherEvent) {
+        View mAppBarChildAt = appBar.getChildAt(0);
+        AppBarLayout.LayoutParams mAppBarParams = (AppBarLayout.LayoutParams) mAppBarChildAt.getLayoutParams();
 
-        switch (laucherEvent.getEventCode()){
+        switch (laucherEvent.getEventCode()) {
             case LaucherEvent.EVENT_EXIST_EDITING:
                 mAppBarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
                         | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
@@ -590,33 +608,35 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode != RESULT_OK){
+        if (resultCode != RESULT_OK) {
             return;
         }
-        if(requestCode == REQUSET_APPCLASSIFICATION){
-           setVpAdater(viewpager.getCurrentItem());
-        }else if(requestCode == REQUEST_EDIT_USER){
+        if (requestCode == REQUSET_APPCLASSIFICATION) {
+            setVpAdater(viewpager.getCurrentItem());
+        } else if (requestCode == REQUEST_EDIT_USER) {
             loadUserInfo();
         }
     }
 
     /**
      * 编辑状态下对app进行了选择操作后
+     *
      * @param appBeans
      */
     @SuppressLint("StringFormatMatches")
-    public void onAppSelected(List<AppBean> appBeans){
-        toolbar.setTitle(isEditing?getString(R.string.app_selected,appBeans.size()):getString(R.string.app_app_name));
+    public void onAppSelected(List<AppBean> appBeans) {
+        toolbar.setTitle(isEditing ? getString(R.string.app_selected, appBeans.size()) : getString(R.string.app_app_name));
     }
 
     /**
      * 编辑状态下 点击了全选
+     *
      * @param isAllSelected
      * @param edittingNum
      */
-    public void onAppAllSelected(boolean isAllSelected,int edittingNum){
-        menuItemSelected.setTitle(isAllSelected?getString(R.string.app_select_none):getString(R.string.app_select_all));
-        toolbar.setTitle(isEditing?getString(R.string.app_selected,edittingNum):getString(R.string.app_app_name));
+    public void onAppAllSelected(boolean isAllSelected, int edittingNum) {
+        menuItemSelected.setTitle(isAllSelected ? getString(R.string.app_select_none) : getString(R.string.app_select_all));
+        toolbar.setTitle(isEditing ? getString(R.string.app_selected, edittingNum) : getString(R.string.app_app_name));
     }
 
     float clickX;
@@ -624,7 +644,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 clickX = event.getX();
                 clickY = event.getY();
@@ -634,14 +654,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     /**
      * 给fragment提供获取点击屏幕坐标的方法
+     *
      * @return
      */
-    public float[] getClickPosition(){
-        return new float[]{clickX,clickY};
+    public float[] getClickPosition() {
+        return new float[]{clickX, clickY};
     }
 
-    public static void startMain(Context context){
-        Intent i = new Intent(context,MainActivity.class);
+    public static void startMain(Context context) {
+        Intent i = new Intent(context, MainActivity.class);
         context.startActivity(i);
     }
 
@@ -649,10 +670,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 更新本地用户信息
      * 注意：需要先登录，否则会报9024错误
      *
-     * @see cn.bmob.v3.helper.ErrorCode#E9024S
+     * @see ErrorCode#E9024S
      */
     private void fetchUserInfo() {
-        if(UserHelper.getCurrentUser()==null){
+        if (UserHelper.getCurrentUser() == null) {
             return;
         }
         BmobUser.fetchUserJsonInfo(new FetchUserInfoListener<String>() {

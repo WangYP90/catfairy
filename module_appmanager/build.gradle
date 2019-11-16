@@ -3,6 +3,7 @@ if (isAppManagerRunAlone.toBoolean()) {
 } else {
     apply plugin: 'com.android.library'
 }
+apply plugin: 'com.jakewharton.butterknife'
 android {
     compileSdkVersion compile_Sdk_Version.toInteger()
     defaultConfig {
@@ -55,7 +56,7 @@ android {
 dependencies {
     implementation project(':library_base')
     //ARouter
-    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
+    annotationProcessor "com.alibaba:arouter-compiler:${arouter_compiler_Version}"
     //butterknife
-//    annotationProcessor "com.jakewharton:butterknife-compiler:${butterknife_Version}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${butterknife_Version}"
 }
