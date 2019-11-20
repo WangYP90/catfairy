@@ -50,7 +50,7 @@ public class AppClassificationEditModel extends BaseAppsManagerModel {
                             classfication.setSortName(OrderConfig.ORDER_INSTALL_TIME);
                             classfication.setOrder(classfications.size());
                             classfication.setIsDefault(false);
-                            AppClassificationDaoHelper.getInstance().insertObj(classfication);
+                            AppClassificationDaoHelper.getInstance().insertOrReplaceObj(classfication);
                             ToastUtil.showShortToast(mContext,mContext.getString(R.string.app_creat_file_success));
                             if(onEditListner!=null){
                                 onEditListner.onADDClassification(classfication);
@@ -100,7 +100,7 @@ public class AppClassificationEditModel extends BaseAppsManagerModel {
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         if(!TextUtils.isEmpty(input.toString()) && !input.toString().equals(appClassfication.getSortName())){
                             appClassfication.setName(input.toString());
-                            AppClassificationDaoHelper.getInstance().insertObj(appClassfication);
+                            AppClassificationDaoHelper.getInstance().insertOrReplaceObj(appClassfication);
                             ToastUtil.showShortToast(mContext,mContext.getString(R.string.app_file_edit_success));
                             if(onEditListner!=null){
                                 onEditListner.onUpdateClassification(appClassfication,appPosition);

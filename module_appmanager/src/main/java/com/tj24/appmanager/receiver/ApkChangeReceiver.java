@@ -89,7 +89,7 @@ public class ApkChangeReceiver extends BroadcastReceiver {
         msgApk.setCreatDay(DateUtil.formatLong(DateUtil.SDF_1,timeMills));
         msgApk.setCreatHour(DateUtil.formatLong(DateUtil.SDF_2,timeMills));
         msgApk.setAction(action);
-        MsgApkDaoHelper.getInstance().insertObj(msgApk);
+        MsgApkDaoHelper.getInstance().insertOrReplaceObj(msgApk);
     }
 
     private IntentFilter getIntentFilter() {

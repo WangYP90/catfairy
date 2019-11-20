@@ -42,8 +42,8 @@ public class BusinessModel extends BaseAppsManagerModel {
         custom.setIsDefault(true);
         custom.setOrder(1);
 
-        AppClassificationDaoHelper.getInstance().insertObj(system);
-        AppClassificationDaoHelper.getInstance().insertObj(custom);
+        AppClassificationDaoHelper.getInstance().insertOrReplaceObj(system);
+        AppClassificationDaoHelper.getInstance().insertOrReplaceObj(custom);
 
     }
 

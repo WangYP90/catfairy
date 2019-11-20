@@ -396,7 +396,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
         try {
             PackageInfo packageInfo = mActivity.getPackageManager().getPackageInfo(packageName, 0);
             AppBean appBean = ApkModel.conversToAppInfo(packageInfo, mActivity);
-            AppBeanDaoHelper.getInstance().insertObj(appBean);
+            AppBeanDaoHelper.getInstance().insertOrReplaceObj(appBean);
             if (appBean.getType().contains(appClassfication.getId())) {
                 appBeans.add(appBean);
                 AppSortManager.sort(appBeans, appClassfication.getSortName());
@@ -430,7 +430,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
         try {
             PackageInfo packageInfo = mActivity.getPackageManager().getPackageInfo(packageName, 0);
             AppBean appBean = ApkModel.conversToAppInfo(packageInfo, mActivity);
-            AppBeanDaoHelper.getInstance().insertObj(appBean);
+            AppBeanDaoHelper.getInstance().insertOrReplaceObj(appBean);
             if (appBean.getType().contains(appClassfication.getId())) {
                 Iterator it = appBeans.iterator();
                 while (it.hasNext()) {

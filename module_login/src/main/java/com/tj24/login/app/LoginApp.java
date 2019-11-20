@@ -11,6 +11,6 @@ public class LoginApp implements IApplication {
 
     @Override
     public void onCreat(BaseApplication application) {
-        Log.e(TAG,"开始初始化application!");
+        Log.e(TAG,"开始初始化LoginApp!");
     }
 }

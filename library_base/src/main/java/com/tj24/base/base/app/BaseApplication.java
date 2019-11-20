@@ -3,13 +3,15 @@ package com.tj24.base.base.app;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
-import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobConfig;
+
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.facebook.stetho.Stetho;
 import com.tj24.base.constant.Const;
 import com.tj24.base.greendao.daohelper.GreenDaoManager;
 import com.tj24.base.utils.CrashHandler;
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobConfig;
 
 /**
  * @Description:基类application
@@ -29,7 +31,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e(TAG,"开始初始化application!");
+        Log.e(TAG,"开始初始化BaseApplication!");
         context = this;
         mouduleApplicationInit();
         // 初始化闪崩异常捕捉

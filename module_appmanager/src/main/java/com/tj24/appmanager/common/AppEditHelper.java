@@ -108,7 +108,7 @@ public class AppEditHelper {
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         if(!TextUtils.isEmpty(input.toString()) && !input.toString().equals(String.valueOf(currentApp.getPriority()))){
                             currentApp.setPriority(Integer.parseInt(input.toString()));
-                            AppBeanDaoHelper.getInstance().insertObj(currentApp);
+                            AppBeanDaoHelper.getInstance().insertOrReplaceObj(currentApp);
                             ToastUtil.showShortToast(context,context.getString(R.string.app_file_name_be_update));
                         }
                     }
@@ -182,7 +182,7 @@ public class AppEditHelper {
                                         classficationsIds.remove(currentClassification.getId());
                                         appBean.setType(classficationsIds);
                                     }
-                                    AppBeanDaoHelper.getInstance().insertObj(appBean);
+                                    AppBeanDaoHelper.getInstance().insertOrReplaceObj(appBean);
                                 }
                                 dialog.dismiss();
                                 EventBus.getDefault().post(new LaucherEvent(LaucherEvent.EVENT_EXIST_EDITING));
@@ -228,7 +228,7 @@ public class AppEditHelper {
                             classfication.setSortName(OrderConfig.ORDER_INSTALL_TIME);
                             classfication.setOrder(classfications.size());
                             classfication.setIsDefault(false);
-                            AppClassificationDaoHelper.getInstance().insertObj(classfication);
+                            AppClassificationDaoHelper.getInstance().insertOrReplaceObj(classfication);
                             ToastUtil.showShortToast(context,context.getString(R.string.app_creat_file_success));
                             createMoveDialog();
                         }else {

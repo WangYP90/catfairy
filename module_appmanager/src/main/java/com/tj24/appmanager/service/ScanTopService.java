@@ -34,7 +34,7 @@ public class ScanTopService extends IntentService {
                 appBean = ApkModel.getTopApp(this);
                 if(appBean!=null){
                     appBean.setTopProcessTime(appBean.getTopProcessTime()+TOPSERVICE_CIRCLE);
-                    AppBeanDaoHelper.getInstance().insertObj(appBean);
+                    AppBeanDaoHelper.getInstance().insertOrReplaceObj(appBean);
                     try {
                         Thread.sleep(TOPSERVICE_CIRCLE);
                     } catch (InterruptedException e) {

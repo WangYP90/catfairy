@@ -307,7 +307,7 @@ public class ApkModel {
         if (i != null) {
             clickBean.setOpenNum(clickBean.getOpenNum() + 1); //打开次数加1
             clickBean.setLastOpenTime(System.currentTimeMillis());
-            AppBeanDaoHelper.getInstance().insertObj(clickBean);
+            AppBeanDaoHelper.getInstance().insertOrReplaceObj(clickBean);
             context.startActivity(i);
         } else {
             ToastUtil.showShortToast(context, context.getString(R.string.app_this_app_canot_start));

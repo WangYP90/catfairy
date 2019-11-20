@@ -93,7 +93,7 @@ public class OrderDialog extends Dialog implements BaseQuickAdapter.OnItemClickL
         }
         orders.get(position).setSelected(true);
         appClassfication.setSortName(orders.get(position).getOrderName());
-        AppClassificationDaoHelper.getInstance().insertObj(appClassfication);
+        AppClassificationDaoHelper.getInstance().insertOrReplaceObj(appClassfication);
         mAdapter.notifyDataSetChanged();
         EventBus.getDefault().post(new LaucherEvent(LaucherEvent.EVENT_CHANGE_SORT,orders.get(position).getOrderName()));
         new Handler().postDelayed(new Runnable() {

@@ -6,7 +6,7 @@ if (isAppManagerRunAlone.toBoolean()) {
 apply plugin: 'com.jakewharton.butterknife'
 android {
     compileSdkVersion compile_Sdk_Version.toInteger()
-    defaultConfig {
+    defaultConfig   {
         if (isAppManagerRunAlone.toBoolean()) {
             applicationId "com.tj24.appmanager"
             versionName "1.0"
@@ -19,7 +19,7 @@ android {
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME: project.getName()]
+                arguments = [AROUTER_MODULE_NAME : project.getName()]
             }
         }
         resourcePrefix "app"
