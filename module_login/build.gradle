@@ -15,7 +15,6 @@ android {
         minSdkVersion min_Sdk_Version.toInteger()
         targetSdkVersion target_Sdk_Version.toInteger()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [ AROUTER_MODULE_NAME : project.getName() ]

@@ -5,36 +5,24 @@ import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.palette.graphics.Palette;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -50,17 +38,14 @@ import com.tj24.appmanager.model.OrderModel;
 import com.tj24.appmanager.receiver.ApkChangeReceiver;
 import com.tj24.appmanager.service.AliveService;
 import com.tj24.appmanager.service.ScanTopService;
+import com.tj24.appmanager.view.NavigationViewHelper;
 import com.tj24.appmanager.view.NoScrollViewPager;
 import com.tj24.appmanager.view.dialog.OrderDialog;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.base.ui.PermissionListener;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
-import com.tj24.base.bean.appmanager.login.User;
-import com.tj24.base.utils.ColorUtil;
-import com.tj24.base.utils.DrawableUtil;
 import com.tj24.base.utils.ListUtil;
-import com.tj24.base.utils.ScreenUtil;
 import com.tj24.base.utils.Sputil;
 import com.tj24.base.utils.ToastUtil;
 import com.tj24.base.utils.UserHelper;
@@ -83,8 +68,6 @@ import cn.bmob.v3.update.BmobUpdateAgent;
 import gdut.bsx.share2.FileUtil;
 import gdut.bsx.share2.Share2;
 import gdut.bsx.share2.ShareContentType;
-import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -107,6 +90,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @BindView(R2.id.trans_view)
     public View transView;
 
+    private NavigationViewHelper navigationViewHelper;
     //是否正在编辑
     public boolean isEditing = false;
 
@@ -117,18 +101,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     //fragmentPageAdapter
     AppsVpAdater vpAdater;
 
-    TextView tvNickName;
-    ImageView ivAvatar;
-    TextView tvDescription;
-    ImageView ivEdit;
-
     MenuItem menuItemSelected;
 
     final List<AppClassfication> appClassfications = new ArrayList<>();
     private OrderModel orderModel;
     private BusinessModel businessModel;
-    private static final int REQUEST_EDIT_USER = 101;
-    private static final int REQUSET_APPCLASSIFICATION = 111;
+    public static final int REQUEST_EDIT_USER = 101;
+    public static final int REQUSET_APPCLASSIFICATION = 111;
     public static final int MSG_REFRESH = 100;
 
     int editPosition = 1;
@@ -146,49 +125,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 default:
                     break;
             }
-        }
-    };
-
-
-    /**
-     * glide 加载图片的监听
-     */
-    RequestListener<Object, GlideDrawable> navHeaderBgLoadListner = new RequestListener<Object, GlideDrawable>() {
-        @Override
-        public boolean onException(Exception e, Object model, Target<GlideDrawable> target, boolean isFirstResource) {
-            return false;
-        }
-
-        @Override
-        public boolean onResourceReady(GlideDrawable glideDrawable, Object model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-            if (glideDrawable == null) {
-                return false;
-            }
-            Bitmap bitmap = DrawableUtil.toBitmap(glideDrawable);
-            int bitmapWidth = bitmap.getWidth();
-            int bitmapHeight = bitmap.getHeight();
-            if (bitmapWidth <= 0 || bitmapHeight <= 0) {
-                return false;
-            }
-            int left = (int) (bitmapWidth * 0.2);
-            int top = bitmapHeight / 2;
-            int bottom = bitmapHeight - 1;
-            int right = bitmapWidth - left;
-            Palette.from(bitmap)
-                    .maximumColorCount(3)
-                    .clearFilters()
-                    .setRegion(left, top, right, bottom) // 测量图片下半部分的颜色，以确定用户信息的颜色
-                    .generate(new Palette.PaletteAsyncListener() {
-                        @Override
-                        public void onGenerated(@Nullable Palette palette) {
-                            boolean isDark = ColorUtil.isBitmapDark(palette, bitmap);
-                            int color = isDark ? ContextCompat.getColor(MainActivity.this, R.color.base_white_text) : ContextCompat.getColor(mActivity, R.color.base_black_600);
-                            tvNickName.setTextColor(color);
-                            tvDescription.setTextColor(color);
-                            ivEdit.setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-                        }
-                    });
-            return false;
         }
     };
 
@@ -213,12 +149,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onDestroy() {
         super.onDestroy();
-        apkChangeReceiver.unregister(mActivity);
+        apkChangeReceiver.unRegist(mActivity);
     }
 
     private void regeistReceiver() {
         apkChangeReceiver = new ApkChangeReceiver();
-        apkChangeReceiver.register(mActivity);
+        apkChangeReceiver.regist(mActivity);
     }
 
 
@@ -293,6 +229,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         fbtCompose = findViewById(R.id.fbt_compose);
         navView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawerLayout);
+        navigationViewHelper = new NavigationViewHelper(mActivity,navView,drawerLayout);
         ivAddItem.setOnClickListener(this);
         fbtCompose.setOnClickListener(this);
         navView.setNavigationItemSelectedListener(this);
@@ -301,7 +238,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             @Override
             public boolean onPreDraw() {
                 navView.getViewTreeObserver().removeOnPreDrawListener(this);
-                loadUserInfo();
+                navigationViewHelper.loadUserInfo();
                 return false;
             }
         });
@@ -506,73 +443,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return false;
     }
 
-    /**
-     * 加载侧滑栏的用户信息
-     */
-    private void loadUserInfo() {
-        int count = navView.getHeaderCount();
-        if (count == 1) {
-            User currentUser = UserHelper.getCurrentUser();
-            String nickname = currentUser != null ? currentUser.getNickName() : "";
-            String avatar = currentUser != null ? currentUser.getAvanta() : "";
-            String description = currentUser != null ? currentUser.getDescribtion() : "";
-            String bgImage = currentUser != null ? currentUser.getBgImage() : "";
-            View headerView = navView.getHeaderView(0);
-            LinearLayout userLayout = headerView.findViewById(R.id.ll_nav_user);
-            LinearLayout descriptionLayout = headerView.findViewById(R.id.ll_nav_describe);
-            ImageView ivBgImag = headerView.findViewById(R.id.iv_nav_login_bg);
-            ivAvatar = headerView.findViewById(R.id.iv_nav_avatar);
-            ivEdit = headerView.findViewById(R.id.iv_nav_edit);
-            tvNickName = headerView.findViewById(R.id.tv_nav_nickname);
-            tvDescription = headerView.findViewById(R.id.tv_nav_describe);
-            tvNickName.setText(nickname);
-            if (TextUtils.isEmpty(description)) {
-                tvDescription.setText(getString(R.string.app_edit_personal_profile));
-            } else {
-                tvDescription.setText(getString(R.string.app_profile) + description);
-            }
-            Glide.with(this)
-                    .load(avatar)
-                    .bitmapTransform(new CropCircleTransformation(this))
-                    .placeholder(R.drawable.app_loading_bg_circle)
-                    .error(R.drawable.base_avatar_default)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .into(ivAvatar);
 
-            if (TextUtils.isEmpty(bgImage)) {
-                if (!TextUtils.isEmpty(avatar)) {
-                    Glide.with(this).load(avatar)
-                            .bitmapTransform(new BlurTransformation(this, 15))
-                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                            .listener(navHeaderBgLoadListner)
-                            .into(ivBgImag);
-                }
-            } else {
-                int bgImageWidth = navView.getWidth();
-                //* 25为补偿系统状态栏高度，不加这个高度值图片顶部会出现状态栏的底色 */)
-                float bgImageHeight = ScreenUtil.dip2px(mActivity, 250 + 25);
-                Glide.with(this).load(bgImage)
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .override(bgImageWidth, (int) bgImageHeight)
-                        .listener(navHeaderBgLoadListner)
-                        .into(ivBgImag);
-            }
-            userLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                    UserHomePageActivity.actionStartForResult(mActivity, REQUEST_EDIT_USER);
-                }
-            });
-            descriptionLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                    UserEditActivity.actionStartForResult(mActivity, REQUEST_EDIT_USER, true);
-                }
-            });
-        }
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshUI(LaucherEvent laucherEvent) {
@@ -614,7 +485,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (requestCode == REQUSET_APPCLASSIFICATION) {
             setVpAdater(viewpager.getCurrentItem());
         } else if (requestCode == REQUEST_EDIT_USER) {
-            loadUserInfo();
+            navigationViewHelper.loadUserInfo();
         }
     }
 

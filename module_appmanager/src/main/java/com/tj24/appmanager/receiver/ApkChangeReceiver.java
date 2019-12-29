@@ -101,11 +101,11 @@ public class ApkChangeReceiver extends BroadcastReceiver {
         return intentFilter;
     }
 
-    public void register(Context context) {
+    public void regist(Context context) {
         context.registerReceiver(this, getIntentFilter());
     }
 
-    public void unregister(Context context) {
+    public void unRegist(Context context) {
         if(context != null){
             context.unregisterReceiver(this);
         }
