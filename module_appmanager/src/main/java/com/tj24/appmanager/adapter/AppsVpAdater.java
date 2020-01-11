@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @Description:viewpager的Apdapter
  * @Createdtime:2019/3/17 23:03
- * @Author:TangJiang
+ * @Author:TangJiangs
  * @Version: V.1.0.0
  */
 public class AppsVpAdater extends FragmentStatePagerAdapter {
