@@ -30,7 +30,9 @@ import com.google.android.material.tabs.TabLayout;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.R2;
 import com.tj24.appmanager.adapter.AppsVpAdater;
+import com.tj24.appmanager.bean.event.ApkChangeEvent;
 import com.tj24.appmanager.bean.event.LaucherEvent;
+import com.tj24.appmanager.common.AppConst;
 import com.tj24.appmanager.common.OrderConfig;
 import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.appmanager.model.BusinessModel;
@@ -110,7 +112,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static final int REQUSET_APPCLASSIFICATION = 111;
     public static final int MSG_REFRESH = 100;
 
-    int editPosition = 1;
+    boolean isFirstInit = true; //第一次初始化
     private ApkChangeReceiver apkChangeReceiver;
     private Handler mHandler = new Handler() {
         @Override
@@ -121,6 +123,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     hideProgressDialog();
                     progressDialog = null;
                     setVpAdater(1);
+                    //保存刷新次数加1
+                    int refreshCount = Sputil.read(AppConst.SP_OPEN_COUNT,1);
+                    Sputil.save(AppConst.SP_OPEN_COUNT,refreshCount+1);
                     break;
                 default:
                     break;
@@ -131,13 +136,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setupViews();
         requestPermissions();
         regeistReceiver();
-        AliveService.startAliveService(this);
-        ScanTopService.startSkanTopService(this, false);
-        autoUpdate();
         fetchUserInfo();
+
+        //记录刷新app数据的次数 不要在第一次刷新的时候做太多，影响体验
+        int refreshCount = Sputil.read(AppConst.SP_OPEN_COUNT,1);
+        if(refreshCount>1){
+            AliveService.startAliveService(this);
+            ScanTopService.startSkanTopService(this, 1);
+            autoUpdate();
+        }
     }
 
     @Override
@@ -145,6 +156,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return R.layout.app_activity_main;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(Sputil.read(AppConst.SP_OPEN_COUNT,1)>1){
+            setVpAdater(isFirstInit?1:viewpager.getCurrentItem());
+        }
+        isFirstInit = false;
+    }
 
     @Override
     public void onDestroy() {
@@ -190,14 +209,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * 初始化数据
      */
     private void initData() {
-        orderModel = new OrderModel(this);
-        businessModel = new BusinessModel(this);
         List<AppClassfication> classfications = businessModel.queryAllAppClassfications();
         if (ListUtil.isNullOrEmpty(classfications)) {
             businessModel.initDeafultData();
             businessModel.refreshApp(mHandler);
-        } else {
-            setVpAdater(1);
         }
     }
 
@@ -209,7 +224,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         appClassfications.clear();
         appClassfications.addAll(businessModel.queryAllAppClassfications());
         tab.setupWithViewPager(viewpager);
-
         if (vpAdater == null) {
             vpAdater = new AppsVpAdater(getSupportFragmentManager(), appClassfications);
             viewpager.setAdapter(vpAdater);
@@ -220,6 +234,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     public void setupViews() {
+        orderModel = new OrderModel(this);
+        businessModel = new BusinessModel(this);
+
         toolbar = findViewById(R.id.toolbar);
         tab = findViewById(R.id.tab);
         ivAddItem = findViewById(R.id.iv_addItem);
@@ -243,7 +260,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         });
         initTransView();
-
     }
 
     //只放行点击事件，其他事件全部拦截
@@ -443,13 +459,29 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return false;
     }
 
+    /**
+     * 接受到安装卸载或更新的消息
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onApkChanged(ApkChangeEvent event) {
+        switch (event.getAction()) {
+            case ApkChangeEvent.ACTION_ADD:
 
+            case ApkChangeEvent.ACTION_DEL:
+
+            case ApkChangeEvent.ACTION_REPLACE:
+               setVpAdater(viewpager.getCurrentItem());
+                break;
+        }
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshUI(LaucherEvent laucherEvent) {
         View mAppBarChildAt = appBar.getChildAt(0);
         AppBarLayout.LayoutParams mAppBarParams = (AppBarLayout.LayoutParams) mAppBarChildAt.getLayoutParams();
-
+        int editPosition = 1;
         switch (laucherEvent.getEventCode()) {
             case LaucherEvent.EVENT_EXIST_EDITING:
                 mAppBarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
@@ -482,9 +514,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (resultCode != RESULT_OK) {
             return;
         }
-        if (requestCode == REQUSET_APPCLASSIFICATION) {
-            setVpAdater(viewpager.getCurrentItem());
-        } else if (requestCode == REQUEST_EDIT_USER) {
+        if (requestCode == REQUEST_EDIT_USER) {
             navigationViewHelper.loadUserInfo();
         }
     }

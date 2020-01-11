@@ -10,7 +10,7 @@ import android.os.Build;
 import android.os.IBinder;
 
 import com.tj24.appmanager.R;
-import com.tj24.appmanager.common.Const;
+import com.tj24.appmanager.common.AppConst;
 import com.tj24.appmanager.common.keepAlive.ScreenManager;
 import com.tj24.appmanager.common.keepAlive.ScreenReceiverUtil;
 import com.tj24.base.utils.UserHelper;
@@ -32,7 +32,7 @@ public class AliveService extends Service {
             mScreenManager.finishActivity();
 
             //开启扫描service
-            ScanTopService.startSkanTopService(AliveService.this,true);
+            ScanTopService.startSkanTopService(AliveService.this,0);
         }
         @Override
         public void onSreenOff() {
@@ -102,7 +102,7 @@ public class AliveService extends Service {
     private void testAutoUpload() {
         if(UserHelper.getCurrentUser()!=null){
             if(Sputil.read(getString(R.string.app_sp_auto_upload),true)){
-                if(System.currentTimeMillis() - (Sputil.read(Const.SP_LAST_UPDATE, 0L)) >24*3600*1000){
+                if(System.currentTimeMillis() - (Sputil.read(AppConst.SP_LAST_UPDATE, 0L)) >24*3600*1000){
                     new CloudModel(this).readyPush(true);
                     LogUtil.i(TAG,"自动备份开始！");
                 }

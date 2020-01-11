@@ -13,7 +13,7 @@ public class ComparatoLastOpen extends BaseAppsComparator {
         if(myAppInfo.getLastOpenTime()<t1.getLastOpenTime()){
             return 1;
         }else if(myAppInfo.getLastOpenTime()==t1.getLastOpenTime()){
-            return 0;
+            return myAppInfo.getName().compareTo(t1.getName());
         }else {
             return -1;
         }

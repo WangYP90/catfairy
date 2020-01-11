@@ -49,17 +49,17 @@ public class RcAppLinearAdapter extends BaseQuickAdapter<AppBean,BaseViewHolder>
     private String getShowText(AppBean item) {
         switch (appClassfication.getSortName()){
             case OrderConfig.ORDER_LAST_USE:
-                return item.getLastOpenTime()!=0?OrderConfig.ORDER_LAST_USE+":"+DateUtil.formatLong(DateUtil.SDF_3,item.getLastOpenTime()):"未曾使用";
+                return item.getLastOpenTime()!=0?"最近使用:"+DateUtil.formatLong(DateUtil.SDF_3,item.getLastOpenTime()):"未曾使用";
             case OrderConfig.ORDER_OPEN_NUM:
-                return OrderConfig.ORDER_OPEN_NUM+":"+item.getOpenNum();
+                return "打开次数:"+item.getOpenNum();
             case OrderConfig.ORDER_INSTALL_TIME:
-                return OrderConfig.ORDER_INSTALL_TIME+":"+DateUtil.formatLong(DateUtil.SDF_3,item.getFirstIntalTime());
+                return "安装时间:"+DateUtil.formatLong(DateUtil.SDF_3,item.getFirstIntalTime());
             case OrderConfig.ORDER_APP_NAME:
                 return "包名:"+item.getPackageName();
             case OrderConfig.ORDER_USE_TIME:
-                return OrderConfig.ORDER_USE_TIME+":"+ DateUtil.formatDuring(item.getTopProcessTime());
+                return "使用时长:"+ DateUtil.formatDuring(item.getTopProcessTime());
             case OrderConfig.ORDER_CUSTOM_PRIORITY:
-                return OrderConfig.ORDER_CUSTOM_PRIORITY+":"+item.getPriority();
+                return "自定义排序:"+item.getPriority();
         }
         return "";
     }

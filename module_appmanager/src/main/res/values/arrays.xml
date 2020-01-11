@@ -6,7 +6,7 @@
         <item>按安装时间排序</item>
         <item>按应用名称排序</item>
         <item>按使用时长排序</item>
-        <item>按自定义优先级排序排序</item>
+        <item>自定义排序    </item>
     </string-array>
 
     <string-array name="app_entries_orders_values">
@@ -23,7 +23,7 @@
         <item>按打开次数排序</item>
         <item>按安装时间排序</item>
         <item>按应用名称排序</item>
-        <item>按自定义优先级排序排序</item>
+        <item>自定义排序</item>
     </string-array>
 
     <string-array name="app_entries_orders_values_no_usetime">

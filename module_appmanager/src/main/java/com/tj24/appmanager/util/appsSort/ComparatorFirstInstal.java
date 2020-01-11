@@ -13,7 +13,7 @@ public class ComparatorFirstInstal extends BaseAppsComparator {
         if(myAppInfo.getFirstIntalTime()<t1.getFirstIntalTime()){
             return 1;
         }else if(myAppInfo.getFirstIntalTime()==t1.getFirstIntalTime()){
-            return 0;
+            return myAppInfo.getName().compareTo(t1.getName());
         }else {
             return -1;
         }

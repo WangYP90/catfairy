@@ -13,7 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tj24.appmanager.R;
-import com.tj24.appmanager.common.Const;
+import com.tj24.appmanager.common.AppConst;
 import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.daohelper.AppClassificationDaoHelper;
 import com.tj24.appmanager.daohelper.MsgApkDaoHelper;
@@ -94,7 +94,7 @@ public class CloudModel extends BaseAppsManagerModel {
         Iterator<AppBean> it = appBeans.iterator();
         while (it.hasNext()){
             AppBean appBean = it.next();
-            if(appBean.getType().contains(Const.CLASSFICATION_SYSTEM_NAME)){
+            if(appBean.getType().contains(AppConst.CLASSFICATION_SYSTEM_NAME)){
                 if(appBean.getType().size() == 1 && appBean.getPriority()==0){
                     it.remove();
                 }
@@ -120,7 +120,7 @@ public class CloudModel extends BaseAppsManagerModel {
             public void done(String s, BmobException e) {
                 hideProgressDialog();
                 if(e==null){
-                    Sputil.save(Const.SP_LAST_UPDATE,System.currentTimeMillis());
+                    Sputil.save(AppConst.SP_LAST_UPDATE,System.currentTimeMillis());
                     ToastUtil.showShortToast(mContext,"备份成功");
                 }else {
                     ToastUtil.showShortToast(mContext,"备份失败");

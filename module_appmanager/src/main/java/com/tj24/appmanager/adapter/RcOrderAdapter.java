@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.common.OrderConfig;
 import com.tj24.appmanager.view.dialog.OrderDialog;
 
 import java.util.List;
@@ -17,6 +18,9 @@ public class RcOrderAdapter extends BaseQuickAdapter<OrderDialog.OrderHolder,Bas
 
     public RcOrderAdapter(int layoutResId, @Nullable List<OrderDialog.OrderHolder> data) {
         super(layoutResId, data);
+        if(data.isEmpty()){
+            data.add(new OrderDialog.OrderHolder(OrderConfig.ORDER_APP_NAME,false));
+        }
     }
 
     @Override

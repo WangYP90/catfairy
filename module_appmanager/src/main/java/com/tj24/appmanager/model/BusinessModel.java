@@ -4,16 +4,19 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.os.Handler;
+
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.MainActivity;
-import com.tj24.appmanager.common.Const;
+import com.tj24.appmanager.common.AppConst;
 import com.tj24.appmanager.common.OrderConfig;
 import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.daohelper.AppClassificationDaoHelper;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
+import com.tj24.base.utils.ListUtil;
+import com.tj24.base.utils.Sputil;
 
 import java.util.List;
 
@@ -25,25 +28,28 @@ public class BusinessModel extends BaseAppsManagerModel {
     }
 
     /**
-     * 初始化 我的应用 和 系统应用
+     * 初始化 我的应用 和 系统应用  排序方式
      */
     public void initDeafultData() {
         AppClassfication system = new AppClassfication();
-        system.setId(Const.CLASSFICATION_SYSTEM_ID);
-        system.setName(Const.CLASSFICATION_SYSTEM_NAME);
+        system.setId(AppConst.CLASSFICATION_SYSTEM_ID);
+        system.setName(AppConst.CLASSFICATION_SYSTEM_NAME);
         system.setSortName(OrderConfig.ORDER_LAST_USE);
         system.setIsDefault(true);
         system.setOrder(0);
 
         AppClassfication custom = new AppClassfication();
-        custom.setId(Const.CLASSFICATION_CUSTOM_ID);
-        custom.setName(Const.CLASSFICATION_CUSTOM_NAME);
+        custom.setId(AppConst.CLASSFICATION_CUSTOM_ID);
+        custom.setName(AppConst.CLASSFICATION_CUSTOM_NAME);
         custom.setSortName(OrderConfig.ORDER_LAST_USE);
         custom.setIsDefault(true);
         custom.setOrder(1);
 
         AppClassificationDaoHelper.getInstance().insertOrReplaceObj(system);
         AppClassificationDaoHelper.getInstance().insertOrReplaceObj(custom);
+
+
+        Sputil.save(mContext.getString(R.string.app_sp_custom_order), ListUtil.toSet(OrderConfig.orderKeyWithoutUseTime));
 
     }
 

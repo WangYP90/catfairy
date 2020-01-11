@@ -13,7 +13,7 @@ public class ComparatoOpenNum extends BaseAppsComparator {
         if(myAppInfo.getOpenNum()<t1.getOpenNum()){
             return 1;
         }else if(myAppInfo.getOpenNum()==t1.getOpenNum()){
-            return 0;
+            return myAppInfo.getName().compareTo(t1.getName());
         }else {
             return -1;
         }

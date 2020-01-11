@@ -109,7 +109,7 @@ public class AppEditHelper {
                         if(!TextUtils.isEmpty(input.toString()) && !input.toString().equals(String.valueOf(currentApp.getPriority()))){
                             currentApp.setPriority(Integer.parseInt(input.toString()));
                             AppBeanDaoHelper.getInstance().insertOrReplaceObj(currentApp);
-                            ToastUtil.showShortToast(context,context.getString(R.string.app_file_name_be_update));
+                            ToastUtil.showShortToast(context,context.getString(R.string.app_set_prority_sucess));
                         }
                     }
                 }).onNegative(new MaterialDialog.SingleButtonCallback() {

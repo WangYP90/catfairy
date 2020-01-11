@@ -19,6 +19,7 @@ import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.AboutActivity;
 import com.tj24.appmanager.activity.ResetPwdActivity;
 import com.tj24.appmanager.activity.UserAgreenmentActivity;
+import com.tj24.appmanager.common.OrderConfig;
 import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.appmanager.model.ApkModel;
 import com.tj24.appmanager.service.ScanTopService;
@@ -97,7 +98,7 @@ public class MainSettingsFragment extends PreferenceFragmentCompat implements
     @Override
     public boolean onPreferenceClick(Preference preference) {
         if(preference.getKey().equals(spLookOtherUse.getKey())){
-            ScanTopService.startSkanTopService(mContext,false);
+            ScanTopService.startSkanTopService(mContext,2);
         }else if(preference.getKey().equals(spUpdate.getKey())){
             updateVersion();
         }else if(preference.getKey().equals(spAbout.getKey())){
@@ -119,13 +120,12 @@ public class MainSettingsFragment extends PreferenceFragmentCompat implements
      */
     private void setCustomOrders() {
         if(ApkModel.isUseGranted()){
-            spListCustomOrder.setEntries(R.array.app_entries_orders);
-            spListCustomOrder.setEntryValues(R.array.app_entries_orders_values);
+            spListCustomOrder.setEntries(OrderConfig.ordersAll);
+            spListCustomOrder.setEntryValues(OrderConfig.orderKeyAll);
         }else {
-            spListCustomOrder.setEntries(R.array.app_entries_orders_no_usetime);
-            spListCustomOrder.setEntryValues(R.array.app_entries_orders_values_no_usetime);
+            spListCustomOrder.setEntries(OrderConfig.ordersWithoutUseTime);
+            spListCustomOrder.setEntryValues(OrderConfig.orderKeyWithoutUseTime);
         }
-
     }
 
     /**

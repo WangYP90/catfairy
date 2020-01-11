@@ -7,16 +7,18 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
+
 import com.tj24.appmanager.R;
-import com.tj24.base.utils.DateUtil;
-import com.tj24.base.utils.LogUtil;
-import com.tj24.base.utils.StringUtil;
-import com.tj24.base.bean.appmanager.AppBean;
-import com.tj24.base.bean.appmanager.MsgApk;
 import com.tj24.appmanager.bean.event.ApkChangeEvent;
 import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.daohelper.MsgApkDaoHelper;
 import com.tj24.appmanager.model.ApkModel;
+import com.tj24.base.bean.appmanager.AppBean;
+import com.tj24.base.bean.appmanager.MsgApk;
+import com.tj24.base.utils.DateUtil;
+import com.tj24.base.utils.LogUtil;
+import com.tj24.base.utils.StringUtil;
+
 import org.greenrobot.eventbus.EventBus;
 
 public class ApkChangeReceiver extends BroadcastReceiver {
@@ -38,6 +40,13 @@ public class ApkChangeReceiver extends BroadcastReceiver {
             Log.i(TAG, "install: isReplacing = " + isReplacing);
             Log.i(TAG, "install: uid = " + uid);
             if(!isReplacing){  //第一次安装
+                try {
+                    PackageInfo packageInfo = context.getPackageManager().getPackageInfo(packageName, 0);
+                    AppBean appBean = ApkModel.conversToAppInfo(packageInfo, context);
+                    AppBeanDaoHelper.getInstance().insertOrReplaceObj(appBean);
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
                 creatMsgApk(context.getString(R.string.app_install),packageName);
                 EventBus.getDefault().postSticky(new ApkChangeEvent(packageName,ApkChangeEvent.ACTION_ADD));
                 LogUtil.i(TAG, "安装了:" + packageName + "包名的程序");
@@ -48,6 +57,8 @@ public class ApkChangeReceiver extends BroadcastReceiver {
             boolean isReplacing = intent.getBooleanExtra(Intent.EXTRA_REPLACING,false);
             int uid = intent.getIntExtra(Intent.EXTRA_UID,0);
             if(!isReplacing){
+                AppBean appBean = AppBeanDaoHelper.getInstance().queryObjById(packageName);
+                AppBeanDaoHelper.getInstance().deleteObj(appBean);
                 creatMsgApk(context.getString(R.string.app_uninstall),packageName);
                 EventBus.getDefault().postSticky(new ApkChangeEvent(packageName,ApkChangeEvent.ACTION_DEL));
                 LogUtil.i(TAG, "卸载了:" + packageName + "包名的程序");
@@ -55,6 +66,13 @@ public class ApkChangeReceiver extends BroadcastReceiver {
         }
         //替换广播
         if (intent.getAction().equals(ACTION_REPLACED)) {
+            try {
+                PackageInfo packageInfo = context.getPackageManager().getPackageInfo(packageName, 0);
+                AppBean appBean = ApkModel.conversToAppInfo(packageInfo, context);
+                AppBeanDaoHelper.getInstance().insertOrReplaceObj(appBean);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
             creatMsgApk(context.getString(R.string.app_replaced),packageName);
             EventBus.getDefault().postSticky(new ApkChangeEvent(packageName,ApkChangeEvent.ACTION_REPLACE));
             LogUtil.i(TAG, "更新了:" + packageName + "包名的程序");

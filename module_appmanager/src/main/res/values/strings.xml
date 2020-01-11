@@ -19,7 +19,7 @@
     <string name="app_set_serial_number">设置序列号</string>
     <string name="app_confirm">确定</string>
     <string name="app_cancle">取消</string>
-    <string name="app_file_name_be_update">文件夹名称已修改</string>
+    <string name="app_set_prority_sucess">优先级设置成功</string>
     <string name="app_points">提示</string>
     <string name="app_no_file_and_to_creat">还没有文件夹，立即创建？</string>
     <string name="app_creat">创建</string>

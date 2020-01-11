@@ -57,7 +57,7 @@ public class OrderDialog extends Dialog implements BaseQuickAdapter.OnItemClickL
         setCanceledOnTouchOutside(true);
 
         //根据所选类别tab，显示其对应的排序dialog
-        for(String order : OrderConfig.getOrderMap().values()){
+        for(String order : OrderConfig.getOrderValues()){
             orders.add(new OrderHolder(order,order.equals(appClassfication.getSortName())));
         }
         layoutManager = new LinearLayoutManager(mContext);

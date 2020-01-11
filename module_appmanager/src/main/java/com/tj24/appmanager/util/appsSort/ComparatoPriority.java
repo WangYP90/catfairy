@@ -13,7 +13,7 @@ public class ComparatoPriority extends BaseAppsComparator {
         if(t0.getPriority()<t1.getPriority()){
             return 1;
         }else if(t0.getPriority()==t1.getPriority()){
-            return 0;
+            return t0.getName().compareTo(t1.getName());
         }else {
             return -1;
         }

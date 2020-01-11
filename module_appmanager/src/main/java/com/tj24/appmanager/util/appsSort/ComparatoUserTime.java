@@ -13,7 +13,7 @@ public class ComparatoUserTime extends BaseAppsComparator {
         if(myAppInfo.getTopProcessTime()<t1.getTopProcessTime()){
             return 1;
         }else if(myAppInfo.getTopProcessTime()==t1.getTopProcessTime()){
-            return 0;
+            return myAppInfo.getName().compareTo(t1.getName());
         }else {
             return -1;
         }

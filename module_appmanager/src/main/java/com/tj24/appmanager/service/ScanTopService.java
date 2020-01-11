@@ -49,17 +49,21 @@ public class ScanTopService extends IntentService {
     /**
      * 确保有查看其他应用的使用情况的权限 并开启扫描时长的service
      * @param mContext
-     * @param isScreenOnStart  是否是接收到亮屏广播而来 。若是，则不弹出引导权限的dialog，
+     * @param soucse  0 是否是接收到亮屏广播而来 。若是，则不弹出引导权限的dialog，
      *                          引导权限的dialog只在首页弹出 和 设置页面手动开启时弹出
+     *                1  是首页启动检测
+     *                2  设置里面手动打开
      */
-    public static void startSkanTopService(final Context mContext, boolean isScreenOnStart) {
+    public static void startSkanTopService(final Context mContext, int soucse) {
         if(ApkModel.isUseGranted()){
             isScan = true;
             Intent intent=new Intent(mContext,ScanTopService.class);
             mContext.startService(intent);
             LogUtil.i(TAG,"ScanTopService已经开启！");
-            ToastUtil.showShortToast(mContext,mContext.getString(R.string.app_granted_permission));
-        }else if(!isScreenOnStart){
+            if(soucse == 2){
+                ToastUtil.showShortToast(mContext,mContext.getString(R.string.app_granted_permission));
+            }
+        }else if(soucse != 0){
             permissionDialog = new MaterialDialog.Builder(mContext)
                     .content(mContext.getString(R.string.app_open_permission))
                     .positiveText(mContext.getString(R.string.app_confirm))

@@ -1,8 +1,6 @@
 package com.tj24.appmanager.fragment;
 
 import android.annotation.TargetApi;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -23,11 +21,9 @@ import com.tj24.appmanager.R2;
 import com.tj24.appmanager.activity.MainActivity;
 import com.tj24.appmanager.adapter.RcAppGrideAdapter;
 import com.tj24.appmanager.adapter.RcAppLinearAdapter;
-import com.tj24.appmanager.bean.event.ApkChangeEvent;
 import com.tj24.appmanager.bean.event.LaucherEvent;
 import com.tj24.appmanager.common.OrderConfig;
 import com.tj24.appmanager.common.ScrollLinearLayoutManager;
-import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.model.ApkModel;
 import com.tj24.appmanager.model.BaseAppsManagerModel;
 import com.tj24.appmanager.model.OrderModel;
@@ -49,7 +45,6 @@ import org.greenrobot.greendao.annotation.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -79,7 +74,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
     private AppClassfication appClassfication;
     //长按后 选择的item
     private final List<AppBean> editingApps = new ArrayList<>();
-    public AppEditPopup editPopup;
+    public  AppEditPopup editPopup;
     private RcAppLinearAdapter mLinearAdapter;
     private RcAppGrideAdapter mGrideAdapter;
     private ScrollLinearLayoutManager mLinearManager;
@@ -98,12 +93,17 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
     public void onResume() {
         super.onResume();
         isVisibleToUser = true;
+
+//        notifyRecyclerView();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         isVisibleToUser = false;
+        if(editPopup !=null){
+            editPopup.dismiss();
+        }
     }
 
     @Override
@@ -357,88 +357,6 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
                     mGrideManager.scrollToPositionWithOffset(position, 0);
                 }
                 break;
-        }
-    }
-
-    /**
-     * 接受到安装卸载或更新的消息
-     *
-     * @param event
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onApkChanged(ApkChangeEvent event) {
-        switch (event.getAction()) {
-            case ApkChangeEvent.ACTION_ADD:
-                onAddApk(event.getPackageName());
-                break;
-            case ApkChangeEvent.ACTION_DEL:
-                onRemoveApk(event.getPackageName());
-                break;
-            case ApkChangeEvent.ACTION_REPLACE:
-                onReplacedApk(event.getPackageName());
-                break;
-        }
-    }
-
-    /**
-     * apk安装后
-     *
-     * @param packageName
-     */
-    public void onAddApk(String packageName) {
-        try {
-            PackageInfo packageInfo = mActivity.getPackageManager().getPackageInfo(packageName, 0);
-            AppBean appBean = ApkModel.conversToAppInfo(packageInfo, mActivity);
-            AppBeanDaoHelper.getInstance().insertOrReplaceObj(appBean);
-            if (appBean.getType().contains(appClassfication.getId())) {
-                appBeans.add(appBean);
-                AppSortManager.sort(appBeans, appClassfication.getSortName());
-                notifyRecyclerView();
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * apk卸载后
-     *
-     * @param packageName
-     */
-    public void onRemoveApk(String packageName) {
-        AppBean appBean = AppBeanDaoHelper.getInstance().queryObjById(packageName);
-        AppBeanDaoHelper.getInstance().deleteObj(appBean);
-        if (appBean != null && appBeans.contains(appBean)) {
-            appBeans.remove(appBean);
-            notifyRecyclerView();
-        }
-    }
-
-    /**
-     * apk更新后
-     *
-     * @param packageName
-     */
-    public void onReplacedApk(String packageName) {
-        try {
-            PackageInfo packageInfo = mActivity.getPackageManager().getPackageInfo(packageName, 0);
-            AppBean appBean = ApkModel.conversToAppInfo(packageInfo, mActivity);
-            AppBeanDaoHelper.getInstance().insertOrReplaceObj(appBean);
-            if (appBean.getType().contains(appClassfication.getId())) {
-                Iterator it = appBeans.iterator();
-                while (it.hasNext()) {
-                    AppBean next = (AppBean) it.next();
-                    if (next.getPackageName().equals(packageName)) {
-                        it.remove();
-                        break;
-                    }
-                }
-                appBeans.add(appBean);
-                AppSortManager.sort(appBeans, appClassfication.getSortName());
-                notifyRecyclerView();
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
         }
     }
 
