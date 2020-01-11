@@ -90,7 +90,7 @@ public abstract class BaseDao<T,S extends AbstractDao> {
      * 新增集合
      * @param ts
      */
-    public void inserList(List<T> ts){
+    public void insertList(List<T> ts){
         try{
             mDdao.insertOrReplaceInTx(ts);
         }catch (Exception e){

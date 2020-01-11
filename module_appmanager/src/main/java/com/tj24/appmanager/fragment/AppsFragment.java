@@ -328,17 +328,10 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
                     return;
                 }
                 isAllSelected = !isAllSelected;
-                if (isAllSelected) {
-                    editingApps.clear();
-                    for (AppBean bean : appBeans) {
-                        bean.setIsSelected(true);
-                        editingApps.add(bean);
-                    }
-                } else {
-                    editingApps.clear();
-                    for (AppBean bean : appBeans) {
-                        bean.setIsSelected(false);
-                    }
+                editingApps.clear();
+                for (AppBean bean : appBeans) {
+                    bean.setIsSelected(isAllSelected);
+                    editingApps.add(bean);
                 }
                 notifyRecyclerView();
                 ((MainActivity) mActivity).onAppAllSelected(isAllSelected, editingApps.size());

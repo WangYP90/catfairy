@@ -60,6 +60,11 @@ public class AppsVpAdater extends FragmentStatePagerAdapter {
         return AppBeanDaoHelper.getInstance().queryAppByClassficationId(classfication.getId());
     }
 
+    /**
+     * 返回 POSITION_NONE 可以解决 AppsVpAdater刷新 item不刷新的问题
+      * @param object
+     * @return
+     */
     @Override
     public int getItemPosition(Object object) {
         return POSITION_NONE;
