@@ -146,7 +146,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         int refreshCount = Sputil.read(AppConst.SP_OPEN_COUNT,1);
         if(refreshCount>1){
             AliveService.startAliveService(this);
-            ScanTopService.startSkanTopService(this, 1);
+            if(!Sputil.read(AppConst.SP_ALARM_PERMISSION,false)){
+                ScanTopService.startSkanTopService(this, 1);
+            }
             autoUpdate();
         }
     }

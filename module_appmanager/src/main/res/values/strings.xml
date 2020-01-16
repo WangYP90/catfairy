@@ -42,7 +42,7 @@
     <string name="app_install">安装</string>
     <string name="app_uninstall">卸载</string>
     <string name="app_replaced">更新</string>
-    <string name="app_open_permission">需要开启“查看其他应用使用情况”权限！ 点击确定去授权界面授权！</string>
+    <string name="app_open_permission">授权“查看其他应用使用情况”权限！</string>
     <string name="app_classfication_list">类目列表</string>
     <string name="app_longclick_drag_and_click_edit">(长按拖动，单击编辑)</string>
     <string name="app_skip">跳过</string>
@@ -177,5 +177,6 @@
     <string name="app_confirm_login_out">确定退出登录？</string>
     <string name="app_login_out_sucess">已经退出登录</string>
     <string name="app_settings">设置</string>
+    <string name="app_suggest">建议</string>
 
 </resources>

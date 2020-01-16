@@ -11,4 +11,6 @@ public class AppConst {
     public static final String SP_LAST_UPDATE = "lastUpdateTimes";
 
     public static final String SP_OPEN_COUNT = "openCount";
+
+    public static final String SP_ALARM_PERMISSION = "alarmPermission";
 }

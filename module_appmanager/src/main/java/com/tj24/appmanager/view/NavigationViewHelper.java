@@ -128,14 +128,19 @@ public class NavigationViewHelper {
                         .into(ivBgImag);
             }
         } else {
-            int bgImageWidth = navView.getWidth();
-            //* 25为补偿系统状态栏高度，不加这个高度值图片顶部会出现状态栏的底色 */)
-            float bgImageHeight = ScreenUtil.dip2px(context, 250 + 25);
-            Glide.with(context).load(bgImage)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .override(bgImageWidth, (int) bgImageHeight)
-                    .listener(navHeaderBgLoadListner)
-                    .into(ivBgImag);
+            navView.post(new Runnable() {
+                @Override
+                public void run() {
+                    int bgImageWidth = navView.getWidth();
+                    //* 25为补偿系统状态栏高度，不加这个高度值图片顶部会出现状态栏的底色 */)
+                    float bgImageHeight = ScreenUtil.dip2px(context, 250 + 25);
+                    Glide.with(context).load(bgImage)
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .override(bgImageWidth, (int) bgImageHeight)
+                            .listener(navHeaderBgLoadListner)
+                            .into(ivBgImag);
+                }
+            });
         }
     }
 

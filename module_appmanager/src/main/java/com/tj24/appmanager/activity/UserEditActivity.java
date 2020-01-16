@@ -188,7 +188,7 @@ public class UserEditActivity extends CatTakePhotoActivity implements View.OnCli
         }
     }
 
-    @OnClick({R2.id.iv_bg, R2.id.iv_avanta, R2.id.tv_save})
+    @OnClick({R2.id.bgImageCamera, R2.id.avatarCamera, R2.id.tv_save})
     public void onClick(View v) {
         if (v.getId() == R.id.avatarCamera) {
             action = ACTION_AVATAR;

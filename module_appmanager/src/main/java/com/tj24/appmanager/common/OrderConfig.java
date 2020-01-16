@@ -65,16 +65,7 @@ public class OrderConfig {
             ORDER_CUSTOM_PRIORITY
     };
 
-    public static Map<String,String> getOrderMap(){
-        Map<String,String> orderMap = new HashMap<>();
-        orderMap.put(ORDER_LAST_USE_KEY,ORDER_LAST_USE);
-        orderMap.put(ORDER_OPEN_NUM_KEY,ORDER_OPEN_NUM);
-        orderMap.put(ORDER_INSTALL_TIME_KEY,ORDER_INSTALL_TIME);
-        orderMap.put(ORDER_APP_NAME_KEY,ORDER_APP_NAME);
-        orderMap.put(ORDER_USE_TIME_KEY,ORDER_USE_TIME);
-        orderMap.put(ORDER_CUSTOM_PRIORITY_KEY,ORDER_CUSTOM_PRIORITY);
-        return orderMap;
-    }
+
     /**
      * 获取设置的排序方式
      * @return
@@ -90,6 +81,17 @@ public class OrderConfig {
         }
         return orderValues;
      }
+
+    private static Map<String,String> getOrderMap(){
+        Map<String,String> orderMap = new HashMap<>();
+        orderMap.put(ORDER_LAST_USE_KEY,ORDER_LAST_USE);
+        orderMap.put(ORDER_OPEN_NUM_KEY,ORDER_OPEN_NUM);
+        orderMap.put(ORDER_INSTALL_TIME_KEY,ORDER_INSTALL_TIME);
+        orderMap.put(ORDER_APP_NAME_KEY,ORDER_APP_NAME);
+        orderMap.put(ORDER_USE_TIME_KEY,ORDER_USE_TIME);
+        orderMap.put(ORDER_CUSTOM_PRIORITY_KEY,ORDER_CUSTOM_PRIORITY);
+        return orderMap;
+    }
 
     /**
      * 排列方式 存储key

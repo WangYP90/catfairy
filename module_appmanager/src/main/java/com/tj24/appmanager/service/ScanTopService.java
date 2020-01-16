@@ -5,16 +5,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.Settings;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.common.AppConst;
 import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.model.ApkModel;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.utils.LogUtil;
+import com.tj24.base.utils.Sputil;
 import com.tj24.base.utils.ToastUtil;
 
 public class ScanTopService extends IntentService {
@@ -63,11 +66,16 @@ public class ScanTopService extends IntentService {
             if(soucse == 2){
                 ToastUtil.showShortToast(mContext,mContext.getString(R.string.app_granted_permission));
             }
-        }else if(soucse != 0){
-            permissionDialog = new MaterialDialog.Builder(mContext)
+        }else if(soucse == 1){
+            permissionDialog = new MaterialDialog.Builder(mContext).title(mContext.getString(R.string.app_suggest))
                     .content(mContext.getString(R.string.app_open_permission))
-                    .positiveText(mContext.getString(R.string.app_confirm))
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    .positiveText(mContext.getString(R.string.app_confirm)).negativeText(mContext.getString(R.string.app_cancle))
+                    .checkBoxPrompt("不再提醒", false, new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            Sputil.save(AppConst.SP_ALARM_PERMISSION,isChecked);
+                        }
+                    }).onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                             Intent i = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
@@ -81,6 +89,10 @@ public class ScanTopService extends IntentService {
                             dialog.dismiss();
                         }
                     }).show();
+        }else if(soucse == 2){
+            Intent i = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(i);
         }
     }
 
