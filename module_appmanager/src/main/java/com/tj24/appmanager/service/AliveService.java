@@ -9,15 +9,15 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 
-import com.tj24.appmanager.R;
-import com.tj24.appmanager.common.AppConst;
 import com.tj24.appmanager.common.keepAlive.ScreenManager;
 import com.tj24.appmanager.common.keepAlive.ScreenReceiverUtil;
-import com.tj24.base.utils.UserHelper;
-import com.tj24.appmanager.model.CloudModel;
-import com.tj24.base.utils.LogUtil;
-import com.tj24.base.utils.Sputil;
-
+/**
+ * @Description:一像素黑科技  ， 经过实践发现亮屏时有黑屏的bug
+ *    现在已弃用。
+ * @Createdtime:2020/1/23 14:23
+ * @Author:TangJiang
+ * @Version: V.1.0.0
+ */
 public class AliveService extends Service {
 
     public static final String TAG = AliveService.class.getSimpleName();
@@ -39,9 +39,6 @@ public class AliveService extends Service {
             mScreenManager.startActivity();
             //关闭扫描service
             ScanTopService.stopTopScanService();
-
-            //检查是否要自动备份 必须登录，自动备份开启并且距离上次备份超过一天则备份
-            testAutoUpload();
         }
         @Override
         public void onUserPresent() {
@@ -93,20 +90,5 @@ public class AliveService extends Service {
         AliveService.startAliveService(this);
         mScreenListener.stopScreenReceiverListener();
         super.onDestroy();
-    }
-
-
-    /**
-     * 检测自动备份
-     */
-    private void testAutoUpload() {
-        if(UserHelper.getCurrentUser()!=null){
-            if(Sputil.read(getString(R.string.app_sp_auto_upload),true)){
-                if(System.currentTimeMillis() - (Sputil.read(AppConst.SP_LAST_UPDATE, 0L)) >24*3600*1000){
-                    new CloudModel(this).readyPush(true);
-                    LogUtil.i(TAG,"自动备份开始！");
-                }
-            }
-        }
     }
 }

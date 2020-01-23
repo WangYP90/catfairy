@@ -34,11 +34,12 @@ import com.tj24.appmanager.bean.event.ApkChangeEvent;
 import com.tj24.appmanager.bean.event.LaucherEvent;
 import com.tj24.appmanager.common.AppConst;
 import com.tj24.appmanager.common.OrderConfig;
+import com.tj24.appmanager.common.keepAlive.EasyKeepAlive;
 import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.appmanager.model.BusinessModel;
+import com.tj24.appmanager.model.CloudModel;
 import com.tj24.appmanager.model.OrderModel;
 import com.tj24.appmanager.receiver.ApkChangeReceiver;
-import com.tj24.appmanager.service.AliveService;
 import com.tj24.appmanager.service.ScanTopService;
 import com.tj24.appmanager.view.NavigationViewHelper;
 import com.tj24.appmanager.view.NoScrollViewPager;
@@ -48,6 +49,7 @@ import com.tj24.base.base.ui.PermissionListener;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.base.utils.ListUtil;
+import com.tj24.base.utils.LogUtil;
 import com.tj24.base.utils.Sputil;
 import com.tj24.base.utils.ToastUtil;
 import com.tj24.base.utils.UserHelper;
@@ -110,6 +112,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private BusinessModel businessModel;
     public static final int REQUEST_EDIT_USER = 101;
     public static final int REQUSET_APPCLASSIFICATION = 111;
+    public static final int REQUSET_WHITE_LIST = 112;
     public static final int MSG_REFRESH = 100;
 
     boolean isFirstInit = true; //第一次初始化
@@ -133,23 +136,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setupViews();
         requestPermissions();
         regeistReceiver();
         fetchUserInfo();
-
         //记录刷新app数据的次数 不要在第一次刷新的时候做太多，影响体验
         int refreshCount = Sputil.read(AppConst.SP_OPEN_COUNT,1);
         if(refreshCount>1){
-            AliveService.startAliveService(this);
+//            AliveService.startAliveService(this);
             if(!Sputil.read(AppConst.SP_ALARM_PERMISSION,false)){
                 ScanTopService.startSkanTopService(this, 1);
             }
             autoUpdate();
+            requestSystemWhitList();
         }
     }
 
@@ -158,6 +161,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return R.layout.app_activity_main;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onResume() {
         super.onResume();
@@ -165,6 +169,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             setVpAdater(isFirstInit?1:viewpager.getCurrentItem());
         }
         isFirstInit = false;
+
+        testAutoUpload();
     }
 
     @Override
@@ -195,6 +201,27 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 requestPermissions();
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestSystemWhitList() {
+        if(!EasyKeepAlive.isWhiteList(this)){
+            EasyKeepAlive.requestSystemWhiteList(this,REQUSET_WHITE_LIST);
+        }
+    }
+
+    /**
+     * 检测自动备份
+     */
+    private void testAutoUpload() {
+        if(UserHelper.getCurrentUser()!=null){
+            if(Sputil.read(getString(R.string.app_sp_auto_upload),true)){
+                if(System.currentTimeMillis() - (Sputil.read(AppConst.SP_LAST_UPDATE, 0L)) >24*3600*1000){
+                    new CloudModel(this).readyPush(true);
+                    LogUtil.i(TAG,"自动备份开始！");
+                }
+            }
+        }
     }
 
     /**
@@ -474,7 +501,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case ApkChangeEvent.ACTION_DEL:
 
             case ApkChangeEvent.ACTION_REPLACE:
-               setVpAdater(viewpager.getCurrentItem());
+                setVpAdater(viewpager.getCurrentItem());
                 break;
         }
     }
@@ -510,6 +537,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -518,6 +546,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
         if (requestCode == REQUEST_EDIT_USER) {
             navigationViewHelper.loadUserInfo();
+        }else if(requestCode == REQUSET_WHITE_LIST){
+            if(!EasyKeepAlive.isWhiteList(this)){
+                EasyKeepAlive.requestSystemWhiteList(this,REQUSET_WHITE_LIST);
+            }else {
+                EasyKeepAlive.reqeustFactoryWhiteList();
+            }
         }
     }
 

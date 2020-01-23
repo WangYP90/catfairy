@@ -2,6 +2,25 @@
 <PreferenceScreen
         xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
+            android:title="@string/app_permission">
+        <Preference
+                android:icon="@drawable/app_ico_drawer_copy"
+                android:key="@string/app_sp_permission_other_use"
+                android:title="@string/app_title_look_other_use"
+                android:summary="@string/app_summary_look_other_use"/>
+        <Preference
+                android:icon="@drawable/app_ico_drawer_copy"
+                android:key="@string/app_sp_battery_white_list"
+                android:title="@string/app_title_battery_white_list"
+                android:summary="@string/app_summary_battery_white_list"/>
+        <Preference
+                android:icon="@drawable/app_ico_drawer_copy"
+                android:key="@string/app_sp_backgroud_run"
+                android:title="@string/app_title_backgroud_run"
+                android:summary="@string/app_summary_backgroud_run"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
             android:title="@string/app_personality">
         <SwitchPreferenceCompat
                 android:icon="@drawable/app_ico_drawer_copy"
@@ -10,10 +29,16 @@
                 android:defaultValue="false"
                 android:summary="@string/app_summary_hide_cannot_open_app"
                 android:title="@string/app_title_hide_cannot_open_app"/>
+        <SwitchPreferenceCompat
+                android:icon="@drawable/app_ico_drawer_copy"
+                android:key="@string/app_sp_auto_check_update"
+                android:defaultValue="true"
+                android:title="@string/app_title_auto_test_update" />
         <Preference
                 android:icon="@drawable/app_ico_drawer_copy"
-                android:key="@string/app_sp_permission_other_use"
-                android:title="@string/app_title_look_other_use"/>
+                android:padding = "10dp"
+                android:key="@string/app_sp_check_update"
+                android:title="@string/app_title_test_update"/>
         <MultiSelectListPreference
                 android:icon="@drawable/app_ico_drawer_copy"
                 android:key="@string/app_sp_custom_order"
@@ -26,16 +51,6 @@
 
     <PreferenceCategory
             android:title="@string/app_routine">
-        <SwitchPreferenceCompat
-                android:icon="@drawable/app_ico_drawer_copy"
-                android:key="@string/app_sp_auto_check_update"
-                android:defaultValue="true"
-                android:title="@string/app_title_auto_test_update" />
-        <Preference
-                android:icon="@drawable/app_ico_drawer_copy"
-                android:padding = "10dp"
-                android:key="@string/app_sp_check_update"
-                android:title="@string/app_title_test_update"/>
         <Preference
                 android:icon="@drawable/app_ico_drawer_copy"
                 android:key="@string/app_sp_about"

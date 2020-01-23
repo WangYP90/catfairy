@@ -18,8 +18,6 @@ import java.util.List;
 
 public class SinglePixelActivity extends Activity {
     private static final String TAG = "SinglePixelActivity";
-
-
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

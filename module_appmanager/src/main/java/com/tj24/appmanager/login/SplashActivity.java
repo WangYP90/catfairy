@@ -25,14 +25,17 @@ public class SplashActivity extends BaseActivity {
     @BindView(R2.id.iv_league)
     ImageView ivLeague;
 
-    private boolean isLogin;
+    //防止两次跳转
+    boolean isJump = false;
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == MSG_FORWARD) {
-                mHandler.removeMessages(MSG_FORWARD);
-                forwardToNextActivity();
+                if(!isJump){
+                    isJump = true;
+                    forwardToNextActivity();
+                }
             }
         }
     };

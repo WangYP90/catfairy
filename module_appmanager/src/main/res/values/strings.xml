@@ -101,15 +101,22 @@
     <string name="app_save_success">保存成功！</string>
     <string name="app_save_fail">保存失败！</string>
     <string name="app_personality">个性</string>
-    <string name="app_summary_hide_cannot_open_app">将不可打开的一些系统应用不显示</string>
+    <string name="app_summary_hide_cannot_open_app">不可打开的系统应用将不显示</string>
     <string name="app_title_hide_cannot_open_app">隐藏不能打开的应用</string>
     <string name="app_title_look_other_use">点击授权查看其他应用使用情况</string>
+    <string name="app_title_look_other_use_setted">查看其他应用使用权限    (已开启)</string>
+    <string name="app_summary_look_other_use">授权后将会开启统计应用使用时长的功能</string>
+    <string name="app_title_battery_white_list">点击加入电池优化白名单</string>
+    <string name="app_title_battery_white_list_setted">电池优化白名单     (已开启)</string>
+    <string name="app_summary_battery_white_list">防止进程被误杀，需要加入白名单中保护</string>
+    <string name="app_title_backgroud_run">点击开启后台运行权限</string>
+    <string name="app_summary_backgroud_run">如果没有开启后台运行权限，将可能导致应用统计不准确，点击时效等问题</string>
     <string name="app_dialog_title_custom_order">定制排序</string>
     <string name="app_title_custom_order">定制排序</string>
     <string name="app_summary_custom_order">定制自己的排序方式</string>
     <string name="app_routine">常规</string>
     <string name="app_title_auto_test_update">自动检查更新</string>
-    <string name="app_title_test_update">检查更新</string>
+    <string name="app_title_test_update">手动检查更新</string>
     <string name="app_title_about">关于</string>
     <string name="app_title_user_agreenment">用户协议</string>
     <string name="app_title_app_info">应用信息</string>
@@ -126,6 +133,8 @@
     <!--sp 的key-->
     <string name="app_sp_hide_cant_open_app">app_sp_hide_cant_open_app</string>
     <string name="app_sp_permission_other_use">app_sp_permission_other_use</string>
+    <string name="app_sp_battery_white_list">app_sp_battery_white_list</string>
+    <string name="app_sp_backgroud_run">app_sp_backgroud_run</string>
     <string name="app_sp_custom_order">app_sp_custom_order</string>
     <string name="app_sp_auto_check_update">app_sp_auto_check_update</string>
     <string name="app_sp_check_update">app_sp_check_update</string>
@@ -178,5 +187,9 @@
     <string name="app_login_out_sucess">已经退出登录</string>
     <string name="app_settings">设置</string>
     <string name="app_suggest">建议</string>
+    <string name="app_permission">权限</string>
+    <string name="app_important_more">非常重要！</string>
+    <string name="app_request_back_run_dialog_content">请关闭自动管理，必须改成[手动管理]，允许自启动和后台活动，否则会引起应用统计不准确等问题！</string>
+    <string name="app_go_set">去设置</string>
 
 </resources>

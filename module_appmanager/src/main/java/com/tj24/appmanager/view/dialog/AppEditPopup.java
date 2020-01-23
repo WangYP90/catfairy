@@ -45,7 +45,7 @@ public class AppEditPopup extends PopupWindow implements View.OnClickListener {
         rootView.setZ(8F);
         setContentView(rootView);
         setBackgroundDrawable(null);
-        setWidth((int) ScreenUtil.dip2px(mContext,120));
+        setWidth((int) ScreenUtil.dip2px(mContext,160));
         setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
 
         tvMove = rootView.findViewById(R.id.tv_move);

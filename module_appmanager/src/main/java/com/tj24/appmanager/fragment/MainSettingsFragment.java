@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -20,6 +21,7 @@ import com.tj24.appmanager.activity.AboutActivity;
 import com.tj24.appmanager.activity.ResetPwdActivity;
 import com.tj24.appmanager.activity.UserAgreenmentActivity;
 import com.tj24.appmanager.common.OrderConfig;
+import com.tj24.appmanager.common.keepAlive.EasyKeepAlive;
 import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.appmanager.model.ApkModel;
 import com.tj24.appmanager.service.ScanTopService;
@@ -39,6 +41,8 @@ public class MainSettingsFragment extends PreferenceFragmentCompat implements
 
     SwitchPreferenceCompat spSwitchHideApp;
     Preference spLookOtherUse;
+    Preference spBatteryWhiteList;
+    Preference spBackGroudRun;
     MultiSelectListPreference spListCustomOrder;
     SwitchPreferenceCompat spSwitchAutoUpdate;
     Preference spUpdate;
@@ -48,6 +52,9 @@ public class MainSettingsFragment extends PreferenceFragmentCompat implements
     Preference spUpdatePwd;
     Preference spLoginout;
 
+    boolean isLookOtherUse;
+    boolean isBatteryWhiteList;
+    boolean isBackGroudRun;
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -63,6 +70,8 @@ public class MainSettingsFragment extends PreferenceFragmentCompat implements
     private void initPreference() {
         spSwitchHideApp = (SwitchPreferenceCompat) findPreference(getString(R.string.app_sp_hide_cant_open_app));
         spLookOtherUse = findPreference(getString(R.string.app_sp_permission_other_use));
+        spBatteryWhiteList = findPreference(getString(R.string.app_sp_battery_white_list));
+        spBackGroudRun = findPreference(getString(R.string.app_sp_backgroud_run));
         spListCustomOrder = (MultiSelectListPreference) findPreference(getString(R.string.app_sp_custom_order));
         spSwitchAutoUpdate = (SwitchPreferenceCompat) findPreference(getString(R.string.app_sp_auto_check_update));
         spUpdate = findPreference(getString(R.string.app_sp_check_update));
@@ -73,6 +82,8 @@ public class MainSettingsFragment extends PreferenceFragmentCompat implements
         spLoginout = findPreference(getString(R.string.app_sp_login_out));
 
         spLookOtherUse.setOnPreferenceClickListener(this);
+        spBatteryWhiteList.setOnPreferenceClickListener(this);
+        spBackGroudRun.setOnPreferenceClickListener(this);
         spUpdate.setOnPreferenceClickListener(this);
         spAbout.setOnPreferenceClickListener(this);
         spUserAgreement.setOnPreferenceClickListener(this);
@@ -81,11 +92,21 @@ public class MainSettingsFragment extends PreferenceFragmentCompat implements
         spLoginout.setOnPreferenceClickListener(this);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onResume() {
         super.onResume();
+        initPermission();
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         setCustomOrders();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void initPermission() {
+        isLookOtherUse = ApkModel.isUseGranted();
+        isBatteryWhiteList = EasyKeepAlive.isWhiteList(mContext);
+        spLookOtherUse.setTitle(isLookOtherUse?R.string.app_title_look_other_use_setted:R.string.app_title_look_other_use);
+        spBatteryWhiteList.setTitle(isBatteryWhiteList?R.string.app_title_battery_white_list_setted:R.string.app_title_battery_white_list);
     }
 
     @Override
@@ -95,10 +116,19 @@ public class MainSettingsFragment extends PreferenceFragmentCompat implements
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public boolean onPreferenceClick(Preference preference) {
         if(preference.getKey().equals(spLookOtherUse.getKey())){
-            ScanTopService.startSkanTopService(mContext,2);
+            if(!isLookOtherUse){
+                ScanTopService.startSkanTopService(mContext,2);
+            }
+        }else if(preference.getKey().equals(spBatteryWhiteList.getKey())){
+            if(!isBatteryWhiteList){
+                EasyKeepAlive.requestSystemWhiteList(mContext);
+            }
+        }else if(preference.getKey().equals(spBackGroudRun.getKey())){
+            showRequestBackRunDialog();
         }else if(preference.getKey().equals(spUpdate.getKey())){
             updateVersion();
         }else if(preference.getKey().equals(spAbout.getKey())){
@@ -113,6 +143,19 @@ public class MainSettingsFragment extends PreferenceFragmentCompat implements
             loginout();
         }
         return false;
+    }
+
+    private void showRequestBackRunDialog() {
+        new MaterialDialog.Builder(mContext).title(getString(R.string.app_important_more))
+                .content(getString(R.string.app_request_back_run_dialog_content))
+                .negativeText(R.string.app_cancle)
+                .positiveText(getString(R.string.app_go_set))
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        EasyKeepAlive.reqeustFactoryWhiteList();
+                    }
+                }).show();
     }
 
     /**
