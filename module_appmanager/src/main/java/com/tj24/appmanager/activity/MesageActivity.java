@@ -35,6 +35,7 @@ public class MesageActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         msgApkDatas.addAll(filter(MsgApkDaoHelper.getInstance().queryByPage(pageNum)));
+        pageNum++;
         linearLayoutManager = new LinearLayoutManager(this);
         rvMsg.setLayoutManager(linearLayoutManager);
         msgAPkAdapter = new MsgAPkAdapter(R.layout.app_rv_msg_item, R.layout.app_rv_msg_header, msgApkDatas);

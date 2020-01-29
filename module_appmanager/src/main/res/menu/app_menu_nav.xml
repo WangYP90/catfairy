@@ -5,24 +5,24 @@
     <group android:checkableBehavior="single">
         <item
                 android:id="@+id/item_homepage"
-                android:icon="@drawable/app_ico_drawer_copy"
+                android:icon="@drawable/app_ico_drawer_person_24dp"
                 android:title="个人主页" />
         <item
                 android:id="@+id/item_cloud"
-                android:icon="@drawable/app_ico_drawer_recover"
+                android:icon="@drawable/app_ico_drawer_cloud_24dp"
                 android:title="云空间" />
 
         <item
                 android:id="@+id/item_share"
-                android:icon="@drawable/app_ico_drawer_updatepwd"
+                android:icon="@drawable/app_ico_drawer_share_24dp"
                 android:title="分享" />
         <item
                 android:id="@+id/item_settings"
-                android:icon="@drawable/app_ico_drawer_exsit"
+                android:icon="@drawable/app_ico_drawer_settings_24dp"
                 android:title="设置" />
         <item
                 android:id="@+id/item_helpsuggest"
-                android:icon="@drawable/app_ico_drawer_exsit"
+                android:icon="@drawable/app_ico_drawer_help_suggest_24dp"
                 android:title="建议与帮助" />
     </group>
 </menu>

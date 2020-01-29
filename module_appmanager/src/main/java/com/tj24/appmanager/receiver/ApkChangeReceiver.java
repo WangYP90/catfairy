@@ -57,9 +57,9 @@ public class ApkChangeReceiver extends BroadcastReceiver {
             boolean isReplacing = intent.getBooleanExtra(Intent.EXTRA_REPLACING,false);
             int uid = intent.getIntExtra(Intent.EXTRA_UID,0);
             if(!isReplacing){
+                creatMsgApk(context.getString(R.string.app_uninstall),packageName);
                 AppBean appBean = AppBeanDaoHelper.getInstance().queryObjById(packageName);
                 AppBeanDaoHelper.getInstance().deleteObj(appBean);
-                creatMsgApk(context.getString(R.string.app_uninstall),packageName);
                 EventBus.getDefault().postSticky(new ApkChangeEvent(packageName,ApkChangeEvent.ACTION_DEL));
                 LogUtil.i(TAG, "卸载了:" + packageName + "包名的程序");
             }

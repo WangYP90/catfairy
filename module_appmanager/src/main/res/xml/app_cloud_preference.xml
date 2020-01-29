@@ -6,17 +6,17 @@
         <SwitchPreferenceCompat
                 android:key="@string/app_sp_auto_upload"
                 android:defaultValue="true"
-                android:icon="@drawable/app_ico_drawer_copy"
+                android:icon="@drawable/app_ico_setting_auto_copy_24dp"
                 android:summary="@string/app_summary_auto_upload"
                 android:title="@string/app_title_auto_upload"/>
         <Preference
                 android:key="@string/app_sp_upload"
-                android:icon="@drawable/app_ico_drawer_copy"
+                android:icon="@drawable/app_ico_setting_copy_24dp"
                 android:summary="@string/app_summary_upload"
                 android:title="@string/app_title_upload"/>
         <Preference
                 android:key="@string/app_sp_download"
-                android:icon="@drawable/app_ico_drawer_copy"
+                android:icon="@drawable/app_ico_setting_return_24dp"
                 android:summary="@string/app_summary_download"
                 android:title="@string/app_title_download"/>
     </PreferenceCategory>
