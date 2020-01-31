@@ -27,12 +27,16 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.R2;
 import com.tj24.appmanager.adapter.AppsVpAdater;
 import com.tj24.appmanager.bean.event.ApkChangeEvent;
 import com.tj24.appmanager.bean.event.LaucherEvent;
 import com.tj24.appmanager.common.AppConst;
+import com.tj24.appmanager.common.CatFairyHeader.CatFairyHeader;
+import com.tj24.appmanager.common.CatFairyHeader.CatFairyHeaderLayout;
 import com.tj24.appmanager.common.OrderConfig;
 import com.tj24.appmanager.common.keepAlive.EasyKeepAlive;
 import com.tj24.appmanager.login.LoginInterceptorCallBack;
@@ -85,6 +89,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     NoScrollViewPager viewpager;
     @BindView(R2.id.tv_shadow_order)
     TextView tvShadowOrder;
+    @BindView(R2.id.catfairy_refresh)
+    CatFairyHeaderLayout catFairyRefresh;
     @BindView(R2.id.fbt_compose)
     FloatingActionButton fbtCompose;
     @BindView(R2.id.nav_view)
@@ -95,6 +101,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public View transView;
 
     private NavigationViewHelper navigationViewHelper;
+
+    private CatFairyHeader catFairyHeader;
     //是否正在编辑
     public boolean isEditing = false;
 
@@ -286,6 +294,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 navView.getViewTreeObserver().removeOnPreDrawListener(this);
                 navigationViewHelper.loadUserInfo();
                 return false;
+            }
+        });
+
+        catFairyHeader = new CatFairyHeader(this);
+        catFairyRefresh.setRefreshHeader(catFairyHeader);
+        catFairyRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                //空实现  不然有个默认时间结束刷新
             }
         });
         initTransView();
