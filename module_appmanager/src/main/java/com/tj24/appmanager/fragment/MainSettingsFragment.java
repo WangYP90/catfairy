@@ -181,7 +181,7 @@ public class MainSettingsFragment extends PreferenceFragmentCompat implements
             public void onUpdateReturned(int updateStatus, UpdateResponse updateInfo) {
                 // TODO Auto-generated method stub
                 if (updateStatus == UpdateStatus.Yes) {//版本有更新
-                    ToastUtil.showShortToast(mContext,"ceshi");
+//                    ToastUtil.showShortToast(mContext,"ceshi");
                 }else if(updateStatus == UpdateStatus.No){
                     ToastUtil.showShortToast(mContext, getString(R.string.app_version_neednot_update));
                 }else if(updateStatus==UpdateStatus.EmptyField){//此提示只是提醒开发者关注那些必填项，测试成功后，无需对用户提示

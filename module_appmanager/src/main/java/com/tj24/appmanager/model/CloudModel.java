@@ -17,19 +17,19 @@ import com.tj24.appmanager.common.AppConst;
 import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.daohelper.AppClassificationDaoHelper;
 import com.tj24.appmanager.daohelper.MsgApkDaoHelper;
-import com.tj24.base.utils.UserHelper;
 import com.tj24.base.bean.AppData;
+import com.tj24.base.bean.PushRecord;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.base.bean.appmanager.MsgApk;
 import com.tj24.base.bean.appmanager.login.User;
 import com.tj24.base.constant.BmobErrorCode;
-import com.tj24.base.utils.DateUtil;
+import com.tj24.base.utils.ListUtil;
 import com.tj24.base.utils.Sputil;
 import com.tj24.base.utils.ToastUtil;
+import com.tj24.base.utils.UserHelper;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,6 +40,7 @@ import cn.bmob.v3.datatype.BatchResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListListener;
+import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 
 public class CloudModel extends BaseAppsManagerModel {
@@ -118,35 +119,47 @@ public class CloudModel extends BaseAppsManagerModel {
         datas.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {
-                hideProgressDialog();
                 if(e==null){
                     Sputil.save(AppConst.SP_LAST_UPDATE,System.currentTimeMillis());
-                    ToastUtil.showShortToast(mContext,"备份成功");
+                    PushRecord pushRecord = new PushRecord();
+                    pushRecord.setUserId(userId);
+                    pushRecord.setUserName(userName);
+                    pushRecord.setTag(tags);
+                    pushRecord.setDataId(datas.getObjectId());
+                    pushRecord.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                            hideProgressDialog();
+                            if(e ==null){
+                                ToastUtil.showShortToast(mContext,"备份成功");
+                            }else {
+                                ToastUtil.showShortToast(mContext,"备份失败");
+                            }
+                        }
+                    });
+
                 }else {
+                    hideProgressDialog();
                     ToastUtil.showShortToast(mContext,"备份失败");
                 }
             }
         });
     }
+
+
     /**
      * 还原数据
      */
     public void readyPull(){
         showProgressDialog("","");
-        BmobQuery<AppData>query = new BmobQuery<>();
-        query.addWhereEqualTo("userId",UserHelper.getCurrentUser().getObjectId())
-                .findObjects(new FindListener<AppData>() {
+        BmobQuery<PushRecord>query = new BmobQuery<>();
+        query.setLimit(10).addWhereEqualTo("userId",UserHelper.getCurrentUser().getObjectId())
+                .findObjects(new FindListener<PushRecord>() {
                     @Override
-                    public void done(List<AppData> list, BmobException e) {
+                    public void done(List<PushRecord> list, BmobException e) {
                         hideProgressDialog();
-                        if(e==null && list!=null){
-                            Collections.reverse(list);
-                            if(list.size()<=10){
-                                showPullDataDialog(list);
-                            }else {
-                                showPullDataDialog(list);
-                                deleteMoreTen(list.subList(10,list.size()));  //只保留最近10条数据
-                            }
+                        if(e==null){
+                            showPullDataDialog(list);
                         }else {
                             ToastUtil.showShortToast(mContext,BmobErrorCode.getInstance().getErro(e.getErrorCode()));
                         }
@@ -176,16 +189,22 @@ public class CloudModel extends BaseAppsManagerModel {
      * 还原数据的dialog
      * @param appDatas
      */
-    private void showPullDataDialog(List<AppData> appDatas){
-        List<String> items = new ArrayList<>();
-        for(AppData data : appDatas){
-            items.add(data.getTag()+ "\n"+DateUtil.formatString(DateUtil.SDF_3,data.getCreatedAt()));
+    private void showPullDataDialog(List<PushRecord> appDatas){
+        if(ListUtil.isNullOrEmpty(appDatas)){
+            ToastUtil.showShortToast(mContext,"还未曾备份过数据哦");
+            return;
         }
-        final AppData[] selectData = new AppData[1];
+
+        List<String> items = new ArrayList<>();
+        for(PushRecord pushRecord : appDatas){
+            items.add(pushRecord.getTag()+ "\n"+pushRecord.getCreatedAt());
+        }
+        final PushRecord[] selectData = new PushRecord[1];
+        selectData[0] = appDatas.get(0);
         new MaterialDialog.Builder(mContext).title("还原数据").content("选择需还原记录")
                 .positiveText(mContext.getString(R.string.app_confirm))
                 .negativeText(mContext.getString(R.string.app_cancle))
-                .items()
+                .items(items)
                 .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
@@ -195,42 +214,55 @@ public class CloudModel extends BaseAppsManagerModel {
                 }).onPositive(new MaterialDialog.SingleButtonCallback() {
             @Override
             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                if(selectData[0] != null){
+                    replaceData(selectData[0]);
+                }
                 dialog.dismiss();
             }
         }).onNegative(new MaterialDialog.SingleButtonCallback() {
             @Override
             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                saveData(selectData[0]);
                 dialog.dismiss();
             }
         }).show();
     }
 
     /**
-     * 保存数据
+     * 覆盖数据
      * @param selectDatum
      */
-    private void saveData(AppData selectDatum) {
-        String json_appBean = selectDatum.getAppBean();
-        String json_appClassification = selectDatum.getAppClassfication();
-        String json_msgApks = selectDatum.getMsgApks();
-        Gson gson = new Gson();
-        List<AppBean> appBeans = gson.fromJson(json_appBean,new TypeToken<List<AppBean>>(){}.getType());
-        List<AppClassfication> appClassfications = gson.fromJson(json_appClassification,new TypeToken<List<AppClassfication>>(){}.getType());
-        List<MsgApk> msgApks = gson.fromJson(json_msgApks,new TypeToken<List<MsgApk>>(){}.getType());
-        if(appBeans!=null &&!appBeans.isEmpty()){
-            AppBeanDaoHelper.getInstance().deleteAll();
-            AppBeanDaoHelper.getInstance().insertList(appBeans);
-        }
-        if(appClassfications!=null && !appClassfications.isEmpty()){
-            AppClassificationDaoHelper.getInstance().deleteAll();
-            AppClassificationDaoHelper.getInstance().insertList(appClassfications);
-        }
-        if(msgApks!=null && !msgApks.isEmpty()){
-            MsgApkDaoHelper.getInstance().deleteAll();
-            MsgApkDaoHelper.getInstance().insertList(msgApks);
-        }
-        ToastUtil.showLongToast(mContext,"还原数据成功");
+    private void replaceData(PushRecord selectDatum) {
+        BmobQuery<AppData> query = new BmobQuery<>();
+        query.getObject(selectDatum.getDataId(), new QueryListener<AppData>() {
+            @Override
+            public void done(AppData appData, BmobException e) {
+                if(e==null && appData!=null){
+                    String json_appBean = appData.getAppBean();
+                    String json_appClassification = appData.getAppClassfication();
+                    String json_msgApks = appData.getMsgApks();
+                    Gson gson = new Gson();
+                    List<AppBean> appBeans = gson.fromJson(json_appBean,new TypeToken<List<AppBean>>(){}.getType());
+                    List<AppClassfication> appClassfications = gson.fromJson(json_appClassification,new TypeToken<List<AppClassfication>>(){}.getType());
+                    List<MsgApk> msgApks = gson.fromJson(json_msgApks,new TypeToken<List<MsgApk>>(){}.getType());
+                    if(appBeans!=null &&!appBeans.isEmpty()){
+                        AppBeanDaoHelper.getInstance().deleteAll();
+                        AppBeanDaoHelper.getInstance().insertList(appBeans);
+                    }
+                    if(appClassfications!=null && !appClassfications.isEmpty()){
+                        AppClassificationDaoHelper.getInstance().deleteAll();
+                        AppClassificationDaoHelper.getInstance().insertList(appClassfications);
+                    }
+                    if(msgApks!=null && !msgApks.isEmpty()){
+                        MsgApkDaoHelper.getInstance().deleteAll();
+                        MsgApkDaoHelper.getInstance().insertList(msgApks);
+                    }
+                    ToastUtil.showLongToast(mContext,"还原数据成功");
+                }else {
+                    ToastUtil.showShortToast(mContext,"未找到备份记录");
+                }
+            }
+        });
+
     }
 
     private void showProgressDialog(String title,String  message) {
