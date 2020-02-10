@@ -10,6 +10,6 @@ package com.tj24.base.base.app;
 public class ApplicationList {
     public static final String[]APPLICITONLIST={
             "com.tj24.appmanager.app.AppManagerApp" ,
-            "com.tj24.login.app.LoginApp"
+            "com.tj24.wanandroid.WanAndroidApp"
     };
 }

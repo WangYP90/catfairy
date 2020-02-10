@@ -35,7 +35,7 @@ dependencies {
     if(!isAppManagerRunAlone.toBoolean()){
         implementation project(':module_appmanager')
     }
-    if(!isLoginRunAlone.toBoolean()){
-        implementation project(':module_login')
+    if(!isWanAndroidRunAlone.toBoolean()){
+        implementation project(':module_wanandroid')
     }
 }

@@ -6,8 +6,10 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tj24.appmanager.R;
+import com.tj24.base.constant.ARouterPath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,7 @@ public class CatFairyHeader extends AbstractFairyHeader {
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+                ARouter.getInstance().build(ARouterPath.WanAndroid.MAIN_ACTIVITY).navigation(mContext);
             }
         });
     }

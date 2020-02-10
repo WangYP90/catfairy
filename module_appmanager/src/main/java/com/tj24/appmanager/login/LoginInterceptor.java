@@ -32,6 +32,6 @@ public class LoginInterceptor implements IInterceptor {
     @Override
     public void init(Context context) {
 
-        LogUtil.i(TAG,"拦截器初始化成功！");
+        LogUtil.i(TAG,"登录拦截器初始化成功！");
     }
 }

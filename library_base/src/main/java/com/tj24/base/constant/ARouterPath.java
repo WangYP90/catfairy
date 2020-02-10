@@ -38,4 +38,14 @@ public class ARouterPath {
          */
         public static final String LOGIN_ACTIVITY = "/appManager/login";
     }
+
+    /**
+     * 玩Android 模块的
+     */
+    public static class WanAndroid{
+        /**
+         * 主页面
+         */
+        public static final String  MAIN_ACTIVITY = "/wanAndroid/main";
+    }
 }

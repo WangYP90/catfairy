@@ -1,0 +1,7 @@
+增加新module流程：
+   1.在gradle.properties 中增加对应的控制开关量；
+   2.在主 app 模块下的 build.gradle 中 将新module依赖；
+   3.将appManager模块的 build.gradle 复制替换新建module中的build.gradle；
+     并修改对应的值 比如 applicationId、控制是否依赖的常量、resourcePrefix 等；
+   4.在新建module下的 main文件下创建 lib_Manifest目录，并在目录中创建 AndroidManifest.xml
+   5.创建application类并继承BaseApplication,实现IApplication，同时在 base模块下的  ApplicationList 添加对应的路径；
