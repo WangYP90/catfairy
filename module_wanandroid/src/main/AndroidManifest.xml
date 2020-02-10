@@ -12,13 +12,16 @@
             android:supportsRtl="true"
             android:theme="@style/base_AppTheme"
             tools:replace="android:label">
-        <activity android:name=".WanAndroidMainActivity">
+        <activity android:name=".homepage.HomePageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".user.RegistActivity" />
+        <activity android:name=".user.LoginActivity" />
+        <activity android:name=".search.SearchActivity" />
     </application>
 
 </manifest>

@@ -1,8 +1,9 @@
-package com.tj24.appmanager.view;
+package com.tj24.base.base.ui.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+
 import androidx.viewpager.widget.ViewPager;
 
 /**

@@ -1,6 +1,5 @@
 package com.tj24.appmanager.fragment;
 
-import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.PopupWindowCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -223,7 +223,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
      * @param view
      * @param appBean
      */
-    @TargetApi(Build.VERSION_CODES.M)
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void showEditPopup(View view, AppBean appBean) {
         if (appBean == null) {
@@ -275,10 +275,10 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
             public void onDismiss() {
                 transView.setVisibility(View.GONE);
                 mLinearManager.setCanScrollVertically(true);
-                view.setBackgroundColor(mActivity.getColor(R.color.base_white_text));
+                view.setBackgroundColor(ContextCompat.getColor(mActivity,R.color.base_white_text));
             }
         });
-        view.setBackgroundColor(mActivity.getColor(R.color.app_item_pressed));
+        view.setBackgroundColor(ContextCompat.getColor(mActivity,R.color.app_item_pressed));
     }
 
 

@@ -7,6 +7,7 @@
     <color name="base_color_white">#ffff</color>
     <color name="base_black">#000000</color>
     <color name="base_black_600">#666666</color>
+    <color name="base_black_900">#999999</color>
 
     <color name="base_white_text">#fff</color>
     <color name="base_secondary_text">#757575</color>

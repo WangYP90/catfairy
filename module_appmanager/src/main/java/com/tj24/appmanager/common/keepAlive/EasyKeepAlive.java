@@ -20,12 +20,13 @@ public class EasyKeepAlive {
      * 是否在白名单中
      * @return
      */
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public static boolean isWhiteList(Context context) {
         boolean isIgnoring = false;
         PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         if (powerManager != null) {
-            isIgnoring = powerManager.isIgnoringBatteryOptimizations(context.getPackageName());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                isIgnoring = powerManager.isIgnoringBatteryOptimizations(context.getPackageName());
+            }
         }
         return isIgnoring;
     }

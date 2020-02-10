@@ -1,4 +1,9 @@
 <resources>
-    <string name="app_name">module_wanandroid</string>
     <string name="wanandroid_app_name">玩Android</string>
+
+    <string name="wanandroid_title_home">首页</string>
+    <string name="wanandroid_title_square">广场</string>
+    <string name="wanandroid_title_subscriptions">公众号</string>
+    <string name="wanandroid_title_system">体系</string>
+    <string name="wanandroid_title_project">项目</string>
 </resources>

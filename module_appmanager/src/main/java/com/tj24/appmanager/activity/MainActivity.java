@@ -46,10 +46,10 @@ import com.tj24.appmanager.model.OrderModel;
 import com.tj24.appmanager.receiver.ApkChangeReceiver;
 import com.tj24.appmanager.service.ScanTopService;
 import com.tj24.appmanager.view.NavigationViewHelper;
-import com.tj24.appmanager.view.NoScrollViewPager;
 import com.tj24.appmanager.view.dialog.OrderDialog;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.base.ui.PermissionListener;
+import com.tj24.base.base.ui.widget.NoScrollViewPager;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.base.utils.ListUtil;
@@ -273,20 +273,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void setupViews() {
         orderModel = new OrderModel(this);
         businessModel = new BusinessModel(this);
-
-        toolbar = findViewById(R.id.toolbar);
-        tab = findViewById(R.id.tab);
-        ivAddItem = findViewById(R.id.iv_addItem);
-        appBar = findViewById(R.id.appBar);
-        viewpager = findViewById(R.id.viewpager);
-        tvShadowOrder = findViewById(R.id.tv_shadow_order);
-        fbtCompose = findViewById(R.id.fbt_compose);
-        navView = findViewById(R.id.nav_view);
-        drawerLayout = findViewById(R.id.drawerLayout);
         navigationViewHelper = new NavigationViewHelper(mActivity,navView,drawerLayout);
-        ivAddItem.setOnClickListener(this);
-        fbtCompose.setOnClickListener(this);
-        navView.setNavigationItemSelectedListener(this);
         animateToolbar();
         drawerLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
