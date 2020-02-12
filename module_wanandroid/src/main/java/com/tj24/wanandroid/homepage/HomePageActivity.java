@@ -6,13 +6,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,13 +14,19 @@ import com.google.android.material.navigation.NavigationView;
 import com.tj24.base.constant.ARouterPath;
 import com.tj24.wanandroid.R;
 import com.tj24.wanandroid.R2;
-import com.tj24.wanandroid.common.BaseWanAndroidActivity;
+import com.tj24.wanandroid.common.base.BaseWanAndroidActivity;
 import com.tj24.wanandroid.homepage.homepage.HomePageFragment;
 import com.tj24.wanandroid.homepage.project.ProjectsFragment;
 import com.tj24.wanandroid.homepage.square.SquareFragment;
 import com.tj24.wanandroid.homepage.subscription.SubscriptionsFragment;
 import com.tj24.wanandroid.homepage.systemnavigation.SystemNavigationFragment;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 
 @Route(path = ARouterPath.WanAndroid.MAIN_ACTIVITY)

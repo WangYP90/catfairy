@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.tj24.base.base.app.BaseApplication;
+
 /**
  * @Description:网络工具类
  * @Createdtime:2019/3/3 14:02
@@ -32,11 +34,11 @@ public class NetWorkUtil {
 
     /**
      * 获取当前网络状态类型及是否可用
-     * @param context
+     * @param
      * @return
      */
-    public  static String getNetworkStateName(Context context) {
-        ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+    public  static String getNetworkStateName() {
+        ConnectivityManager mConnectivityManager = (ConnectivityManager) BaseApplication.getContext()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
         if(mNetworkInfo!=null && mNetworkInfo.isAvailable()){
@@ -54,4 +56,13 @@ public class NetWorkUtil {
             return TYPE_NO_NET;
         }
     }
+
+    /**
+     * 是否有网络
+     * @return
+     */
+    public static boolean isEnable(){
+        return getNetworkStateName() != TYPE_NO_NET;
+    }
+
 }
