@@ -1,16 +1,32 @@
-package com.tj24.base.bean.wanandroid.homepage;
+package com.tj24.base.bean.wanandroid;
 
 import java.io.Serializable;
 
-/**
- * 搜索热词
- */
-public class HotKeyBean implements Serializable {
+public class NetUrlBean implements Serializable {
+    private String desc;
+    private String icon;
     private int id;
     private String link;
     private String name;
     private int order;
+    private int userId;
     private int visible;
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public int getId() {
         return id;
@@ -42,6 +58,14 @@ public class HotKeyBean implements Serializable {
 
     public void setOrder(int order) {
         this.order = order;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getVisible() {

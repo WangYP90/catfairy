@@ -34,7 +34,6 @@ public class RetrofitWanAndroid {
     }
 
     public RetrofitWanAndroid() {
-
         //OKHttp进行超时设置
         OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
         builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS); // 连接超时时间阈值
@@ -42,9 +41,8 @@ public class RetrofitWanAndroid {
         builder.writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS);  // 写数据超时时间阈值
 
         builder.retryOnConnectionFailure(true);              //错误重连
-
-//        builder.addInterceptor(new AbstractParameterInterceptor());
-//        builder.addInterceptor(new AbltractHeaderInterceptor());
+        builder.addInterceptor(new ReceivedCookiesInterceptor());
+        builder.addInterceptor(new CookieInterceptor());
         OkHttpClient okHttpClient = builder.build();
         // 2 创建 Retrofit实例
         Retrofit retrofit = new Retrofit.Builder()

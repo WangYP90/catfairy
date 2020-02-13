@@ -23,6 +23,7 @@ public abstract class WanAndroidCallBack<T> implements Callback<BaseRespon<T>> {
             onSucces(baseRespon.getData());
        }else if(baseRespon.getErrorCode() == -1001){
            ToastUtil.showShortToast(BaseApplication.getContext(),"登录失效，需要重新登录");
+           onFail(baseRespon.getErrorMsg());
        }else {
            onFail(baseRespon.getErrorMsg());
        }

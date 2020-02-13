@@ -2,7 +2,7 @@ package com.tj24.wanandroid.common.http.respon;
 
 import java.util.List;
 
-public class DataRespon<T> {
+public class ArticleRespon<T> {
 
     private int curPage;
     private int offset;

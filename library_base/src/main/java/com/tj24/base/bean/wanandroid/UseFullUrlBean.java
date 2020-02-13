@@ -1,9 +1,9 @@
-package com.tj24.base.bean.wanandroid.homepage;
+package com.tj24.base.bean.wanandroid;
 
 /**
- * 友情链接
+ * 常用网址
  */
-public class FriendShipLinkBean {
+public class UseFullUrlBean {
     private String icon;
     private int id;
     private String link;

@@ -1,4 +1,4 @@
-package com.tj24.base.bean.wanandroid.homepage;
+package com.tj24.base.bean.wanandroid;
 
 import java.io.Serializable;
 import java.util.List;

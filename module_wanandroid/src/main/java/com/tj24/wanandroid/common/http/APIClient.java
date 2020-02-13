@@ -1,23 +1,32 @@
 package com.tj24.wanandroid.common.http;
 
-import com.tj24.base.bean.wanandroid.homepage.ArticleBean;
-import com.tj24.base.bean.wanandroid.homepage.BannerBean;
-import com.tj24.base.bean.wanandroid.homepage.FriendShipLinkBean;
-import com.tj24.base.bean.wanandroid.homepage.HotKeyBean;
-import com.tj24.base.bean.wanandroid.homepage.NavigationBean;
-import com.tj24.base.bean.wanandroid.homepage.TreeBean;
-import com.tj24.base.bean.wanandroid.homepage.UserBean;
+
+import com.tj24.base.bean.wanandroid.ArticleBean;
+import com.tj24.base.bean.wanandroid.BannerBean;
+import com.tj24.base.bean.wanandroid.CoinBean;
+import com.tj24.base.bean.wanandroid.CoinProgressBean;
+import com.tj24.base.bean.wanandroid.HotKeyBean;
+import com.tj24.base.bean.wanandroid.NavigationBean;
+import com.tj24.base.bean.wanandroid.NetUrlBean;
+import com.tj24.base.bean.wanandroid.TodoBean;
+import com.tj24.base.bean.wanandroid.TreeBean;
+import com.tj24.base.bean.wanandroid.UseFullUrlBean;
+import com.tj24.base.bean.wanandroid.UserBean;
+import com.tj24.wanandroid.common.http.respon.ArticleRespon;
 import com.tj24.wanandroid.common.http.respon.BaseRespon;
-import com.tj24.wanandroid.common.http.respon.DataRespon;
+import com.tj24.wanandroid.common.http.respon.ShareRespon;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface APIClient {
 
@@ -26,13 +35,13 @@ public interface APIClient {
      * 首页文章列表  0代表页数
      */
     @GET("article/list/{page}/json")
-    Call<BaseRespon<DataRespon<ArticleBean>>> getHomePageArticles(@Path("page") int page);
+    Call<BaseRespon<ArticleRespon<ArticleBean>>> getHomePageArticles(@Path("page") int page);
 
     /**
      * 首页最新项目列表  0代表页数
      */
     @GET("article/listproject/{page}/json")
-    Call<BaseRespon<DataRespon<ArticleBean>>> getHomePageProjects(@Path("page") int page);
+    Call<BaseRespon<ArticleRespon<ArticleBean>>> getHomePageProjects(@Path("page") int page);
     /**
      * 首页banner
      */
@@ -43,13 +52,21 @@ public interface APIClient {
      * 常用网站
      */
     @GET("friend/json")
-    Call<BaseRespon<List<FriendShipLinkBean>>> getFriendShipLink();
+    Call<BaseRespon<List<UseFullUrlBean>>> getUsefullUrl();
 
     /**
      *  搜索热词
      */
     @GET("hotkey/json")
     Call<BaseRespon<List<HotKeyBean>>> getHotKeys();
+
+    /**
+     *   搜索
+     *   参数：页码：拼接在链接上，从0开始。 k ： 搜索关键词
+     */
+    @POST("article/query/{page}/json")
+    @FormUrlEncoded
+    Call<BaseRespon<ArticleRespon<ArticleBean>>>searchArticle(@Path("page")int page, @Field("keyWord")String keyWord);
 
     /**
      *  置顶文章
@@ -99,7 +116,7 @@ public interface APIClient {
      * 	页码：拼接在链接中，从1开始
      */
     @GET("project/list/{page}/json?cid={cid}")
-    Call<BaseRespon<List<DataRespon<ArticleBean>>>> getProjectArticle(@Path("page")int page,@Path("cid")int cid);
+    Call<BaseRespon<List<ArticleRespon<ArticleBean>>>> getProjectArticle(@Path("page")int page, @Path("cid")int cid);
 
     /**
      *  登录
@@ -127,52 +144,69 @@ public interface APIClient {
     /**
      *  收藏的文章列表
      */
-    public static final String COLLECT_LIST = "/lg/collect/list/0/json";
+    @GET("lg/collect/list/{page}/json")
+    Call<BaseRespon<ArticleRespon<ArticleBean>>> getCollectArticles(@Path("page") int page);
+
     /**
      *   收藏站内文章
      *   参数：id:拼接在链接上
      */
-    public static final String COLLECT_INSIDE = "/lg/collect/1165/json";
+    @POST("lg/collect/{id}/json")
+    Call<BaseRespon> collectInArticle(@Path("id") int articleId);
     /**
      *   收藏站外文章
      *   参数：title，author，link
      */
-    public static final String COLLECT_OUTSIDE = "/lg/collect/add/json";
+    @POST("lg/collect/add/json")
+    @FormUrlEncoded
+    Call<BaseRespon> collectOutArticle(
+            @Field("title") String title,@Field("author") String author,@Field("link") String link);
+
     /**
      *   文章列表中取消收藏
      *   参数：id:拼接在链接上
      */
-    public static final String UNCOLLECT_ARTICLE = "/lg/uncollect_originId/2333/json";
+    @POST("lg/uncollect_originId/{id}/json")
+    Call<BaseRespon> UnCollectAtArticle(@Path("id") int articleId);
+
     /**
      *   我的收藏页面 取消收藏
      *   参数：id:拼接在链接上  originId:列表页下发，无则为-1
      */
-    public static final String UNCOLLECT_MINE = "/lg/uncollect/2805/json";
+    @POST("lg/uncollect/{id}/json")
+    @FormUrlEncoded
+    Call<BaseRespon> UnCollectAtMine(@Path("id") int articleId,@Field("originId") int originId);
+
     /**
-     *   收藏网站列表
+     *   收藏的网站列表
      */
-    public static final String COLLECT_TOOLS = "/lg/collect/usertools/json";
+    @GET("lg/collect/usertools/json")
+    Call<BaseRespon<List<NetUrlBean>>> getCollectUrls();
+
     /**
      *   收藏网址
      *   参数：name,link
      */
-    public static final String COLLECT_ADD_TOOL = "/lg/collect/addtool/json";
+    @POST("lg/collect/addtool/json")
+    @FormUrlEncoded
+    Call<BaseRespon>collectUrl(@Field("name")String name,@Field("link") String link);
+
     /**
      *   编辑收藏网站
      *   参数：id,name,link
      */
-    public static final String COLLECT_UPDATE_TOOL = "/lg/collect/updatetool/json";
+    @POST("lg/collect/updatetool/json")
+    @FormUrlEncoded
+    Call<BaseRespon>updateCollectUrl(@Field("id")int netUrlId,@Field("name")String name, @Field("link") String link);
+
     /**
      *   删除收藏网站
      *   参数：id
      */
-    public static final String COLLECT_DELETE_TOOL = "/lg/collect/deletetool/json";
+    @POST("lg/collect/deletetool/json")
+    @FormUrlEncoded
+    Call<BaseRespon>deleteCollectUrl(@Field("id")int netUrlId);
 
-    /**
-     *   搜索
-     *   参数：页码：拼接在链接上，从0开始。 k ： 搜索关键词
-     */
-    public static final String SEARCH = "/article/query/0/json";
 
     /**
      *   新增一个 todo
@@ -182,7 +216,10 @@ public interface APIClient {
      *      	type: 大于0的整数（可选）；
      * 	        priority 大于0的整数（可选）；
      */
-    public static final String ADD_TODO = "/lg/todo/add/json";
+    @POST("lg/todo/add/json")
+    @FormUrlEncoded
+    Call<BaseRespon<TodoBean>> addTodo(@FieldMap Map<String,Object> map);
+
     /**
      *   更新一个 Todo
      *   参数：id: 拼接在链接上，为唯一标识，列表数据返回时，每个todo 都会有个id标识 （必须）
@@ -193,18 +230,26 @@ public interface APIClient {
      * 	        type: ；
      * 	        priority: ；
      */
-    public static final String UPDATE_TODO = "/lg/todo/update/83/json";
+    @POST("lg/todo/update/{id}/json")
+    @FormUrlEncoded
+    Call<BaseRespon<TodoBean>> updateTodo(@Path("id") int todoId,@FieldMap Map<String,Object> map);
+
     /**
      *   删除一个 Todo
      *   参数：id: 拼接在链接上，为唯一标识
      */
-    public static final String DELETE_TODO = "/lg/todo/delete/83/json";
+    @POST("lg/todo/delete/{id}/json")
+    Call<BaseRespon>deleteTodo(@Path("id")int todoId);
+
     /**
      *   仅更新完Todo的完成状态
      *   id: 拼接在链接上，为唯一标识
      *  	status: 0或1，传1代表未完成到已完成，反之则反之。
      */
-    public static final String UPDATE_TODO_STATUS = "/lg/todo/done/80/json";
+    @POST("lg/todo/done/{id}/json")
+    @FormUrlEncoded
+    Call<BaseRespon>deleteTodo(@Path("id")int todoId,@Field("status") int status);
+
     /**
      *   TODO 列表
      *  参数： 页码从1开始，拼接在url 上
@@ -213,51 +258,94 @@ public interface APIClient {
      * 	        priority 创建时传入的优先级；默认全部展示
      * 	        orderby 1:完成日期顺序；2.完成日期逆序；3.创建日期顺序；4.创建日期逆序(默认)；
      */
-    public static final String TODO_LIST = "/lg/todo/v2/list/1/json";
+    @POST("lg/todo/v2/list/{page}/json")
+    @FormUrlEncoded
+    Call<BaseRespon>queryTodo(@Path("page")int page,@FieldMap Map<String,Object> map);
+
 
     /**
      *   积分排行榜接口
      */
-    public static final String COIN_RANK = "/coin/rank/1/json";
+    @GET("coin/rank/{page}/json")
+    Call<BaseRespon<ArticleRespon<CoinBean>>> getCoinRank(@Path("page") int page);
+
     /**
      *   获取个人积分
      */
-    public static final String MY_COIN = "/lg/coin/userinfo/json";
+    @GET("lg/coin/userinfo/json")
+    Call<BaseRespon<CoinBean>> getMyCoin();
+
     /**
      *   获取个人积分 获取方式的列表
      */
-    public static final String MY_COIN_LIST = "lg/coin/list/1/json";
+    @GET("lg/coin/list/{page}/json")
+    Call<BaseRespon<ArticleRespon<CoinProgressBean>>> getMyCoinLoad(@Path("page")int page);
+
 
     /**
      *   广场列表数据
      *   页码拼接在url上从0开始
      */
-    public static final String SQUARE_LIST = "/user_article/list/0/json";
+    @GET("user_article/list/{page}/json")
+    Call<BaseRespon<ArticleRespon<ArticleBean>>> getSquareArticle(@Path("page") int page);
+
     /**
      *   查看某个分享人对应列表数据
      *   用户id: 拼接在url上
      * 	页码拼接在url上从1开始
      */
-    public static final String OTHER_SHARE_LIST = "/user/2/share_articles/1/json";
+    @GET("user/{id}/share_articles/{page}/json")
+    Call<BaseRespon<ShareRespon>> getArticleBySharer(@Path("id")int authorId,@Path("page") int page);
+
     /**
      *   自己的分享的文章列表
      * 	页码拼接在url上从1开始
      */
-    public static final String MY_SHARE_LIST = "/user/lg/private_articles/1/json";
+    @GET("user/lg/private_articles/{page}/json")
+    Call<BaseRespon<ShareRespon>> getMyShare(@Path("page") int page);
+
     /**
      *   删除自己分享的文章
      * 	参数：文章id，拼接在链接上
      */
-    public static final String DELETE_MY_SHARE = "/lg/user_article/delete/9475/json";
+    @POST("lg/user_article/delete/{id}/json")
+    Call<BaseRespon> deleteMyShare(@Path("id") int articleId);
     /**
      *   分享文章
      * 	参数：title  link
      */
-    public static final String SHARE_ARTICLE = "/lg/user_article/add/json";
+    @POST("lg/user_article/add/json")
+    @FormUrlEncoded
+    Call<BaseRespon>shareArticle(@Field("title")String title,@Field("link")String link);
 
     /**
      *   问答
      * 	参数：pageId,拼接在链接上，例如上面的1
      */
-    public static final String WENDA = "/wenda/list/1/json";
+    @GET("wenda/list/{page}/json")
+    Call<BaseRespon>getWenda(@Path("page")int page);
+
+
+    /**
+     *   获取公众号列表
+     *
+     */
+    @GET("wxarticle/chapters/json")
+    Call<BaseRespon<List<TreeBean>>>getOfficialAccounts();
+
+    /**
+     * 获取公众号下的文章
+     * id  page 拼在url后面
+     */
+    @GET("wxarticle/list/{id}/{page}/json")
+    Call<BaseRespon<ArticleRespon<ArticleBean>>> getWXArticle
+    (@Path("id")int authorId,@Path("page")int page);
+
+    /**
+     * 搜索公众号下的文章
+     * id  page 拼在url后面
+     */
+    @GET("wxarticle/list/{id}/{page}/json")
+    Call<BaseRespon<ArticleRespon<ArticleBean>>> searchWXArticle
+    (@Path("id")int authorId, @Path("page")int page, @Query("k")String keyWord);
 }
