@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.tj24.base.base.app.BaseApplication;
 import com.tj24.base.base.app.IApplication;
+import com.tj24.wanandroid.common.http.cache.CacheWan;
 
 public class WanAndroidApp extends BaseApplication implements IApplication {
     public static final String TAG = WanAndroidApp.class.getSimpleName();
@@ -11,5 +12,6 @@ public class WanAndroidApp extends BaseApplication implements IApplication {
     @Override
     public void onCreat(BaseApplication application) {
         Log.e(TAG,"开始初始化WanAndroidApp!");
+        CacheWan.init();
     }
 }

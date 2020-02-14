@@ -41,4 +41,12 @@ public class Const {
     public static String BASE_APP_USER = BASE_APP_PICTURE + "user/";
 
 
+    /**
+     * baseWanAndroid Path
+     */
+    public static String BASE_WAN_PATH = BASE_PATH + "wanAndroid/";
+    /**
+     * baseWanAndroid 的数据缓存
+     */
+    public static String BASE_WAN_CACHE = BASE_WAN_PATH + "cache/";
 }

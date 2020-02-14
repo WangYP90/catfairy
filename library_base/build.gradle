@@ -118,4 +118,7 @@ dependencies {
     api('com.squareup.retrofit2:adapter-rxjava:2.1.0') {
         exclude group: 'io.reactivex'
         exclude group: 'com.squareup.okhttp3' }
+
+    //磁盘缓存工具
+    api 'com.jakewharton:disklrucache:2.0.2'
 }

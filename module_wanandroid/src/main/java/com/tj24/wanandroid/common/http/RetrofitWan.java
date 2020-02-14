@@ -1,5 +1,8 @@
 package com.tj24.wanandroid.common.http;
 
+import com.tj24.wanandroid.common.http.inspector.CookieInterceptor;
+import com.tj24.wanandroid.common.http.inspector.ReceivedCookiesInterceptor;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -10,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by energy on 2019/4/10.
  */
 
-public class RetrofitWanAndroid {
+public class RetrofitWan {
 
     public static final String BASE_URL = "https://www.wanandroid.com/";
 
@@ -20,20 +23,20 @@ public class RetrofitWanAndroid {
 
     private APIClient apiClient;
 
-    private volatile static RetrofitWanAndroid instance;
+    private volatile static RetrofitWan instance;
 
-    public static RetrofitWanAndroid getInstance(){
+    public static RetrofitWan getInstance(){
         if(instance == null){
-            synchronized (RetrofitWanAndroid.class){
+            synchronized (RetrofitWan.class){
                 if(instance == null){
-                    instance = new RetrofitWanAndroid();
+                    instance = new RetrofitWan();
                 }
             }
         }
         return instance;
     }
 
-    public RetrofitWanAndroid() {
+    public RetrofitWan() {
         //OKHttp进行超时设置
         OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
         builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS); // 连接超时时间阈值

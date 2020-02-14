@@ -1,8 +1,9 @@
-package com.tj24.wanandroid.common.http;
+package com.tj24.wanandroid.common.http.inspector;
 
 import android.util.Log;
 
 import com.tj24.base.base.app.BaseApplication;
+import com.tj24.wanandroid.common.Const;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -18,8 +19,8 @@ public class CookieInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request.Builder builder = chain.request().newBuilder();
-        HashSet<String> preferences = (HashSet) BaseApplication.getContext().getSharedPreferences("config",
-                BaseApplication.getContext().MODE_PRIVATE).getStringSet("wanandroidcookie", null);
+        HashSet<String> preferences = (HashSet) BaseApplication.getContext().getSharedPreferences(Const.MODULE_NAME,
+                BaseApplication.getContext().MODE_PRIVATE).getStringSet(Const.SP_COOKIE, null);
         if (preferences != null) {
             for (String cookie : preferences) {
                 builder.addHeader("Cookie", cookie);

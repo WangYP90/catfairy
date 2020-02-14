@@ -7,5 +7,12 @@
                 android:id="@+id/tv"
                 android:text="homepage"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/login"
+            android:text="login"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.tj24.wanandroid.common.http.respon;
 
-import com.tj24.base.bean.wanandroid.homepage.CoinBean;
+
+import com.tj24.base.bean.wanandroid.CoinBean;
 
 public class ShareRespon {
     private CoinBean coinInfo;

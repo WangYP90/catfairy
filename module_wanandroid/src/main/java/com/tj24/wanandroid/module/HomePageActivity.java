@@ -1,4 +1,4 @@
-package com.tj24.wanandroid.homepage;
+package com.tj24.wanandroid.module;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -15,11 +15,11 @@ import com.tj24.base.constant.ARouterPath;
 import com.tj24.wanandroid.R;
 import com.tj24.wanandroid.R2;
 import com.tj24.wanandroid.common.base.BaseWanAndroidActivity;
-import com.tj24.wanandroid.homepage.homepage.HomePageFragment;
-import com.tj24.wanandroid.homepage.project.ProjectsFragment;
-import com.tj24.wanandroid.homepage.square.SquareFragment;
-import com.tj24.wanandroid.homepage.subscription.SubscriptionsFragment;
-import com.tj24.wanandroid.homepage.systemnavigation.SystemNavigationFragment;
+import com.tj24.wanandroid.module.homepage.HomePageFragment;
+import com.tj24.wanandroid.module.project.ProjectsFragment;
+import com.tj24.wanandroid.module.square.SquareFragment;
+import com.tj24.wanandroid.module.subscription.SubscriptionsFragment;
+import com.tj24.wanandroid.module.systemnavigation.SystemNavigationFragment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;

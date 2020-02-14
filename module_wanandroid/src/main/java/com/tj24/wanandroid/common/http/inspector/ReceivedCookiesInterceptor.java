@@ -1,9 +1,10 @@
-package com.tj24.wanandroid.common.http;
+package com.tj24.wanandroid.common.http.inspector;
 
 import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.tj24.base.base.app.BaseApplication;
+import com.tj24.wanandroid.common.Const;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -29,9 +30,9 @@ public class ReceivedCookiesInterceptor implements Interceptor {
             }
 
             SharedPreferences.Editor config = BaseApplication.getContext()
-                    .getSharedPreferences("config", BaseApplication.getContext().MODE_PRIVATE)
+                    .getSharedPreferences(Const.MODULE_NAME, BaseApplication.getContext().MODE_PRIVATE)
                     .edit();
-            config.putStringSet("wanandroidcookie", cookies);
+            config.putStringSet(Const.SP_COOKIE, cookies);
             config.commit();
             Log.v("CookiesInterceptor",cookies.toString());
         }

@@ -1,4 +1,4 @@
-package com.tj24.wanandroid.homepage.systemnavigation;
+package com.tj24.wanandroid.module.systemnavigation;
 
 import android.view.View;
 

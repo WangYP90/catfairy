@@ -80,7 +80,7 @@ public interface APIClient {
      *  体系数据
      */
     @GET("tree/json")
-    Call<BaseRespon<List<TreeBean>>> getSystemTree();
+    Call<BaseRespon<List<TreeBean>>> getKnowledgeTree();
 
     /**
      *  知识体系下的文章  cid 分类的id，上述二级目录的id
@@ -116,7 +116,7 @@ public interface APIClient {
      * 	页码：拼接在链接中，从1开始
      */
     @GET("project/list/{page}/json?cid={cid}")
-    Call<BaseRespon<List<ArticleRespon<ArticleBean>>>> getProjectArticle(@Path("page")int page, @Path("cid")int cid);
+    Call<BaseRespon<List<ArticleRespon<ArticleBean>>>> getProjectArticle( @Path("page")int page, @Path("cid")int cid);
 
     /**
      *  登录
