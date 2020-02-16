@@ -1,18 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/base_color_white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<com.scwang.smart.refresh.layout.SmartRefreshLayout
+    android:id="@+id/refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-                android:id="@+id/tv"
-                android:text="homepage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/login"
-            android:text="login"
-            android:layout_marginTop="20dp"
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="190dp"/>
+        <RadioGroup
+            android:id="@+id/rg_homePage"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/rb_article"
+                android:textSize="16sp"
+                android:text="最新博文"
+                android:button="@null"
+                android:checked="true"
+                android:textColor="@drawable/wanandroid_selector_homepage_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <View
+                android:background="@color/base_black_900"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="1dp"
+                android:layout_height="26dp"/>
+            <RadioButton
+                android:id="@+id/rb_project"
+                android:textSize="16sp"
+                android:button="@null"
+                android:text="最新项目"
+                android:checked="false"
+                android:textColor="@drawable/wanandroid_selector_homepage_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RadioGroup>
+        <LinearLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+    </LinearLayout>
+</com.scwang.smart.refresh.layout.SmartRefreshLayout>
 </LinearLayout>

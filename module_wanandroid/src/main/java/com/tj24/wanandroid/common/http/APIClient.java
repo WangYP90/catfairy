@@ -152,22 +152,21 @@ public interface APIClient {
      *   参数：id:拼接在链接上
      */
     @POST("lg/collect/{id}/json")
-    Call<BaseRespon> collectInArticle(@Path("id") int articleId);
+    Call<BaseRespon<ArticleRespon>> collectArticleInStation(@Path("id") int articleId);
     /**
      *   收藏站外文章
      *   参数：title，author，link
      */
     @POST("lg/collect/add/json")
     @FormUrlEncoded
-    Call<BaseRespon> collectOutArticle(
-            @Field("title") String title,@Field("author") String author,@Field("link") String link);
+    Call<BaseRespon<ArticleRespon>> collectOutArticle(@Field("title") String title, @Field("author") String author, @Field("link") String link);
 
     /**
      *   文章列表中取消收藏
      *   参数：id:拼接在链接上
      */
     @POST("lg/uncollect_originId/{id}/json")
-    Call<BaseRespon> UnCollectAtArticle(@Path("id") int articleId);
+    Call<BaseRespon<ArticleRespon>> unCollectAtArticle(@Path("id") int articleId);
 
     /**
      *   我的收藏页面 取消收藏
@@ -175,7 +174,7 @@ public interface APIClient {
      */
     @POST("lg/uncollect/{id}/json")
     @FormUrlEncoded
-    Call<BaseRespon> UnCollectAtMine(@Path("id") int articleId,@Field("originId") int originId);
+    Call<BaseRespon<ArticleRespon>> unCollectAtMine(@Path("id") int articleId, @Field("originId") int originId);
 
     /**
      *   收藏的网站列表
@@ -189,7 +188,7 @@ public interface APIClient {
      */
     @POST("lg/collect/addtool/json")
     @FormUrlEncoded
-    Call<BaseRespon>collectUrl(@Field("name")String name,@Field("link") String link);
+    Call<BaseRespon<ArticleRespon>>collectUrl(@Field("name")String name, @Field("link") String link);
 
     /**
      *   编辑收藏网站
@@ -197,7 +196,7 @@ public interface APIClient {
      */
     @POST("lg/collect/updatetool/json")
     @FormUrlEncoded
-    Call<BaseRespon>updateCollectUrl(@Field("id")int netUrlId,@Field("name")String name, @Field("link") String link);
+    Call<BaseRespon<ArticleRespon>>updateCollectUrl(@Field("id")int netUrlId,@Field("name")String name, @Field("link") String link);
 
     /**
      *   删除收藏网站
@@ -205,7 +204,7 @@ public interface APIClient {
      */
     @POST("lg/collect/deletetool/json")
     @FormUrlEncoded
-    Call<BaseRespon>deleteCollectUrl(@Field("id")int netUrlId);
+    Call<BaseRespon<ArticleRespon>>deleteCollectUrl(@Field("id")int netUrlId);
 
 
     /**
@@ -309,21 +308,21 @@ public interface APIClient {
      * 	参数：文章id，拼接在链接上
      */
     @POST("lg/user_article/delete/{id}/json")
-    Call<BaseRespon> deleteMyShare(@Path("id") int articleId);
+    Call<BaseRespon<String>> deleteMyShare(@Path("id") int articleId);
     /**
      *   分享文章
      * 	参数：title  link
      */
     @POST("lg/user_article/add/json")
     @FormUrlEncoded
-    Call<BaseRespon>shareArticle(@Field("title")String title,@Field("link")String link);
+    Call<BaseRespon<String>>shareArticle(@Field("title")String title,@Field("link")String link);
 
     /**
      *   问答
      * 	参数：pageId,拼接在链接上，例如上面的1
      */
     @GET("wenda/list/{page}/json")
-    Call<BaseRespon>getWenda(@Path("page")int page);
+    Call<BaseRespon<String>>getWenda(@Path("page")int page);
 
 
     /**
@@ -331,7 +330,7 @@ public interface APIClient {
      *
      */
     @GET("wxarticle/chapters/json")
-    Call<BaseRespon<List<TreeBean>>>getOfficialAccounts();
+    Call<BaseRespon<List<TreeBean>>>getWxAccounts();
 
     /**
      * 获取公众号下的文章

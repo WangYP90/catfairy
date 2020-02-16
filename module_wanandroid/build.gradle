@@ -59,6 +59,8 @@ android {
 dependencies {
     implementation project(':library_base')
     //ARouter
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     annotationProcessor "com.alibaba:arouter-compiler:${arouter_compiler_Version}"
     //butterknife
     annotationProcessor "com.jakewharton:butterknife-compiler:${butterknife_Version}"

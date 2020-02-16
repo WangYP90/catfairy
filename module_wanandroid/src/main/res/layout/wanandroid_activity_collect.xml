@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:fitsSystemWindows="true"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="我的收藏"
+        app:titleTextColor="@color/base_white_text"
+        tools:ignore="MissingConstraints" />
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab"
+        android:background="@color/base_color_white"
+        app:tabSelectedTextColor="@color/wanandroid_main_color"
+        app:tabTextColor="@android:color/white"
+        app:tabIndicatorColor="@color/wanandroid_main_color"
+        app:tabMode="scrollable"
+        app:tabGravity="center"
+        app:tabBackground="@color/base_color_white"
+        app:tabPaddingStart="10dp"
+        app:tabPaddingEnd="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_toLeftOf="@+id/iv_addItem">
+    </com.google.android.material.tabs.TabLayout>
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_collect"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.tj24.base.base.ui.widget.NoScrollViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+</LinearLayout>

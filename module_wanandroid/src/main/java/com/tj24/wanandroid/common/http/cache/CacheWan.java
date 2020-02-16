@@ -60,28 +60,24 @@ public class CacheWan {
         if (mDiskLruCache != null && !mDiskLruCache.isClosed()) {
             try {
                 mDiskLruCache.close();
+                File cacheDir = Const.CACHE_WAN_CACHE;
+                if (!cacheDir.exists()) {
+                    cacheDir.mkdirs();
+                }
+
+                mDiskLruCache = DiskLruCache.open(cacheDir, 1, 1, MAX_SIZE);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        File file = new File(Const.BASE_WAN_CACHE);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
-        try {
-            mDiskLruCache = DiskLruCache.open(file, 1, 1, MAX_SIZE);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
+        public boolean isSame(Object cache, Object net) {
+            String cacheJson = mGson.toJson(cache);
+            String netJson = mGson.toJson(net);
+            return TextUtils.equals(cacheJson, netJson);
+        }
 
-    public boolean isSame(Object cache, Object net) {
-        String cacheJson = mGson.toJson(cache);
-        String netJson = mGson.toJson(net);
-        return TextUtils.equals(cacheJson, netJson);
-    }
-
-    public void save(String key, Object bean) {
+        public void save(String key, Object bean) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -92,92 +88,95 @@ public class CacheWan {
                     }
                 }
             }).start();
-    }
+        }
 
-    public  void remove(String key, CacheListener cacheListener) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    removeSync(key);
-                    cacheListener.onSuccess(key);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    cacheListener.onFailed();
-                }
-            }
-        }).start();
-    }
-
-
-    public <S,T> void getCache(boolean isList,String key, Class<T> clazz, CacheListener<S> cacheListener) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    S s = isList?(S) getListSync(key, clazz):(S) getBeanSync(key,clazz);
-                    if (s == null) {
-                        throw new NullCacheException();
+        public  void remove(String key, CacheListener cacheListener) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        removeSync(key);
+                        cacheListener.onSuccess(key);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        cacheListener.onFailed();
                     }
-                    cacheListener.onSuccess(s);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    cacheListener.onFailed();
                 }
+            }).start();
+        }
+
+
+        public void getCache(String key, CacheListener cacheListener) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    synchronized (getDiskLruCache()) {
+                        try {
+                            DiskLruCache.Snapshot snapshot = getDiskLruCache().get(MD5Util.encode(key));
+                            String json = snapshot.getString(0);
+                            snapshot.close();
+                            cacheListener.onSuccess(json);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            cacheListener.onFailed();
+                        }
+
+                    }
+                }
+            }).start();
+        }
+
+        private void removeSync(String key) throws IOException {
+            synchronized (getDiskLruCache()) {
+                getDiskLruCache().remove(MD5Util.encode(key));
+
+                WanSpUtil.clear(key);
             }
-        }).start();
-    }
-
-    private void removeSync(String key) throws IOException {
-        synchronized (getDiskLruCache()) {
-            getDiskLruCache().remove(MD5Util.encode(key));
-
-            WanSpUtil.clear(key);
         }
-    }
 
-    private void saveSync(String key, Object bean) throws IOException {
-        synchronized (getDiskLruCache()) {
-            DiskLruCache.Editor editor = getDiskLruCache().edit(MD5Util.encode(key));
-            editor.set(0, mGson.toJson(bean));
-            editor.commit();
-            getDiskLruCache().flush();
+        private void saveSync(String key, Object bean) throws IOException {
+            synchronized (getDiskLruCache()) {
+                DiskLruCache.Editor editor = getDiskLruCache().edit(MD5Util.encode(key));
+                editor.set(0, mGson.toJson(bean));
+                editor.commit();
+                getDiskLruCache().flush();
 
-            WanSpUtil.save(key,System.currentTimeMillis());
+                WanSpUtil.save(key,System.currentTimeMillis());
+            }
         }
-    }
 
-    private <T> T getBeanSync(String key, Class<T> clazz) throws IOException {
-        synchronized (getDiskLruCache()) {
-            DiskLruCache.Snapshot snapshot = getDiskLruCache().get(MD5Util.encode(key));
-            String json = snapshot.getString(0);
-            T bean = mGson.fromJson(json, clazz);
-            snapshot.close();
-            return bean;
+
+        private <T> T getBeanSync(String key, Class<T> clazz) throws IOException {
+            synchronized (getDiskLruCache()) {
+                DiskLruCache.Snapshot snapshot = getDiskLruCache().get(MD5Util.encode(key));
+                String json = snapshot.getString(0);
+                T bean = mGson.fromJson(json, clazz);
+                snapshot.close();
+                return bean;
+            }
         }
-    }
 
-    private <T> List<T> getListSync(String key, Class<T> clazz) throws IOException {
-        synchronized (getDiskLruCache()) {
-            DiskLruCache.Snapshot snapshot = getDiskLruCache().get(MD5Util.encode(key));
-            String json = snapshot.getString(0);
-            List<T> list = jsonToBeanList(json, clazz);
-            snapshot.close();
+        private <T> List<T> getListSync(String key, Class<T> clazz) throws IOException {
+            synchronized (getDiskLruCache()) {
+                DiskLruCache.Snapshot snapshot = getDiskLruCache().get(MD5Util.encode(key));
+                String json = snapshot.getString(0);
+                List<T> list = jsonToBeanList(json, clazz);
+                snapshot.close();
+                return list;
+            }
+        }
+
+        private <T> List<T> jsonToBeanList(String json, Class<T> t) {
+            if (TextUtils.isEmpty(json)) {
+                return null;
+            }
+            List<T> list = new ArrayList<>();
+            JsonParser parser = new JsonParser();
+            JsonArray jsonarray = parser.parse(json).getAsJsonArray();
+            for (JsonElement element : jsonarray) {
+                list.add(mGson.fromJson(element, t));
+            }
             return list;
         }
-    }
 
-    private <T> List<T> jsonToBeanList(String json, Class<T> t) {
-        if (TextUtils.isEmpty(json)) {
-            return null;
-        }
-        List<T> list = new ArrayList<>();
-        JsonParser parser = new JsonParser();
-        JsonArray jsonarray = parser.parse(json).getAsJsonArray();
-        for (JsonElement element : jsonarray) {
-            list.add(mGson.fromJson(element, t));
-        }
-        return list;
     }
-
-}
