@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <q.rorbin.verticaltablayout.VerticalTabLayout
+        android:id="@+id/tablayout"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@color/base_color_white"
+        app:indicator_color="@color/base_black_999"
+        app:indicator_gravity="fill"
+        app:indicator_corners="@dimen/dp_10"
+        app:tab_margin="6dp"
+        app:tab_height="40dp"
+        app:tab_mode="scrollable">
+    </q.rorbin.verticaltablayout.VerticalTabLayout>
+    <com.tj24.wanandroid.common.view.ArticleListView
+        android:id="@+id/articleListView"
+        android:layout_weight="3"
+        android:layout_width="0dp"
         android:layout_height="match_parent">
-<TextView
-        android:text="@string/wanandroid_title_project"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></TextView>
+    </com.tj24.wanandroid.common.view.ArticleListView>
 </LinearLayout>

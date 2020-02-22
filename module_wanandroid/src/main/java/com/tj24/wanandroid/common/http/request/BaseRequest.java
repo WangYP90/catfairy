@@ -88,7 +88,7 @@ public class BaseRequest {
                 @Override
                 public void onSuccess(String cache) {
                     requestListner.onSuccess(cache);
-                    LogUtil.v(TAG,"KEY:"+key+"====缓存有效，获取成功data:"+cache.toString());
+                    LogUtil.v(TAG,"KEY:"+key+"====缓存有效，获取成功 data字符数目:"+cache.length());
                 }
 
                 @Override

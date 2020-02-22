@@ -1,7 +1,6 @@
 package com.tj24.wanandroid.module.homepage;
 
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -24,7 +23,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 import butterknife.BindView;
 
 public class HomePageFragment extends BaseWanAndroidFragment {
@@ -37,14 +37,10 @@ public class HomePageFragment extends BaseWanAndroidFragment {
     RadioButton rbProject;
     @BindView(R.id.rg_homePage)
     RadioGroup rgHomePage;
-    @BindView(R.id.fragment_container)
-    LinearLayout fragmentContainer;
+    @BindView(R.id.viewpager)
+    ViewPager2 viewpager;
     @BindView(R.id.refresh)
     SmartRefreshLayout refresh;
-
-
-    Fragment articleFragment;
-    Fragment projectFragment;
 
     private int currentItem = 0;
 
@@ -66,10 +62,25 @@ public class HomePageFragment extends BaseWanAndroidFragment {
 
     @Override
     public void init(View view) {
-        showFragment(0);
+        initViewPager();
         initBanner();
         initRadio();
         initRfresh();
+    }
+
+    private void initViewPager() {
+        viewpager.setAdapter(new HomeAdapter(this));
+        viewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if(position == 0){
+                    rgHomePage.check(rbArticle.getId());
+                }else if(position == 1){
+                    rgHomePage.check(rbProject.getId());
+                }
+            }
+        });
     }
 
     private void initRfresh() {
@@ -85,15 +96,16 @@ public class HomePageFragment extends BaseWanAndroidFragment {
             }
         });
     }
-    @Subscribe(threadMode =  ThreadMode.MAIN)
-    public void onReceivRefreshFinish(HomePageRefreshFinishEvent event){
-        if(refresh.isRefreshing()){
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceivRefreshFinish(HomePageRefreshFinishEvent event) {
+        if (refresh.isRefreshing()) {
             refresh.finishRefresh();
         }
-        if(refresh.isLoading()){
-            if(event.isHaveMoreData()){
+        if (refresh.isLoading()) {
+            if (event.isHaveMoreData()) {
                 refresh.finishLoadMore();
-            }else {
+            } else {
                 refresh.finishLoadMoreWithNoMoreData();
                 refresh.setNoMoreData(false);
             }
@@ -105,9 +117,9 @@ public class HomePageFragment extends BaseWanAndroidFragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == rbArticle.getId()) {
-                    showFragment(0);
+                    viewpager.setCurrentItem(0);
                 } else if (checkedId == rbProject.getId()) {
-                    showFragment(1);
+                    viewpager.setCurrentItem(1);
                 }
             }
         });
@@ -132,34 +144,29 @@ public class HomePageFragment extends BaseWanAndroidFragment {
         });
     }
 
-    public void showFragment(int index) {
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        hideFragment(ft);
-        if (index == 0) {
-            if (articleFragment == null) {
-                articleFragment = new HomePageArticleFragment();
-                ft.add(R.id.fragment_container, articleFragment);
+
+    class HomeAdapter extends FragmentStateAdapter {
+
+        public HomeAdapter(@NonNull Fragment fragment) {
+            super(fragment);
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            if (position == 0) {
+                return new HomePageArticleFragment();
+            } else if (position == 1) {
+                return new HomePageProjectFragment();
             } else {
-                ft.show(articleFragment);
-            }
-        } else if (index == 1) {
-            if (projectFragment == null) {
-                projectFragment = new HomePageProjectFragment();
-                ft.add(R.id.fragment_container, projectFragment);
-            } else {
-                ft.show(projectFragment);
+                return null;
             }
         }
-        ft.commitAllowingStateLoss();
-        currentItem = index;
+
+        @Override
+        public int getItemCount() {
+            return 2;
+        }
     }
 
-    public void hideFragment(FragmentTransaction ft) {
-        if (articleFragment != null) {
-            ft.hide(articleFragment);
-        }
-        if (projectFragment != null) {
-            ft.hide(projectFragment);
-        }
-    }
 }

@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <TextView
-            android:text="square"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+  <com.tj24.wanandroid.common.view.ArticleListView
+      android:id="@+id/articleListView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"/>
 </LinearLayout>

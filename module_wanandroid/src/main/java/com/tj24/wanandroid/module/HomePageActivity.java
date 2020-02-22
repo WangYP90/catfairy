@@ -20,7 +20,7 @@ import com.tj24.wanandroid.module.homepage.HomePageFragment;
 import com.tj24.wanandroid.module.mine.collect.CollectActivity;
 import com.tj24.wanandroid.module.project.ProjectsFragment;
 import com.tj24.wanandroid.module.square.SquareFragment;
-import com.tj24.wanandroid.module.systemnavigation.SystemNavigationFragment;
+import com.tj24.wanandroid.module.treenavigation.TreeNaviFragment;
 import com.tj24.wanandroid.module.wx.WxFragment;
 
 import androidx.annotation.NonNull;
@@ -135,7 +135,7 @@ public class HomePageActivity extends BaseWanAndroidActivity implements BottomNa
             }
         } else if (index == 3) {
             if (systemNavigationFragment == null) {
-                systemNavigationFragment = new SystemNavigationFragment();
+                systemNavigationFragment = new TreeNaviFragment();
                 ft.add(R.id.fragment_container, systemNavigationFragment);
             } else {
                 ft.show(systemNavigationFragment);

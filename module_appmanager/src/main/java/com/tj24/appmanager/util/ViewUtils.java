@@ -45,7 +45,7 @@ public class ViewUtils {
             // change back button color.
             int color;
             if (isDark) {
-                color = ContextCompat.getColor(activity, R.color.base_black_600);
+                color = ContextCompat.getColor(activity, R.color.base_black_666);
             } else {
                 color = ContextCompat.getColor(activity, R.color.base_white_text);
             }

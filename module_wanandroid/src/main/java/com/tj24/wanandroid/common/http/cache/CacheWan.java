@@ -57,19 +57,15 @@ public class CacheWan {
     }
 
     public void openDiskLruCache() {
-        if (mDiskLruCache != null && !mDiskLruCache.isClosed()) {
             try {
-                mDiskLruCache.close();
                 File cacheDir = Const.CACHE_WAN_CACHE;
                 if (!cacheDir.exists()) {
                     cacheDir.mkdirs();
                 }
-
                 mDiskLruCache = DiskLruCache.open(cacheDir, 1, 1, MAX_SIZE);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
     }
         public boolean isSame(Object cache, Object net) {
             String cacheJson = mGson.toJson(cache);
@@ -107,23 +103,19 @@ public class CacheWan {
 
 
         public void getCache(String key, CacheListener cacheListener) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    synchronized (getDiskLruCache()) {
                         try {
                             DiskLruCache.Snapshot snapshot = getDiskLruCache().get(MD5Util.encode(key));
-                            String json = snapshot.getString(0);
-                            snapshot.close();
-                            cacheListener.onSuccess(json);
+                            if(snapshot ==null){
+                                cacheListener.onFailed();
+                            }else {
+                                String json = snapshot.getString(0);
+                                snapshot.close();
+                                cacheListener.onSuccess(json);
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                             cacheListener.onFailed();
                         }
-
-                    }
-                }
-            }).start();
         }
 
         private void removeSync(String key) throws IOException {

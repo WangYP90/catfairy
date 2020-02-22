@@ -29,8 +29,9 @@ public class WxRequest extends BaseRequest {
 
             @Override
             public void onSuccess(String cache) {
-                Type type = new TypeToken<TreeBean>(){}.getType();
-                callBack.onSucces(new Gson().fromJson(cache,type));
+                Type type = new TypeToken<List<TreeBean>>(){}.getType();
+                List<TreeBean> treeBeans = new Gson().fromJson(cache,type);
+                callBack.onSucces(treeBeans);
             }
 
             @Override

@@ -124,7 +124,7 @@ public class HomePageRequest extends BaseRequest {
      * @param callBack
      */
     public static void requestProjectByNet(int page,WanAndroidCallBack<ArticleRespon<ArticleBean>> callBack){
-        requestNet(CacheKey.HOME_PAGE_PROJECTS(page), RetrofitWan.getInstance().getApiClient().getHomePageArticles(page),
+        requestNet(CacheKey.HOME_PAGE_PROJECTS(page), RetrofitWan.getInstance().getApiClient().getHomePageProjects(page),
                 new RequestListner() {
                     @Override
                     public void onSuccess(Object data) {

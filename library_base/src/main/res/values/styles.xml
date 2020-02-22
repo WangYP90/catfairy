@@ -55,4 +55,14 @@
             <item name="android:windowBackground">@android:color/transparent</item><!--背景透明-->
             <item name="android:backgroundDimEnabled">false</item><!--模糊-->
         </style>
+
+    <style name="base_StateView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="msv_animateViewChanges">false</item>
+        <item name="msv_emptyView">@layout/base_no_content_view</item>
+        <item name="msv_errorView">@layout/base_load_error_view</item>
+        <item name="msv_loadingView">@layout/base_loading</item>
+        <item name="msv_viewState">content</item>
+    </style>
 </resources>

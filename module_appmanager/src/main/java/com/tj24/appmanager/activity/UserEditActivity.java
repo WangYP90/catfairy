@@ -131,7 +131,7 @@ public class UserEditActivity extends CatTakePhotoActivity implements View.OnCli
                         public void onGenerated(@Nullable Palette palette) {
                             boolean isDark = ColorUtil.isBitmapDark(palette, resource);
                             int color = isDark ? ContextCompat.getColor(mActivity, R.color.base_white_text)
-                                    : ContextCompat.getColor(mActivity, R.color.base_black_600);
+                                    : ContextCompat.getColor(mActivity, R.color.base_black_666);
                             tvNickName.setTextColor(color);
                             tvDescribtion.setTextColor(color);
                         }

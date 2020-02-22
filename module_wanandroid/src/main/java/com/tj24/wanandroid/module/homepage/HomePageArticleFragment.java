@@ -1,59 +1,81 @@
 package com.tj24.wanandroid.module.homepage;
 
+import android.view.View;
+
 import com.tj24.base.bean.wanandroid.ArticleBean;
-import com.tj24.base.utils.ToastUtil;
-import com.tj24.wanandroid.common.base.CommonArticleFragment;
+import com.tj24.wanandroid.R;
+import com.tj24.wanandroid.common.base.BaseWanAndroidFragment;
 import com.tj24.wanandroid.common.event.HomePageRefreshEvent;
 import com.tj24.wanandroid.common.event.HomePageRefreshFinishEvent;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
 import com.tj24.wanandroid.common.http.respon.ArticleRespon;
+import com.tj24.wanandroid.common.view.ArticleListView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class HomePageArticleFragment extends CommonArticleFragment {
+import butterknife.BindView;
 
+public class HomePageArticleFragment extends BaseWanAndroidFragment {
+
+    public static final int FIRST_PAGE = 0;
+    @BindView(R.id.articleListView)
+    ArticleListView articleListView;
 
     @Override
-    public boolean isCanRefresh() {
-        return false;
+    public int getCreateViewLayoutId() {
+        return R.layout.wanandroid_fragment_home_page_article;
     }
 
     @Override
-    public void initData(int page) {
+    public void init(View view) {
+        articleListView.setFirstPage(FIRST_PAGE);
+        articleListView.setCanRefresh(false);
+        articleListView.setRefreshAndLoadMoreListener(new ArticleListView.RefreshAndLoadMoreListener() {
+            @Override
+            public void onRefresh() {
+                refreshData();
+            }
+
+            @Override
+            public void onLoadMore(int page) {
+                loadMoreData(page);
+            }
+        });
+        loadMoreData(FIRST_PAGE);
+    }
+
+
+
+    public void loadMoreData(int page) {
         HomePageRequest.requestArticle(page, new WanAndroidCallBack<ArticleRespon<ArticleBean>>() {
             @Override
             public void onSucces(ArticleRespon<ArticleBean> articleRespon) {
                 HomePageRefreshFinishEvent.postLoadMoreFinishEvent(articleRespon.getPageCount()>=page);
-                pageNum++;
-                datas.addAll(articleRespon.getDatas());
-                articleAdapter.notifyDataSetChanged();
+                articleListView.onLoadMoreSuccess(articleRespon);
             }
 
             @Override
             public void onFail(String fail) {
                 HomePageRefreshFinishEvent.postLoadMoreFinishEvent(false);
-                ToastUtil.showShortToast(mActivity,fail);
+                articleListView.onLoadMoreFail(fail);
             }
         });
     }
 
-    @Override
+
     public void refreshData() {
-        HomePageRequest.requestArticleByNet(getFirstPage(), new WanAndroidCallBack<ArticleRespon<ArticleBean>>() {
+        HomePageRequest.requestArticleByNet(FIRST_PAGE, new WanAndroidCallBack<ArticleRespon<ArticleBean>>() {
             @Override
             public void onSucces(ArticleRespon<ArticleBean> articleRespon) {
                 HomePageRefreshFinishEvent.postRefreshFinishEvent();
-                pageNum = getFirstPage()+1;
-                datas.clear();
-                datas.addAll(articleRespon.getDatas());
-                articleAdapter.notifyDataSetChanged();
+                articleListView.onRefreshSuccess(articleRespon);
             }
 
             @Override
             public void onFail(String fail) {
                 HomePageRefreshFinishEvent.postRefreshFinishEvent();
-                ToastUtil.showShortToast(mActivity,fail);
+                articleListView.onRefreshFail(fail);
             }
         });
     }
@@ -64,14 +86,8 @@ public class HomePageArticleFragment extends CommonArticleFragment {
             if(event.getType()==0){
                 refreshData();
             }else if(event.getType()==1){
-                initData(pageNum);
+                loadMoreData(articleListView.getCurrentPage());
             }
         }
     }
-
-    @Override
-    public int getFirstPage() {
-        return 0;
-    }
-
 }

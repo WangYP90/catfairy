@@ -177,7 +177,7 @@ public class NavigationViewHelper {
                         @Override
                         public void onGenerated(@Nullable Palette palette) {
                             boolean isDark = ColorUtil.isBitmapDark(palette, bitmap);
-                            int color = isDark ? ContextCompat.getColor(context, R.color.base_white_text) : ContextCompat.getColor(context, R.color.base_black_600);
+                            int color = isDark ? ContextCompat.getColor(context, R.color.base_white_text) : ContextCompat.getColor(context, R.color.base_black_666);
                             tvNickName.setTextColor(color);
                             tvDescription.setTextColor(color);
                             ivEdit.setColorFilter(color, PorterDuff.Mode.MULTIPLY);

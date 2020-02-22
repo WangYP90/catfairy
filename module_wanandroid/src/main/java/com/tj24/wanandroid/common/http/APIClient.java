@@ -86,15 +86,15 @@ public interface APIClient {
      *  知识体系下的文章  cid 分类的id，上述二级目录的id
      * 	页码：拼接在链接上，从0开始。
      */
-    @GET("article/list/{page}/json?cid=60")
-    Call<BaseRespon<List<ArticleBean>>> getTreeArticle(@Path("page") int page);
+    @GET("article/list/{page}/json")
+    Call<BaseRespon<List<ArticleBean>>> getTreeArticle(@Path("page") int page,@Query("cid") int cid);
 
     /**
      *  按照作者昵称搜索文章
      * 	页码：拼接在链接上，从0开始。 author：作者昵称，不支持模糊匹配。
      */
-    @GET("article/list/{page}/json?author={author}")
-    Call<BaseRespon<List<NavigationBean>>> getAuthorArticle(@Path("page") int page, @Path("author")String author);
+    @GET("article/list/{page}/json")
+    Call<BaseRespon<List<NavigationBean>>> getAuthorArticle(@Path("page") int page, @Query("author") String author);
 
 
     /**
@@ -115,8 +115,8 @@ public interface APIClient {
      *  cid 分类的id，上面项目分类接口
      * 	页码：拼接在链接中，从1开始
      */
-    @GET("project/list/{page}/json?cid={cid}")
-    Call<BaseRespon<List<ArticleRespon<ArticleBean>>>> getProjectArticle( @Path("page")int page, @Path("cid")int cid);
+    @GET("project/list/{page}/json")
+    Call<BaseRespon<ArticleRespon<ArticleBean>>> getProjectArticle( @Path("page")int page, @Query("cid") int cid);
 
     /**
      *  登录

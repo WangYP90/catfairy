@@ -18,9 +18,9 @@ public class CommonArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseView
 
     @Override
     protected void convert(BaseViewHolder helper, ArticleBean item) {
-        helper.setText(R.id.tv_author,item.getShareUser())
-                .setText(R.id.tv_date,item.getNiceShareDate())
-                .setText(R.id.tv_title,item.getTitle())
+        helper.setText(R.id.tv_author,item.getShareUser()!=null?item.getShareUser():" ")
+                .setText(R.id.tv_date,item.getNiceShareDate()!=null?item.getNiceShareDate():" ")
+                .setText(R.id.tv_title,item.getTitle()!=null?item.getTitle():" ")
                 .setText(R.id.tv_chapter,item.getSuperChapterName()+"/"+item.getChapterName())
                 .setBackgroundColor(R.id.iv_collect,item.isCollect()? Color.RED:Color.BLUE)
                 .addOnClickListener(R.id.iv_collect,R.id.tv_author);

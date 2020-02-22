@@ -3,8 +3,8 @@
 buildscript {
     
     repositories {
-        mavenCentral()
         google()
+        mavenCentral()
         jcenter()
     }
     dependencies {
@@ -23,6 +23,7 @@ buildscript {
 allprojects {
     repositories {
         google()
+        mavenCentral()
         jcenter()
         maven { url "https://jitpack.io" }
         //Bmob的maven仓库地址--必填

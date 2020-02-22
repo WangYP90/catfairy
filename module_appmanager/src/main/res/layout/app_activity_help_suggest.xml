@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/app_goto_heip"
-            android:textColor="@color/base_black_600"
+            android:textColor="@color/base_black_666"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/appTextview"
             app:layout_constraintTop_toBottomOf="@+id/appTextview" />

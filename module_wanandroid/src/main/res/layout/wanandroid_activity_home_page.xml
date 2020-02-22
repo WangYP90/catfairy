@@ -45,28 +45,30 @@
 
 
             </LinearLayout>
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigationView"
+                android:layout_width="match_parent"
+                android:layout_gravity="bottom"
+                app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+                app:itemIconTint="@drawable/wanandroid_selector_bottom_navigation_color"
+                app:itemTextColor="@drawable/wanandroid_selector_bottom_navigation_color"
+                app:menu="@menu/wanandroid_bottom_nav_menu"
+                app:labelVisibilityMode="labeled"
+                android:background="@color/base_color_white"
+                android:layout_height="?attr/actionBarSize"
+                />
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fbt_compose"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="66dp"
                 android:elevation="8dp"
                 android:src="@drawable/ic_arrow_back"
                 tools:visibility="visible" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationView"
-            android:layout_width="match_parent"
-            android:layout_gravity="bottom"
-            app:itemIconTint="@drawable/wanandroid_selector_bottom_navigation_color"
-            app:itemTextColor="@drawable/wanandroid_selector_bottom_navigation_color"
-            app:menu="@menu/wanandroid_bottom_nav_menu"
-            app:labelVisibilityMode="labeled"
-            android:background="@color/base_color_white"
-            android:layout_height="?attr/actionBarSize"
-            />
+
     </LinearLayout>
 
 

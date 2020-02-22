@@ -14,10 +14,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.CallSuper;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import com.tj24.base.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,6 +23,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -92,9 +93,9 @@ public abstract class BaseFragment extends Fragment {
     final public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (null == rootView) {
             int layoutResId = getCreateViewLayoutId();
-            if (layoutResId > 0)
-
+            if (layoutResId > 0){
                 rootView = inflater.inflate(getCreateViewLayoutId(), container, false);
+            }
             // 解决点击穿透问题
             rootView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -104,9 +105,15 @@ public abstract class BaseFragment extends Fragment {
             });
             unbinder = ButterKnife.bind(this, rootView);
         }
-        init(rootView);
+
         EventBus.getDefault().register(this);
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        init(rootView);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
