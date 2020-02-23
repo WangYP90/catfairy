@@ -5,9 +5,6 @@ import android.content.Context;
 import android.text.InputType;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
@@ -33,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import cn.bmob.v3.BmobBatch;
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobQuery;
@@ -95,10 +94,8 @@ public class CloudModel extends BaseAppsManagerModel {
         Iterator<AppBean> it = appBeans.iterator();
         while (it.hasNext()){
             AppBean appBean = it.next();
-            if(appBean.getType().contains(AppConst.CLASSFICATION_SYSTEM_NAME)){
-                if(appBean.getType().size() == 1 && appBean.getPriority()==0){
-                    it.remove();
-                }
+            if(appBean.isSystemApp() && appBean.getPriority() == 0){
+              it.remove();
             }
         }
         Gson gson = new Gson();

@@ -1,17 +1,20 @@
 package com.tj24.appmanager.adapter;
 
+import android.text.TextUtils;
 import android.widget.ImageView;
-import androidx.annotation.Nullable;
+
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.tj24.base.utils.DateUtil;
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.common.OrderConfig;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
-import com.tj24.appmanager.common.OrderConfig;
+import com.tj24.base.utils.DateUtil;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 /**
  * @Description:app列表的线性adapter
@@ -37,7 +40,7 @@ public class RcAppLinearAdapter extends BaseQuickAdapter<AppBean,BaseViewHolder>
                 .setVisible(R.id.iv_isType,!isTyped(item))
                 .setGone(R.id.tv_open,!isEditing)
                 .setGone(R.id.iv_selected,isEditing)
-                .setImageResource(R.id.iv_selected,item.getIsSelected()?R.drawable.app_ico_app_selected :R.drawable.app_ico_app_unselected)
+                .setImageResource(R.id.iv_selected,item.isSelected()?R.drawable.app_ico_app_selected :R.drawable.app_ico_app_unselected)
                 .addOnClickListener(R.id.tv_open);
     }
 
@@ -74,7 +77,7 @@ public class RcAppLinearAdapter extends BaseQuickAdapter<AppBean,BaseViewHolder>
         if(data.getIsSystemApp()){
             return true;
         }
-        if(data.getType()!=null && data.getType().size()>1){
+        if(!TextUtils.isEmpty(data.getCategory())){
             return true;
         }
         return false;

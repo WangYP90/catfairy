@@ -16,13 +16,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -39,7 +32,6 @@ import com.tj24.appmanager.common.CatFairyHeader.CatFairyHeader;
 import com.tj24.appmanager.common.CatFairyHeader.CatFairyHeaderLayout;
 import com.tj24.appmanager.common.OrderConfig;
 import com.tj24.appmanager.common.keepAlive.EasyKeepAlive;
-import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.appmanager.model.BusinessModel;
 import com.tj24.appmanager.model.CloudModel;
 import com.tj24.appmanager.model.OrderModel;
@@ -62,10 +54,15 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.bmob.v3.BmobUser;
@@ -73,11 +70,8 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.helper.ErrorCode;
 import cn.bmob.v3.listener.FetchUserInfoListener;
 import cn.bmob.v3.update.BmobUpdateAgent;
-import gdut.bsx.share2.FileUtil;
-import gdut.bsx.share2.Share2;
-import gdut.bsx.share2.ShareContentType;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class MainActivity extends BaseActivity implements  View.OnClickListener {
 
     @BindView(R2.id.tab)
     TabLayout tab;
@@ -467,30 +461,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        int itemId = menuItem.getItemId();
-        if (itemId == R.id.item_homepage) {
-            UserHomePageActivity.actionStartForResult(mActivity, REQUEST_EDIT_USER);
-        } else if (itemId == R.id.item_cloud) {
-            if (UserHelper.getCurrentUser() == null) {
-                LoginInterceptorCallBack.interruptToLogin(mActivity);
-            } else {
-                SettingsActivity.actionStart(mActivity, SettingsActivity.SETTINGS_CLOUD);
-            }
-        } else if (itemId == R.id.item_share) {
-            new Share2.Builder(mActivity).setContentType(ShareContentType.FILE)
-                    .setShareFileUri(FileUtil.getFileUri(mActivity, ShareContentType.FILE, new File(getPackageResourcePath())))
-                    .setTitle("Share File")
-                    .build()
-                    .shareBySystem();
-        } else if (itemId == R.id.item_settings) {
-            SettingsActivity.actionStart(mActivity, SettingsActivity.SETTINGS_MAIN);
-        } else if (itemId == R.id.item_helpsuggest) {
-            HelpSuggestActivity.actionStart(this);
-        }
-        return false;
-    }
 
     /**
      * 接受到安装卸载或更新的消息

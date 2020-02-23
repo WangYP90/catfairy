@@ -22,7 +22,6 @@ import android.provider.Settings;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tj24.appmanager.R;
-import com.tj24.appmanager.common.AppConst;
 import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.base.base.app.BaseApplication;
 import com.tj24.base.bean.appmanager.AppBean;
@@ -86,9 +85,10 @@ public class ApkModel {
         if(AppBeanDaoHelper.getInstance().queryObjById(packageName)==null){
             appBean = new AppBean();
             appBean.setPackageName(packageName);
-            List<String> types = new ArrayList<>();
-            types.add(isSystem? AppConst.CLASSFICATION_SYSTEM_ID : AppConst.CLASSFICATION_CUSTOM_ID);
-            appBean.setType(types);
+            appBean.setCategory("");
+//            List<String> types = new ArrayList<>();
+//            types.add(isSystem? AppConst.CLASSFICATION_SYSTEM_ID : AppConst.CLASSFICATION_CUSTOM_ID);
+//            appBean.setType(types);
         }
         String name = null;
         try {

@@ -7,7 +7,6 @@ import com.tj24.base.base.app.BaseApplication;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.greendao.AppBeanDao;
 import com.tj24.base.greendao.daohelper.BaseDao;
-import com.tj24.base.utils.ListUtil;
 import com.tj24.base.utils.PinyinUtils;
 import com.tj24.base.utils.Sputil;
 
@@ -40,13 +39,14 @@ public class AppBeanDaoHelper extends BaseDao<AppBean, AppBeanDao> {
      * @return
      */
     public List<AppBean> queryAppByClassficationId(String id){
-        List<AppBean> appBeans = new ArrayList<>();
-        for(AppBean appBean : queryAll()){
-            if(!ListUtil.isNullOrEmpty(appBean.getType()) && appBean.getType().contains(id)){
-                appBeans.add(appBean);
-            }
-        }
-        return appBeans;
+        return mDdao.queryBuilder().where(AppBeanDao.Properties.Category.eq(id)).list();
+//        List<AppBean> appBeans = new ArrayList<>();
+//        for(AppBean appBean : queryAll()){
+//            if(!ListUtil.isNullOrEmpty(appBean.getType()) && appBean.getType().contains(id)){
+//                appBeans.add(appBean);
+//            }
+//        }
+//        return appBeans;
     }
 
     /**
@@ -82,5 +82,25 @@ public class AppBeanDaoHelper extends BaseDao<AppBean, AppBeanDao> {
             return mDdao.queryBuilder().where(AppBeanDao.Properties.IsCanOpen.eq(true)).list();
         }
         return super.queryAll();
+    }
+
+    /**
+     * 查询系统 APP
+     * @return
+     */
+    public List<AppBean> querySystems() {
+        if(Sputil.read(BaseApplication.getContext().getString(R.string.app_sp_hide_cant_open_app),false)){
+            return mDdao.queryBuilder().where(AppBeanDao.Properties.IsCanOpen.eq(true),
+                    AppBeanDao.Properties.IsSystemApp.eq(true)).list();
+        }
+        return mDdao.queryBuilder().where(AppBeanDao.Properties.IsSystemApp.eq(true)).list();
+    }
+
+    /**
+     *查询第三方APP
+     * @return
+     */
+    public List<AppBean> queryCutomes() {
+        return mDdao.queryBuilder().where(AppBeanDao.Properties.IsSystemApp.notEq(true)).list();
     }
 }

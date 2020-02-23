@@ -3,22 +3,24 @@ package com.tj24.appmanager.model;
 import android.app.Activity;
 import android.text.InputType;
 import android.view.View;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.utils.TextUtils;
-import com.tj24.base.utils.StringUtil;
-import com.tj24.base.utils.ToastUtil;
 import com.tj24.appmanager.R;
-import com.tj24.base.bean.appmanager.AppBean;
-import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.appmanager.common.OrderConfig;
 import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.daohelper.AppClassificationDaoHelper;
+import com.tj24.base.bean.appmanager.AppBean;
+import com.tj24.base.bean.appmanager.AppClassfication;
+import com.tj24.base.utils.StringUtil;
+import com.tj24.base.utils.ToastUtil;
 
 import java.util.Iterator;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 public class AppClassificationEditModel extends BaseAppsManagerModel {
     private OnEditListner onEditListner;
@@ -145,15 +147,15 @@ public class AppClassificationEditModel extends BaseAppsManagerModel {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        AppClassificationDaoHelper.getInstance().deleteObj(appClassfication);
-                        List<AppBean> appBeans = AppBeanDaoHelper.getInstance().queryAll();
+                        List<AppBean> appBeans = AppBeanDaoHelper.getInstance().queryAppByClassficationId(appClassfication.getId());
                         Iterator it = appBeans.iterator();
                         while(it.hasNext()){
                             AppBean appBean = (AppBean) it.next();
-                            if(appBean.getType().contains(appClassfication.getName())){
-                                AppClassificationDaoHelper.getInstance().deleteObj(appClassfication);
-                            }
+                            appBean.setCategory("");
+                            AppBeanDaoHelper.getInstance().updateObj(appBean);
                         }
+                        AppClassificationDaoHelper.getInstance().deleteObj(appClassfication);
+
                         if(onEditListner!=null){
                             onEditListner.onDeletClassification(appClassfication,appPosition);
                         }

@@ -1,8 +1,10 @@
 package com.tj24.base.bean.appmanager;
-import org.greenrobot.greendao.annotation.*;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Transient;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @Description:app
@@ -73,8 +75,13 @@ public class AppBean implements Serializable {
     /**
      * 所属分类
      */
-    @Convert(columnType = String.class, converter = AppsTypeConverter.class)
-    private List<String> type;
+//    @Convert(columnType = String.class, converter = AppsTypeConverter.class)
+//    private List<String> type;
+    /**
+     * 类别 （上面字段弃用）
+     */
+    private String category;
+
     /**
      * 是否被选中
      */
@@ -92,12 +99,12 @@ public class AppBean implements Serializable {
      * 大小
      */
     private long size;
-    @Generated(hash = 496554026)
+    @Generated(hash = 1229125386)
     public AppBean(String packageName, String name, String ico, long firstIntalTime,
             long lastUpdateTime, int versionCode, String versionName,
             String apkSourceDir, String letters, boolean isSystemApp,
             boolean isCanOpen, long lastOpenTime, long topProcessTime, int openNum,
-            List<String> type, int priority, String describe, long size) {
+            String category, int priority, String describe, long size) {
         this.packageName = packageName;
         this.name = name;
         this.ico = ico;
@@ -112,7 +119,7 @@ public class AppBean implements Serializable {
         this.lastOpenTime = lastOpenTime;
         this.topProcessTime = topProcessTime;
         this.openNum = openNum;
-        this.type = type;
+        this.category = category;
         this.priority = priority;
         this.describe = describe;
         this.size = size;
@@ -204,17 +211,11 @@ public class AppBean implements Serializable {
     public void setOpenNum(int openNum) {
         this.openNum = openNum;
     }
-    public List<String> getType() {
-        return this.type;
+    public String getCategory() {
+        return this.category;
     }
-    public void setType(List<String> type) {
-        this.type = type;
-    }
-    public boolean getIsSelected() {
-        return this.isSelected;
-    }
-    public void setIsSelected(boolean isSelected) {
-        this.isSelected = isSelected;
+    public void setCategory(String category) {
+        this.category = category;
     }
     public int getPriority() {
         return this.priority;
@@ -234,5 +235,27 @@ public class AppBean implements Serializable {
     public void setSize(long size) {
         this.size = size;
     }
-   
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public boolean isSystemApp() {
+        return isSystemApp;
+    }
+
+    public void setSystemApp(boolean systemApp) {
+        isSystemApp = systemApp;
+    }
+
+    public boolean isCanOpen() {
+        return isCanOpen;
+    }
+
+    public void setCanOpen(boolean canOpen) {
+        isCanOpen = canOpen;
+    }
 }

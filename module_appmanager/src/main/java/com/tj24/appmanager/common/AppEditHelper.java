@@ -8,9 +8,6 @@ import android.os.Build;
 import android.text.InputType;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.utils.TextUtils;
@@ -31,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import gdut.bsx.share2.FileUtil;
 import gdut.bsx.share2.Share2;
 import gdut.bsx.share2.ShareContentType;
@@ -165,23 +164,24 @@ public class AppEditHelper {
                             }else {
                                 AppClassfication selectClassification = classfications.get(which);
                                 for(AppBean appBean:editingApps){
-                                    List<String> classficationsIds = new ArrayList<>();
-                                    // 如果movingtype为null 或者为默认文件夹 则复制  增加新type
-                                    if(currentClassification==null ||currentClassification.getIsDefault()){
-                                        classficationsIds.addAll(appBean.getType());
-                                        if(!classficationsIds.contains(selectClassification.getId())){
-                                            classficationsIds.add(selectClassification.getId());
-                                        }
-                                        appBean.setType(classficationsIds);
-                                    }else {
-                                        //剪贴  增加新type 移除原来的type
-                                        classficationsIds.addAll(appBean.getType());
-                                        if(!classficationsIds.contains(selectClassification.getId())){
-                                            classficationsIds.add(selectClassification.getId());
-                                        }
-                                        classficationsIds.remove(currentClassification.getId());
-                                        appBean.setType(classficationsIds);
-                                    }
+//                                    List<String> classficationsIds = new ArrayList<>();
+//                                    // 如果movingtype为null 或者为默认文件夹 则复制  增加新type
+//                                    if(currentClassification==null ||currentClassification.getIsDefault()){
+//                                        classficationsIds.addAll(appBean.getType());
+//                                        if(!classficationsIds.contains(selectClassification.getId())){
+//                                            classficationsIds.add(selectClassification.getId());
+//                                        }
+//                                        appBean.setType(classficationsIds);
+//                                    }else {
+//                                        //剪贴  增加新type 移除原来的type
+//                                        classficationsIds.addAll(appBean.getType());
+//                                        if(!classficationsIds.contains(selectClassification.getId())){
+//                                            classficationsIds.add(selectClassification.getId());
+//                                        }
+//                                        classficationsIds.remove(currentClassification.getId());
+//                                        appBean.setType(classficationsIds);
+//                                    }
+                                    appBean.setCategory(selectClassification.getId());
                                     AppBeanDaoHelper.getInstance().insertOrReplaceObj(appBean);
                                 }
                                 dialog.dismiss();

@@ -4,16 +4,11 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.palette.graphics.Palette;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -22,20 +17,34 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.navigation.NavigationView;
 import com.tj24.appmanager.R;
+import com.tj24.appmanager.activity.HelpSuggestActivity;
+import com.tj24.appmanager.activity.SettingsActivity;
 import com.tj24.appmanager.activity.UserEditActivity;
 import com.tj24.appmanager.activity.UserHomePageActivity;
+import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.base.bean.appmanager.login.User;
 import com.tj24.base.utils.ColorUtil;
 import com.tj24.base.utils.DrawableUtil;
 import com.tj24.base.utils.ScreenUtil;
 import com.tj24.base.utils.UserHelper;
 
+import java.io.File;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.palette.graphics.Palette;
+import gdut.bsx.share2.FileUtil;
+import gdut.bsx.share2.Share2;
+import gdut.bsx.share2.ShareContentType;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 import static com.tj24.appmanager.activity.MainActivity.REQUEST_EDIT_USER;
 
-public class NavigationViewHelper {
+public class NavigationViewHelper implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private NavigationView navView;
     private Activity context;
@@ -64,6 +73,7 @@ public class NavigationViewHelper {
 
 
     private void initView() {
+        navView.setNavigationItemSelectedListener(this);
         int count = navView.getHeaderCount();
         if (count == 1) {
             headerView = navView.getHeaderView(0);
@@ -186,4 +196,29 @@ public class NavigationViewHelper {
             return false;
         }
     };
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int itemId = menuItem.getItemId();
+        if (itemId == R.id.item_homepage) {
+            UserHomePageActivity.actionStartForResult(context, REQUEST_EDIT_USER);
+        } else if (itemId == R.id.item_cloud) {
+            if (UserHelper.getCurrentUser() == null) {
+                LoginInterceptorCallBack.interruptToLogin(context);
+            } else {
+                SettingsActivity.actionStart(context, SettingsActivity.SETTINGS_CLOUD);
+            }
+        } else if (itemId == R.id.item_share) {
+            new Share2.Builder(context).setContentType(ShareContentType.FILE)
+                    .setShareFileUri(FileUtil.getFileUri(context, ShareContentType.FILE, new File(context.getPackageResourcePath())))
+                    .setTitle("Share File")
+                    .build()
+                    .shareBySystem();
+        } else if (itemId == R.id.item_settings) {
+            SettingsActivity.actionStart(context, SettingsActivity.SETTINGS_MAIN);
+        } else if (itemId == R.id.item_helpsuggest) {
+            HelpSuggestActivity.actionStart(context);
+        }
+        return false;
+    }
 }

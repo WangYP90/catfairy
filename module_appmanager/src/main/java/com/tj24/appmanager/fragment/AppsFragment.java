@@ -7,14 +7,6 @@ import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.PopupWindowCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.R2;
@@ -47,6 +39,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.PopupWindowCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener,
@@ -190,11 +189,11 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         AppBean clickBean = appBeans.get(position);
         if (isEditing && clickBean != null) {
-            if (clickBean.getIsSelected()) {
-                clickBean.setIsSelected(false);
+            if (clickBean.isSelected()) {
+                clickBean.setSelected(false);
                 editingApps.remove(clickBean);
             } else {
-                clickBean.setIsSelected(true);
+                clickBean.setSelected(true);
                 editingApps.add(clickBean);
             }
             notifyRecyclerView();
@@ -300,7 +299,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
             case LaucherEvent.EVENT_EXIST_EDITING:
                 isEditing = false;
                 for (AppBean appBean : editingApps) {
-                    appBean.setIsSelected(false);
+                    appBean.setSelected(false);
                 }
                 editingApps.clear();
                 appsFooter.setVisibility(View.GONE);
@@ -330,8 +329,10 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
                 isAllSelected = !isAllSelected;
                 editingApps.clear();
                 for (AppBean bean : appBeans) {
-                    bean.setIsSelected(isAllSelected);
-                    editingApps.add(bean);
+                    bean.setSelected(isAllSelected);
+                    if(isAllSelected){
+                        editingApps.add(bean);
+                    }
                 }
                 notifyRecyclerView();
                 ((MainActivity) mActivity).onAppAllSelected(isAllSelected, editingApps.size());

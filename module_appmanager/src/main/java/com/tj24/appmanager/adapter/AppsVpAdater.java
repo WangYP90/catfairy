@@ -1,17 +1,20 @@
 package com.tj24.appmanager.adapter;
 
 import android.view.ViewGroup;
+
+import com.tj24.appmanager.common.AppConst;
+import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
+import com.tj24.appmanager.fragment.AppsFragment;
+import com.tj24.base.bean.appmanager.AppBean;
+import com.tj24.base.bean.appmanager.AppClassfication;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import com.tj24.base.bean.appmanager.AppBean;
-import com.tj24.base.bean.appmanager.AppClassfication;
-import com.tj24.appmanager.fragment.AppsFragment;
-import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Description:viewpager的Apdapter
@@ -57,6 +60,11 @@ public class AppsVpAdater extends FragmentStatePagerAdapter {
      * @return
      */
     private List<AppBean> getItemAppBeans(AppClassfication classfication) {
+        if(classfication.getId().equals(AppConst.CLASSFICATION_SYSTEM_ID)){
+            return AppBeanDaoHelper.getInstance().querySystems();
+        }else if(classfication.getId().equals(AppConst.CLASSFICATION_CUSTOM_ID)){
+            return AppBeanDaoHelper.getInstance().queryCutomes();
+        }
         return AppBeanDaoHelper.getInstance().queryAppByClassficationId(classfication.getId());
     }
 

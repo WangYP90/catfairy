@@ -2,8 +2,6 @@ package com.tj24.appmanager.adapter;
 
 import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
-
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -11,6 +9,8 @@ import com.tj24.appmanager.R;
 import com.tj24.base.bean.appmanager.AppBean;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 public class RcAppGrideAdapter extends BaseQuickAdapter<AppBean,BaseViewHolder> {
 
@@ -24,7 +24,7 @@ public class RcAppGrideAdapter extends BaseQuickAdapter<AppBean,BaseViewHolder> 
     protected void convert(BaseViewHolder helper, AppBean item) {
         helper.setText(R.id.tv_name,item.getName())
                 .setGone(R.id.iv_selected,isEditing)
-                .setImageResource(R.id.iv_selected,item.getIsSelected()?R.drawable.app_ico_app_selected :R.drawable.app_ico_app_unselected);
+                .setImageResource(R.id.iv_selected,item.isSelected()?R.drawable.app_ico_app_selected :R.drawable.app_ico_app_unselected);
         ImageView ivIco = helper.getView(R.id.iv_ico);
         Glide.with(ivIco.getContext()).load(item.getIco()).placeholder(R.mipmap.app_ic_launcher_round).into(ivIco);
     }

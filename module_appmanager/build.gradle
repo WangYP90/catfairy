@@ -23,6 +23,7 @@ android {
             }
         }
         resourcePrefix "app"
+        multiDexEnabled true
     }
 
     // 指定jdk版本
