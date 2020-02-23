@@ -12,8 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/base_AppTheme"
         tools:replace="android:label">
-        <activity android:name=".module.mine.coin.CoinActivity"></activity>
-        <activity android:name=".module.mine.collect.CollectActivity"></activity>
+        <activity android:name=".module.mine.todo.TodoActivity"></activity>
+        <activity android:name=".module.mine.share.ShareActivity" />
+        <activity android:name=".module.mine.settings.SettingsActivity" />
+        <activity android:name=".module.mine.coin.CoinMeActivity" />
+        <activity android:name=".module.mine.coin.CoinRankActivity" />
+        <activity android:name=".module.mine.collect.CollectActivity" />
         <activity android:name=".module.HomePageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +27,7 @@
         </activity>
         <activity android:name=".user.RegistActivity" />
         <activity android:name=".user.LoginActivity" />
-        <activity android:name=".search.SearchActivity" />
+        <activity android:name=".module.search.SearchActivity" />
     </application>
 
 </manifest>

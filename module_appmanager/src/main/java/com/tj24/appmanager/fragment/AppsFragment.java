@@ -295,6 +295,10 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshUI(LaucherEvent laucherEvent) {
+        //首先需要判断是否可见
+        if (!isVisibleToUser) {
+            return;
+        }
         switch (laucherEvent.getEventCode()) {
             case LaucherEvent.EVENT_EXIST_EDITING:
                 isEditing = false;
@@ -322,10 +326,6 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
                 notifyRecyclerView();
                 break;
             case LaucherEvent.EVENT_ALL_SELECTED:
-                //首先需要判断是否可见 否则appBeans会错乱到其他item
-                if (!isVisibleToUser) {
-                    return;
-                }
                 isAllSelected = !isAllSelected;
                 editingApps.clear();
                 for (AppBean bean : appBeans) {

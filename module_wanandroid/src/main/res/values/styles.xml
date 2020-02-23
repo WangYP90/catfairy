@@ -4,4 +4,9 @@
     <style name="wanandroid_tab_text_style">
         <item name="android:textSize"> 16sp</item>
     </style>
+
+    <style name="wanandroid_EditTextErrorAppearance">
+        <item name="android:textColor">@color/base_white_text</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

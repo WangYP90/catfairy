@@ -1,16 +1,16 @@
-package com.tj24.wanandroid.module.mine.coin;
+package com.tj24.wanandroid.module.search;
 
 import android.os.Bundle;
 
-import com.tj24.wanandroid.R;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-public class CoinActivity extends AppCompatActivity {
+import com.tj24.wanandroid.R;
+
+public class SearchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wanandroid_activity_coin);
+        setContentView(R.layout.wanandroid_activity_search);
     }
 }

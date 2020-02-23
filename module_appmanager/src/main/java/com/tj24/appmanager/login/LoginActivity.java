@@ -15,11 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.transition.Fade;
-import androidx.transition.TransitionManager;
-
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.textfield.TextInputEditText;
 import com.tj24.appmanager.R;
@@ -32,6 +27,10 @@ import com.tj24.base.constant.ARouterPath;
 import com.tj24.base.constant.BmobErrorCode;
 import com.tj24.base.utils.UserHelper;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.transition.Fade;
+import androidx.transition.TransitionManager;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.bmob.v3.exception.BmobException;

@@ -55,6 +55,9 @@ public class NaviAdapter extends BaseQuickAdapter<NavigationBean, BaseViewHolder
                 params.height = height;
                 holder.itemView.setLayoutParams(params);
             }
+        }else {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            holder.itemView.setLayoutParams(params);
         }
     }
 

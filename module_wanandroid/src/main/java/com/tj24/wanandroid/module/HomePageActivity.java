@@ -16,12 +16,16 @@ import com.tj24.base.constant.ARouterPath;
 import com.tj24.wanandroid.R;
 import com.tj24.wanandroid.R2;
 import com.tj24.wanandroid.common.base.BaseWanAndroidActivity;
+import com.tj24.wanandroid.common.event.LoginEvent;
 import com.tj24.wanandroid.module.homepage.HomePageFragment;
 import com.tj24.wanandroid.module.mine.collect.CollectActivity;
 import com.tj24.wanandroid.module.project.ProjectsFragment;
 import com.tj24.wanandroid.module.square.SquareFragment;
 import com.tj24.wanandroid.module.treenavigation.TreeNaviFragment;
 import com.tj24.wanandroid.module.wx.WxFragment;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -50,6 +54,7 @@ public class HomePageActivity extends BaseWanAndroidActivity implements BottomNa
     @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
 
+    NavigationHelper navigationHelper;
     Fragment homePageFragment;
     Fragment squareFragment;
     Fragment subscriptionFragment;
@@ -68,13 +73,15 @@ public class HomePageActivity extends BaseWanAndroidActivity implements BottomNa
     }
 
     private void initView() {
+        navigationHelper = new NavigationHelper(drawerLayout,navView,this);
+
         showFragment(0);
 
         drawerLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
                 navView.getViewTreeObserver().removeOnPreDrawListener(this);
-                //                navigationViewHelper.loadUserInfo();
+                 navigationHelper.loadUserInfo();
                 return false;
             }
         });
@@ -107,6 +114,13 @@ public class HomePageActivity extends BaseWanAndroidActivity implements BottomNa
             showFragment(4);
         }
         return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceiveLoginEvent(LoginEvent event){
+        if(navigationHelper !=null){
+            navigationHelper.loadUserInfo();
+        }
     }
 
     public void showFragment(int index) {

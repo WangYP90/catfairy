@@ -47,5 +47,25 @@ public class ARouterPath {
          * 主页面
          */
         public static final String  MAIN_ACTIVITY = "/wanAndroid/main";
+        /**
+         * 登录页面
+         */
+        public static final String LOGIN_ACTIVITY = "/wanAndroid/login";
+        /**
+         * 我的积分
+         */
+        public static final String COIN_ACTIVITY = "/wanAndroid/coin";
+        /**
+         * 我的收藏
+         */
+        public static final String COLLECT_ACTIVITY = "/wanAndroid/collect";
+        /**
+         * 我的分享
+         */
+        public static final String SHARE_ACTIVITY = "/wanAndroid/share";
+        /**
+         * 我的TODO
+         */
+        public static final String TODO_ACTIVITY = "/wanAndroid/todo";
     }
 }
