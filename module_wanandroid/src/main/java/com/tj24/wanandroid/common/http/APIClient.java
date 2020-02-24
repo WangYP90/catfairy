@@ -301,7 +301,7 @@ public interface APIClient {
      * 	页码拼接在url上从1开始
      */
     @GET("user/lg/private_articles/{page}/json")
-    Call<BaseRespon<ShareRespon>> getMyShare(@Path("page") int page);
+    Call<BaseRespon<ShareRespon<ArticleBean>>> getMyShare(@Path("page") int page);
 
     /**
      *   删除自己分享的文章

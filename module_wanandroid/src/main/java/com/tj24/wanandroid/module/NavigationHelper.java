@@ -14,16 +14,19 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.navigation.NavigationView;
+import com.tj24.base.bean.wanandroid.CoinBean;
 import com.tj24.base.bean.wanandroid.UserBean;
 import com.tj24.base.utils.ColorUtil;
 import com.tj24.base.utils.DrawableUtil;
 import com.tj24.wanandroid.R;
+import com.tj24.wanandroid.common.http.WanAndroidCallBack;
 import com.tj24.wanandroid.common.utils.UserUtil;
 import com.tj24.wanandroid.module.mine.coin.CoinMeActivity;
 import com.tj24.wanandroid.module.mine.coin.CoinRankActivity;
+import com.tj24.wanandroid.module.mine.coin.CoinRequest;
 import com.tj24.wanandroid.module.mine.collect.CollectActivity;
 import com.tj24.wanandroid.module.mine.settings.SettingsActivity;
-import com.tj24.wanandroid.module.mine.share.ShareActivity;
+import com.tj24.wanandroid.module.mine.share.MyShareActivity;
 import com.tj24.wanandroid.module.mine.todo.TodoActivity;
 
 import androidx.annotation.NonNull;
@@ -47,6 +50,8 @@ public class NavigationHelper implements NavigationView.OnNavigationItemSelected
     ImageView ivBgImag;
     TextView tvId;
     TextView tvLevle;
+
+    CoinBean myCoin;
 
     public NavigationHelper(DrawerLayout drawerLayout, NavigationView navView, Activity context) {
         this.drawerLayout = drawerLayout;
@@ -91,7 +96,6 @@ public class NavigationHelper implements NavigationView.OnNavigationItemSelected
             tvLevle.setVisibility(View.VISIBLE);
             tvNickName.setText(currentUser.getNickname());
             tvId.setText(String.format(context.getString(R.string.wanandroid_user_id),currentUser.getId()));
-            tvLevle.setText(String.format(context.getString(R.string.wanandroid_user_levle,currentUser.getId(),currentUser.getId())));
             Glide.with(context)
                     .load(currentUser.getIcon())
                     .bitmapTransform(new CropCircleTransformation(context))
@@ -99,6 +103,18 @@ public class NavigationHelper implements NavigationView.OnNavigationItemSelected
                     .error(R.drawable.base_avatar_default)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(ivAvatar);
+            CoinRequest.getMyCoin(new WanAndroidCallBack<CoinBean>() {
+                @Override
+                public void onSucces(CoinBean coinBean) {
+                    myCoin = coinBean;
+                    tvLevle.setText(String.format(context.getString(R.string.wanandroid_user_levle,myCoin.getLevel(),myCoin.getRank())));
+                }
+
+                @Override
+                public void onFail(String fail) {
+
+                }
+            });
         }else {
             Glide.with(context).load(R.drawable.base_avatar_default).into(ivAvatar);
             tvNickName.setText("未登录");
@@ -154,11 +170,11 @@ public class NavigationHelper implements NavigationView.OnNavigationItemSelected
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int itemId = menuItem.getItemId();
         if (itemId == R.id.item_coin) {
-            CoinMeActivity.actionStart(context);
+          CoinMeActivity.actionStart(context, myCoin!=null?myCoin.getCoinCount():0);
         } else if (itemId == R.id.item_collect) {
             CollectActivity.actionStart(context);
         } else if (itemId == R.id.item_share) {
-            ShareActivity.actionStart(context);
+            MyShareActivity.actionStart(context);
         } else if (itemId == R.id.item_todo) {
             TodoActivity.actionStart(context);
         } else if (itemId == R.id.item_settings) {

@@ -123,7 +123,7 @@ public class SquareRequest extends BaseRequest {
      * @param callBack
      */
     public static void requstMyShare(int page,WanAndroidCallBack callBack){
-        requestNet(RetrofitWan.getInstance().getApiClient().getMyShare(page), new RequestListner<ShareRespon>() {
+        requestNet(RetrofitWan.getInstance().getApiClient().getMyShare(page), new RequestListner<ShareRespon<ArticleBean>>() {
             @Override
             public void onSuccess(ShareRespon data) {
                 callBack.onSucces(data);

@@ -13,7 +13,7 @@
         android:theme="@style/base_AppTheme"
         tools:replace="android:label">
         <activity android:name=".module.mine.todo.TodoActivity"></activity>
-        <activity android:name=".module.mine.share.ShareActivity" />
+        <activity android:name=".module.mine.share.MyShareActivity" />
         <activity android:name=".module.mine.settings.SettingsActivity" />
         <activity android:name=".module.mine.coin.CoinMeActivity" />
         <activity android:name=".module.mine.coin.CoinRankActivity" />

@@ -109,6 +109,7 @@
         android:gravity="center"
         android:textColor="@color/base_white_text"
         android:textSize="14sp"
+        android:foreground="?attr/selectableItemBackground"
         android:background="@color/wanandroid_main_color"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="20dp"

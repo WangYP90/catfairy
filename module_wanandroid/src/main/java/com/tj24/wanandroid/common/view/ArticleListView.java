@@ -9,10 +9,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.kennyc.view.MultiStateView;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.tj24.base.bean.wanandroid.ArticleBean;
+import com.tj24.base.utils.ListUtil;
+import com.tj24.base.utils.MultiStateUtils;
 import com.tj24.base.utils.ToastUtil;
 import com.tj24.wanandroid.R;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
@@ -33,6 +36,7 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
 
     private RecyclerView rvArticle;
     private SmartRefreshLayout refresh;
+    private MultiStateView msv;
 
     private Context mContext;
     private CommonArticleAdapter mAdapter;
@@ -68,6 +72,7 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
         LayoutInflater.from(mContext).inflate(R.layout.wanandroid_article_list_view, this);
         rvArticle = findViewById(R.id.rv_article);
         refresh = findViewById(R.id.refresh);
+        msv = findViewById(R.id.msv);
 
         layoutManager = new LinearLayoutManager(mContext);
         rvArticle.setLayoutManager(layoutManager);
@@ -110,6 +115,7 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         if(refreshAndLoadMoreListener != null){
+            MultiStateUtils.toLoading(msv);
             refreshAndLoadMoreListener.onRefresh();
         }
     }
@@ -186,10 +192,19 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
         }
     }
 
+    public MultiStateView getMultiStateView(){
+        return msv;
+    }
     /*
         强制刷新数据成功
      */
     public void onRefreshSuccess(ArticleRespon<ArticleBean> articleRespon){
+        if(ListUtil.isNullOrEmpty(articleRespon.getDatas())){
+            MultiStateUtils.toEmpty(msv);
+        }else {
+            MultiStateUtils.toContent(msv);
+        }
+
         if(isCanRefresh){
             if(articleRespon.getDatas().size() == articleRespon.getTotal()){  //说明只有一页
                 refresh.finishRefreshWithNoMoreData();
@@ -209,6 +224,7 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
      * @param msg
      */
     public void onRefreshFail(String msg){
+        MultiStateUtils.toError(msv);
         ToastUtil.showShortToast(mContext,msg);
         if(isCanRefresh){
             refresh.finishRefresh(false);
