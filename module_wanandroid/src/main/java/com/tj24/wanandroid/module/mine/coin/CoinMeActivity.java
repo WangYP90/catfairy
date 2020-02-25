@@ -2,6 +2,9 @@ package com.tj24.wanandroid.module.mine.coin;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -40,6 +43,8 @@ public class CoinMeActivity extends BaseWanAndroidActivity implements OnRefreshL
     SmartRefreshLayout refresh;
     @BindView(R2.id.msv)
     MultiStateView msv;
+    @BindView(R2.id.tv_coin_count)
+    TextView tvCoinCount;
 
     private CoinLoadAdpater coinRankAdpater;
     private LinearLayoutManager layoutManager;
@@ -58,6 +63,8 @@ public class CoinMeActivity extends BaseWanAndroidActivity implements OnRefreshL
         coinRankAdpater = new CoinLoadAdpater();
         rvCoinInfo.setAdapter(coinRankAdpater);
 
+        int coinCount = getIntent().getIntExtra(EXT_COIN_COUNT,0);
+        tvCoinCount.setText(coinCount+"");
 
         MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
             @Override
@@ -129,6 +136,22 @@ public class CoinMeActivity extends BaseWanAndroidActivity implements OnRefreshL
         page = FIRST_PAGE;
         initData();
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.wanandroid_toolbar_coin_rule, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_coin_rule) {
+//           "https://www.wanandroid.com/blog/show/2653"
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public static void actionStart(Context context,int coinCount) {
         ARouter.getInstance().build(ARouterPath.WanAndroid.COIN_ACTIVITY)

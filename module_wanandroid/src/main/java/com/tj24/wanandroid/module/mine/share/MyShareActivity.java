@@ -2,11 +2,14 @@ package com.tj24.wanandroid.module.mine.share;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.tj24.base.bean.wanandroid.ArticleBean;
 import com.tj24.base.constant.ARouterPath;
+import com.tj24.base.utils.MultiStateUtils;
 import com.tj24.wanandroid.R;
 import com.tj24.wanandroid.R2;
 import com.tj24.wanandroid.common.base.BaseWanAndroidActivity;
@@ -44,7 +47,14 @@ public class MyShareActivity extends BaseWanAndroidActivity {
                 loadMoreData(page);
             }
         });
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         refreshData();
+        MultiStateUtils.toLoading(articleListView.getMultiStateView());
     }
 
     @Override
@@ -80,6 +90,20 @@ public class MyShareActivity extends BaseWanAndroidActivity {
                 articleListView.onRefreshFail(fail);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.wanandroid_toolbar_addto_share, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.menu_addto_share){
+            ShareArticleActivity.actionStart(this);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public static void actionStart(Context context) {

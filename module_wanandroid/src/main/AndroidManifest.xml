@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/base_AppTheme"
         tools:replace="android:label">
-        <activity android:name=".module.mine.todo.TodoActivity"></activity>
+        <activity android:name=".module.mine.share.ShareArticleActivity"></activity>
+        <activity android:name=".module.mine.todo.TodoActivity" />
         <activity android:name=".module.mine.share.MyShareActivity" />
         <activity android:name=".module.mine.settings.SettingsActivity" />
         <activity android:name=".module.mine.coin.CoinMeActivity" />

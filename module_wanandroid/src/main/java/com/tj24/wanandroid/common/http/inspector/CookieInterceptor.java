@@ -24,7 +24,7 @@ public class CookieInterceptor implements Interceptor {
         if (preferences != null) {
             for (String cookie : preferences) {
                 builder.addHeader("Cookie", cookie);
-                Log.v("CookieInterceptor", "Adding Header: " + cookie);
+                Log.v("CookieInterceptor", "从SP中取出并添加cookie"+ cookie);
             }
         }
         return chain.proceed(builder.build());

@@ -7,6 +7,7 @@ import com.tj24.base.base.app.BaseApplication;
 import com.tj24.wanandroid.common.Const;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashSet;
 
 import okhttp3.Interceptor;
@@ -22,6 +23,12 @@ public class ReceivedCookiesInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Response originalResponse = chain.proceed(chain.request());
 
+        //若不是登录 则不管
+        URL url = originalResponse.request().url().url();
+        if(!url.getPath().equals("/user/login")){
+            return originalResponse;
+        }
+
         if (!originalResponse.headers("Set-Cookie").isEmpty()) {
             HashSet<String> cookies = new HashSet<>();
 
@@ -34,7 +41,7 @@ public class ReceivedCookiesInterceptor implements Interceptor {
                     .edit();
             config.putStringSet(Const.SP_COOKIE, cookies);
             config.commit();
-            Log.v("CookiesInterceptor",cookies.toString());
+            Log.v("CookieInterceptor","从请求中获取cookie并存储到SP："+cookies.toString());
         }
 
         return originalResponse;

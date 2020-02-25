@@ -108,6 +108,9 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         if(refreshAndLoadMoreListener != null){
+            if(page == firstPage){
+                MultiStateUtils.toLoading(msv);
+            }
             refreshAndLoadMoreListener.onLoadMore(page);
         }
     }
@@ -235,9 +238,17 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
      * 根据页码加载数据成功
      */
     public void onLoadMoreSuccess(ArticleRespon<ArticleBean> articleRespon){
-        page++;
         articleBeans.addAll(articleRespon.getDatas());
         mAdapter.notifyDataSetChanged();
+
+        if(page == firstPage){
+            if(ListUtil.isNullOrEmpty(articleBeans)){
+                MultiStateUtils.toEmpty(msv);
+            }else {
+                MultiStateUtils.toContent(msv);
+            }
+        }
+
         if(isCanRefresh){
             if(articleBeans.size() == articleRespon.getTotal()){  //数据已经全部加载
                 refresh.finishLoadMoreWithNoMoreData();
@@ -245,6 +256,8 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
                 refresh.finishLoadMore(true);
             }
         }
+
+        page++;
     }
 
     /**

@@ -29,27 +29,30 @@
                 android:background="@color/wanandroid_main_color"
                 android:textSize="50sp"
                 tools:text="24"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
                 android:textColor="@color/base_color_white"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"/>
         </com.google.android.material.appbar.AppBarLayout>
-        <com.kennyc.view.MultiStateView
-            android:id="@+id/msv"
-            style="@style/base_StateView"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
             <com.scwang.smart.refresh.layout.SmartRefreshLayout
                 android:id="@+id/refresh"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+                <com.kennyc.view.MultiStateView
+                    android:id="@+id/msv"
+                    style="@style/base_StateView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_coin_info"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
+                </com.kennyc.view.MultiStateView>
             </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-        </com.kennyc.view.MultiStateView>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

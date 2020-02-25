@@ -2,6 +2,7 @@ package com.tj24.wanandroid.module;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -20,6 +21,7 @@ import com.tj24.wanandroid.common.event.LoginEvent;
 import com.tj24.wanandroid.module.homepage.HomePageFragment;
 import com.tj24.wanandroid.module.mine.collect.CollectActivity;
 import com.tj24.wanandroid.module.project.ProjectsFragment;
+import com.tj24.wanandroid.module.search.SearchActivity;
 import com.tj24.wanandroid.module.square.SquareFragment;
 import com.tj24.wanandroid.module.treenavigation.TreeNaviFragment;
 import com.tj24.wanandroid.module.wx.WxFragment;
@@ -98,6 +100,20 @@ public class HomePageActivity extends BaseWanAndroidActivity implements BottomNa
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.wanandroid_toolbar_to_search, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_search) {
+            SearchActivity.actionStart(this);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
