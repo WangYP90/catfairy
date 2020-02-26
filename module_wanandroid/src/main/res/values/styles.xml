@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="wanandroid_tab_text_style">
         <item name="android:textSize"> 16sp</item>
@@ -8,5 +8,17 @@
     <style name="wanandroid_EditTextErrorAppearance">
         <item name="android:textColor">@color/base_white_text</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+
+    <style name="wanandroid_search_view_activity" parent="base_AppTheme">
+        ...
+        <!--引入SearchView的自定义样式-->
+        <item name="searchViewStyle">@style/wanandroid_Widget.SearchView</item>
+    </style>
+
+    <style name="wanandroid_Widget.SearchView" parent="Widget.AppCompat.SearchView">
+        <!--修改搜索框左边的搜索按钮图标-->
+        <item name="searchHintIcon">@null</item>
     </style>
 </resources>

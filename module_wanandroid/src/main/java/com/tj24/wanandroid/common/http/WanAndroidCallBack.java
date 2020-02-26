@@ -18,6 +18,7 @@ public abstract class WanAndroidCallBack<T> implements Callback<BaseRespon<T>> {
        BaseRespon<T> baseRespon = response.body();
        if(baseRespon == null){
            onFail("没有数据");
+           return;
        }
        if(baseRespon.getErrorCode() == 0){
             onSucces(baseRespon.getData());

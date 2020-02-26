@@ -66,7 +66,7 @@ public interface APIClient {
      */
     @POST("article/query/{page}/json")
     @FormUrlEncoded
-    Call<BaseRespon<ArticleRespon<ArticleBean>>>searchArticle(@Path("page")int page, @Field("keyWord")String keyWord);
+    Call<BaseRespon<ArticleRespon<ArticleBean>>>searchArticle(@Path("page")int page, @Field("k")String keyWord);
 
     /**
      *  置顶文章

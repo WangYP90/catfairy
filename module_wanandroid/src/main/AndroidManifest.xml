@@ -28,7 +28,8 @@
         </activity>
         <activity android:name=".user.RegistActivity" />
         <activity android:name=".user.LoginActivity" />
-        <activity android:name=".module.search.SearchActivity" />
+        <activity android:name=".module.search.SearchActivity"
+            android:theme="@style/wanandroid_search_view_activity"/>
     </application>
 
 </manifest>
