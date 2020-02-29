@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -18,6 +20,7 @@ import com.tj24.base.bean.wanandroid.CoinBean;
 import com.tj24.base.bean.wanandroid.UserBean;
 import com.tj24.base.utils.ColorUtil;
 import com.tj24.base.utils.DrawableUtil;
+import com.tj24.base.utils.ToastUtil;
 import com.tj24.wanandroid.R;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
 import com.tj24.wanandroid.common.utils.UserUtil;
@@ -25,9 +28,9 @@ import com.tj24.wanandroid.module.mine.coin.CoinMeActivity;
 import com.tj24.wanandroid.module.mine.coin.CoinRankActivity;
 import com.tj24.wanandroid.module.mine.coin.CoinRequest;
 import com.tj24.wanandroid.module.mine.collect.CollectActivity;
-import com.tj24.wanandroid.module.mine.settings.SettingsActivity;
 import com.tj24.wanandroid.module.mine.share.MyShareActivity;
 import com.tj24.wanandroid.module.mine.todo.TodoActivity;
+import com.tj24.wanandroid.user.LoginActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,7 +39,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.palette.graphics.Palette;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-public class NavigationHelper implements NavigationView.OnNavigationItemSelectedListener{
+public class NavigationHelper implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private DrawerLayout drawerLayout;
     private NavigationView navView;
@@ -72,12 +75,9 @@ public class NavigationHelper implements NavigationView.OnNavigationItemSelected
             tvNickName = headerView.findViewById(R.id.tv_nav_nickname);
             tvId = headerView.findViewById(R.id.tv_nav_id);
             tvLevle = headerView.findViewById(R.id.tv_nav_levle);
-            ivCoin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CoinRankActivity.actionStart(context);
-                }
-            });
+            ivCoin.setOnClickListener(this);
+            tvNickName.setOnClickListener(this);
+            ivAvatar.setOnClickListener(this);
         }
     }
 
@@ -120,6 +120,17 @@ public class NavigationHelper implements NavigationView.OnNavigationItemSelected
             tvNickName.setText("未登录");
             tvId.setVisibility(View.GONE);
             tvLevle.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.iv_nav_coin){
+            CoinRankActivity.actionStart(context);
+        }else if(v.getId() == R.id.tv_nav_nickname){
+            toLogin();
+        }else if(v.getId() == R.id.iv_nav_avatar){
+            toLogin();
         }
     }
 
@@ -177,9 +188,30 @@ public class NavigationHelper implements NavigationView.OnNavigationItemSelected
             MyShareActivity.actionStart(context);
         } else if (itemId == R.id.item_todo) {
             TodoActivity.actionStart(context);
-        } else if (itemId == R.id.item_settings) {
-            SettingsActivity.actionStart(context);
+        } else if (itemId == R.id.item_loginout) {
+            loginout();
         }
         return false;
+    }
+
+    private void loginout(){
+        if(!UserUtil.getInstance().isLogin()){
+            ToastUtil.showShortToast(context,"还未登录呢亲！");
+            return;
+        }
+        new MaterialDialog.Builder(context).content("确定退出登录？").positiveText("确定").negativeText("取消")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        UserUtil.getInstance().loginout();
+                        loadUserInfo();
+                    }
+                }).show();
+    }
+
+    private void toLogin() {
+        if(!UserUtil.getInstance().isLogin()){
+            LoginActivity.actionStart(context);
+        }
     }
 }

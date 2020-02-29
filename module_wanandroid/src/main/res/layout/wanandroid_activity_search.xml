@@ -22,6 +22,7 @@
 
         <com.tj24.wanandroid.common.view.ArticleListView
             android:id="@+id/articleListView"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 </LinearLayout>

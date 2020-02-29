@@ -17,6 +17,7 @@ import com.tj24.wanandroid.common.http.WanAndroidCallBack;
 import com.tj24.wanandroid.common.http.respon.ArticleRespon;
 import com.tj24.wanandroid.common.http.respon.ShareRespon;
 import com.tj24.wanandroid.common.view.ArticleListView;
+import com.tj24.wanandroid.module.square.SquareRequest;
 import com.tj24.wanandroid.user.LoginInterceptorCallBack;
 
 import androidx.appcompat.widget.Toolbar;
@@ -63,7 +64,7 @@ public class MyShareActivity extends BaseWanAndroidActivity {
     }
 
     public void loadMoreData(int page) {
-        ShareRequest.requestMyShare(page, new WanAndroidCallBack<ShareRespon<ArticleBean>>() {
+        SquareRequest.requstMyShare(page, new WanAndroidCallBack<ShareRespon<ArticleBean>>() {
             @Override
             public void onSucces(ShareRespon shareRespon) {
                 ArticleRespon<ArticleBean> articleRespon = shareRespon.getShareArticles();
@@ -78,7 +79,7 @@ public class MyShareActivity extends BaseWanAndroidActivity {
     }
 
     public void refreshData() {
-        ShareRequest.requestMyShare(FIRST_PAGE,new WanAndroidCallBack<ShareRespon<ArticleBean>>() {
+        SquareRequest.requstMyShare(FIRST_PAGE,new WanAndroidCallBack<ShareRespon<ArticleBean>>() {
             @Override
             public void onSucces(ShareRespon shareRespon) {
                 ArticleRespon<ArticleBean> articleRespon = shareRespon.getShareArticles();

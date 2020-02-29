@@ -42,8 +42,6 @@ public class HomePageFragment extends BaseWanAndroidFragment {
     @BindView(R.id.refresh)
     SmartRefreshLayout refresh;
 
-    private int currentItem = 0;
-
     @Override
     public int getCreateViewLayoutId() {
         return R.layout.wanandroid_fragment_home_page;
@@ -87,12 +85,12 @@ public class HomePageFragment extends BaseWanAndroidFragment {
         refresh.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                HomePageRefreshEvent.postLoadMoreEvent(currentItem);
+                HomePageRefreshEvent.postLoadMoreEvent(viewpager.getCurrentItem());
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                HomePageRefreshEvent.postRefreshEvent(currentItem);
+                HomePageRefreshEvent.postRefreshEvent(viewpager.getCurrentItem());
             }
         });
     }

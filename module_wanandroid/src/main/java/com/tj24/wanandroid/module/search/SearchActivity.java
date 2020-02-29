@@ -3,10 +3,12 @@ package com.tj24.wanandroid.module.search;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import com.tj24.base.bean.wanandroid.HistoryKey;
 import com.tj24.base.bean.wanandroid.HotKeyBean;
 import com.tj24.base.greendao.HistoryKeyDao;
 import com.tj24.base.greendao.daohelper.GreenDaoManager;
+import com.tj24.base.utils.KeyBoardUtil;
 import com.tj24.base.utils.MultiStateUtils;
 import com.tj24.wanandroid.R;
 import com.tj24.wanandroid.R2;
@@ -145,7 +148,7 @@ public class SearchActivity extends BaseWanAndroidActivity {
         });
         rvSearchHistroy.setAdapter(historySearchAdapter);
 
-        articleListView.setFirstPage(0);
+        articleListView.setFirstPage(FIRST_PAGE);
         articleListView.setRefreshAndLoadMoreListener(new ArticleListView.RefreshAndLoadMoreListener() {
             @Override
             public void onRefresh() {
@@ -154,7 +157,7 @@ public class SearchActivity extends BaseWanAndroidActivity {
 
             @Override
             public void onLoadMore(int page) {
-                search(FIRST_PAGE, searchKey, true);
+                search(page, searchKey, true);
             }
         });
     }
@@ -174,6 +177,11 @@ public class SearchActivity extends BaseWanAndroidActivity {
         mSearchView.setIconifiedByDefault(false);
         //设置是否显示搜索框展开时的提交按钮
         mSearchView.setSubmitButtonEnabled(true);
+        mSearchView.setFocusable(true);
+        mSearchView.requestFocusFromTouch();
+        mSearchView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        mSearchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH | EditorInfo.IME_FLAG_NO_EXTRACT_UI | EditorInfo.IME_FLAG_NO_FULLSCREEN);
+
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -184,6 +192,22 @@ public class SearchActivity extends BaseWanAndroidActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
+            }
+        });
+
+        //如果软键盘取消 不清除searchview的焦点，会引起后退键失效
+        KeyBoardUtil.setListener(this, new KeyBoardUtil.OnSoftKeyBoardChangeListener() {
+            @Override
+            public void keyBoardShow(int height) {
+            }
+
+            @Override
+            public void keyBoardHide(int height) {
+               mSearchView.clearFocus();
+               //随便找个其他的view 获取焦点
+                toolbar.setFocusable(true);
+                toolbar.setFocusableInTouchMode(true);
+                toolbar.requestFocus();
             }
         });
     }

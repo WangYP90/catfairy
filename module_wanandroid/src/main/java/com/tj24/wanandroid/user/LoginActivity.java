@@ -1,6 +1,7 @@
 package com.tj24.wanandroid.user;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
@@ -114,5 +115,11 @@ public class LoginActivity extends BaseWanAndroidActivity {
         intent.putExtra(USER_NAME, userName);
         intent.putExtra(PWD, userPwd);
         activity.setResult(RESULT_OK, intent);
+    }
+
+
+    public static void  actionStart(Context context){
+        Intent intent = new Intent(context,LoginActivity.class);
+        context.startActivity(intent);
     }
 }

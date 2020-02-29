@@ -21,8 +21,8 @@
             android:icon="@drawable/base_avatar_default"
             android:title="TODO" />
         <item
-            android:id="@+id/item_settings"
+            android:id="@+id/item_loginout"
             android:icon="@drawable/base_avatar_default"
-            android:title="系统设置" />
+            android:title="退出登录" />
     </group>
 </menu>
