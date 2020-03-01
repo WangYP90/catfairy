@@ -1,4 +1,4 @@
-package com.tj24.wanandroid.module.treenavigation;
+package com.tj24.wanandroid.module.treenavigation.navi;
 
 import android.widget.TextView;
 

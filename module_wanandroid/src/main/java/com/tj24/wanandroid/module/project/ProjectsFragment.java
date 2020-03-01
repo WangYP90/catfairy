@@ -83,7 +83,7 @@ public class ProjectsFragment extends BaseWanAndroidFragment {
 
             @Override
             public void onTabReselected(TabView tab, int position) {
-                ToastUtil.showShortToast(mActivity, position + "");
+
             }
         });
     }

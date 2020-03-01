@@ -52,8 +52,8 @@ public class MyShareActivity extends BaseWanAndroidActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onStart() {
+        super.onStart();
         refreshData();
         MultiStateUtils.toLoading(articleListView.getMultiStateView());
     }

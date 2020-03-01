@@ -87,7 +87,7 @@ public interface APIClient {
      * 	页码：拼接在链接上，从0开始。
      */
     @GET("article/list/{page}/json")
-    Call<BaseRespon<List<ArticleBean>>> getTreeArticle(@Path("page") int page,@Query("cid") int cid);
+    Call<BaseRespon<ArticleRespon<ArticleBean>>> getTreeArticle(@Path("page") int page,@Query("cid") int cid);
 
     /**
      *  按照作者昵称搜索文章

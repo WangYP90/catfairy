@@ -1,8 +1,9 @@
 package com.tj24.base.bean.wanandroid;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class NavigationBean {
+public class NavigationBean implements Serializable {
     private List<ArticleBean> articles;
     private int cid;
     private String name;

@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/base_AppTheme"
         tools:replace="android:label">
-        <activity android:name=".module.mine.share.ShareArticleActivity"></activity>
+        <activity android:name=".module.treenavigation.knowledge.KnowledgeArticleActivity" />
+        <activity android:name=".module.web.WebViewActivity" />
+        <activity android:name=".module.mine.share.ShareArticleActivity" />
         <activity android:name=".module.mine.todo.TodoActivity" />
         <activity android:name=".module.mine.share.MyShareActivity" />
         <activity android:name=".module.mine.settings.SettingsActivity" />
@@ -28,8 +30,9 @@
         </activity>
         <activity android:name=".user.RegistActivity" />
         <activity android:name=".user.LoginActivity" />
-        <activity android:name=".module.search.SearchActivity"
-            android:theme="@style/wanandroid_search_view_activity"/>
+        <activity
+            android:name=".module.search.SearchActivity"
+            android:theme="@style/wanandroid_search_view_activity" />
     </application>
 
 </manifest>

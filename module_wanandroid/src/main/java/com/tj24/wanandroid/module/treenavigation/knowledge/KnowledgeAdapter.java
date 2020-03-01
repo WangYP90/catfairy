@@ -1,4 +1,4 @@
-package com.tj24.wanandroid.module.treenavigation;
+package com.tj24.wanandroid.module.treenavigation.knowledge;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,11 +38,12 @@ public class KnowledgeAdapter extends BaseQuickAdapter<TreeBean, BaseViewHolder>
             TextView tv = createOrGetCacheFlexItemTextView(flex);
             TreeBean childItem = item.getChildren().get(i);
             tv.setText(childItem.getName());
+            int finalI = i;
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(onKnowledgeItemClickListener != null){
-                        onKnowledgeItemClickListener.onClick(childItem);
+                        onKnowledgeItemClickListener.onClick(item, finalI);
                     }
                 }
             });
@@ -76,6 +77,6 @@ public class KnowledgeAdapter extends BaseQuickAdapter<TreeBean, BaseViewHolder>
     }
 
     public interface OnKnowledgeItemClickListener {
-        void onClick(TreeBean treeBean);
+        void onClick(TreeBean treeBean,int position);
     }
 }

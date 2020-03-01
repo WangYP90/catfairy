@@ -1,10 +1,11 @@
-package com.tj24.wanandroid.module.treenavigation;
+package com.tj24.wanandroid.module.treenavigation.navi;
 
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kennyc.view.MultiStateView;
+import com.tj24.base.bean.wanandroid.ArticleBean;
 import com.tj24.base.bean.wanandroid.NavigationBean;
 import com.tj24.base.common.recyclerview.interfac.SimpleListener;
 import com.tj24.base.utils.ListUtil;
@@ -15,6 +16,8 @@ import com.tj24.wanandroid.common.base.BaseWanAndroidFragment;
 import com.tj24.wanandroid.common.event.TreeNaviRefreshEvent;
 import com.tj24.wanandroid.common.event.TreeNaviRefreshFinishEvent;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
+import com.tj24.wanandroid.module.treenavigation.TreeNaviRequest;
+import com.tj24.wanandroid.module.web.WebViewActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -66,6 +69,12 @@ public class NaviFragment extends BaseWanAndroidFragment {
                 naviContentAdapter.setHeight(rvNavi.getHeight());
             }
         });
+        naviContentAdapter.setOnNaviItemClickListener(new NaviAdapter.OnNaviItemClickListener() {
+            @Override
+            public void onClick(ArticleBean articleBean) {
+                WebViewActivity.actionStart(mActivity,articleBean.getTitle(),articleBean.getLink());
+            }
+        });
         rvNavi.setAdapter(naviContentAdapter);
 
         tabLayoutManager = new LinearLayoutManager(mActivity);
@@ -81,8 +90,6 @@ public class NaviFragment extends BaseWanAndroidFragment {
             }
         });
     }
-
-
 
     private void initData() {
         MultiStateUtils.toLoading(msv);

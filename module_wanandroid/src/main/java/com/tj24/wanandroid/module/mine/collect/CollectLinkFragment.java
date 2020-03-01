@@ -2,6 +2,7 @@ package com.tj24.wanandroid.module.mine.collect;
 
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kennyc.view.MultiStateView;
 import com.tj24.base.bean.wanandroid.NetUrlBean;
 import com.tj24.base.common.recyclerview.interfac.SimpleListener;
@@ -12,6 +13,7 @@ import com.tj24.wanandroid.common.base.BaseWanAndroidFragment;
 import com.tj24.wanandroid.common.event.CollectRefreshEvent;
 import com.tj24.wanandroid.common.event.CollectRefreshFinishEvent;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
+import com.tj24.wanandroid.module.web.WebViewActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -41,6 +43,13 @@ public class CollectLinkFragment extends BaseWanAndroidFragment {
         linearLayoutManager = new LinearLayoutManager(mActivity);
         rvLinks.setLayoutManager(linearLayoutManager);
         linkAdapter = new CollectLinkAdapter();
+        linkAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                NetUrlBean urlBean = linkAdapter.getData().get(position);
+                WebViewActivity.actionStart(mActivity,urlBean.getName(),urlBean.getLink());
+            }
+        });
         rvLinks.setAdapter(linkAdapter);
         MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
             @Override

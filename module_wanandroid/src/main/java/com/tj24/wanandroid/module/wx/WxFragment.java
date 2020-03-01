@@ -84,7 +84,7 @@ public class WxFragment extends BaseWanAndroidFragment {
             }
             @Override
             public void onTabReselected(TabView tab, int position) {
-                ToastUtil.showShortToast(mActivity,position+"");
+
             }
         });
     }

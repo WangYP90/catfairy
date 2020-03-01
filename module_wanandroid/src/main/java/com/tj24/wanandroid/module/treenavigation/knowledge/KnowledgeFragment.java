@@ -1,4 +1,4 @@
-package com.tj24.wanandroid.module.treenavigation;
+package com.tj24.wanandroid.module.treenavigation.knowledge;
 
 import android.view.View;
 
@@ -13,6 +13,7 @@ import com.tj24.wanandroid.common.base.BaseWanAndroidFragment;
 import com.tj24.wanandroid.common.event.TreeNaviRefreshEvent;
 import com.tj24.wanandroid.common.event.TreeNaviRefreshFinishEvent;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
+import com.tj24.wanandroid.module.treenavigation.TreeNaviRequest;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -42,6 +43,12 @@ public class KnowledgeFragment extends BaseWanAndroidFragment {
         linearLayoutManager = new LinearLayoutManager(mActivity);
         rvKonwledge.setLayoutManager(linearLayoutManager);
         knowledgeAdapter = new KnowledgeAdapter();
+        knowledgeAdapter.setOnKnowledgeItemClickListener(new KnowledgeAdapter.OnKnowledgeItemClickListener() {
+            @Override
+            public void onClick(TreeBean treeBean,int position) {
+                KnowledgeArticleActivity.actionStart(mActivity,treeBean,position);
+            }
+        });
         rvKonwledge.setAdapter(knowledgeAdapter);
 
         MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {

@@ -1,4 +1,4 @@
-package com.tj24.wanandroid.module.treenavigation;
+package com.tj24.wanandroid.module.treenavigation.navi;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +69,7 @@ public class NaviAdapter extends BaseQuickAdapter<NavigationBean, BaseViewHolder
             TextView tv = createOrGetCacheFlexItemTextView(flex);
             ArticleBean childItem = item.getArticles().get(i);
             tv.setText(childItem.getTitle());
+            int finalI = i;
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -107,6 +108,6 @@ public class NaviAdapter extends BaseQuickAdapter<NavigationBean, BaseViewHolder
     }
 
     public interface OnNaviItemClickListener {
-        void onClick(ArticleBean treeBean);
+        void onClick(ArticleBean articleBean);
     }
 }

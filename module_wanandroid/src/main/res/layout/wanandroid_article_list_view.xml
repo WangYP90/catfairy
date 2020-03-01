@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.kennyc.view.MultiStateView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-   android:id="@+id/msv"
-    style="@style/base_StateView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/refresh"
+     android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <com.kennyc.view.MultiStateView
+        android:tag="msv"
+        style="@style/base_StateView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_article"
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </androidx.recyclerview.widget.RecyclerView>
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-</com.kennyc.view.MultiStateView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_article"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </androidx.recyclerview.widget.RecyclerView>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+    </com.kennyc.view.MultiStateView>
+</FrameLayout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".module.treenavigation.knowledge.KnowledgeArticleActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:fitsSystemWindows="true"
+        app:title="知识"
+        app:titleTextColor="@color/base_white_text"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tablayout"
+        android:background="@color/wanandroid_main_color"
+        app:tabTextColor="@color/base_black_ddd"
+        app:tabSelectedTextColor="@color/base_white_text"
+        app:tabMode="scrollable"
+        app:tabGravity="center"
+        app:tabIndicator="@color/base_white_text"
+        app:tabIndicatorHeight="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"/>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

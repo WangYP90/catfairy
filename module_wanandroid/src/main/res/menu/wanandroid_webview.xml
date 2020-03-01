@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_share"
+        android:title="分享"
+        android:icon="@drawable/wanandroid_ico_toolbar_menue"
+        app:showAsAction="never"/>
+    <item android:id="@+id/menu_refresh"
+        android:title="刷新"
+        android:icon="@drawable/wanandroid_ico_toolbar_menue"
+        app:showAsAction="never"/>
+    <item android:id="@+id/menu_copy_link"
+        android:title="复制链接"
+        android:icon="@drawable/wanandroid_ico_toolbar_menue"
+        app:showAsAction="never"/>
+    <item android:id="@+id/menu_open_chorome"
+        android:title="浏览器打开"
+        android:icon="@drawable/wanandroid_ico_toolbar_menue"
+        app:showAsAction="never"/>
+    <item android:id="@+id/menu_collect"
+        android:title="添加到收藏"
+        android:icon="@drawable/wanandroid_ico_toolbar_menue"
+        app:showAsAction="never"/>
+</menu>

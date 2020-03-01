@@ -12,6 +12,8 @@ import com.tj24.wanandroid.R2;
 import com.tj24.wanandroid.common.base.BaseWanAndroidFragment;
 import com.tj24.wanandroid.common.event.TreeNaviRefreshEvent;
 import com.tj24.wanandroid.common.event.TreeNaviRefreshFinishEvent;
+import com.tj24.wanandroid.module.treenavigation.knowledge.KnowledgeFragment;
+import com.tj24.wanandroid.module.treenavigation.navi.NaviFragment;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

@@ -22,6 +22,7 @@ import com.tj24.wanandroid.common.http.WanAndroidCallBack;
 import com.tj24.wanandroid.common.http.respon.ArticleRespon;
 import com.tj24.wanandroid.module.homepage.CommonArticleAdapter;
 import com.tj24.wanandroid.module.mine.collect.CollectRequest;
+import com.tj24.wanandroid.module.web.WebViewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +73,9 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
         LayoutInflater.from(mContext).inflate(R.layout.wanandroid_article_list_view, this);
         rvArticle = findViewById(R.id.rv_article);
         refresh = findViewById(R.id.refresh);
-        msv = findViewById(R.id.msv);
+
+//        msv = findViewById(R.id.msv);
+        msv = findViewWithTag("msv");
 
         layoutManager = new LinearLayoutManager(mContext);
         rvArticle.setLayoutManager(layoutManager);
@@ -88,12 +91,6 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         ArticleBean articleBean = articleBeans.get(position);
-        ToastUtil.showShortToast(mContext, articleBean.getLink());
-    }
-
-    @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        ArticleBean articleBean = articleBeans.get(position);
         if (view.getId() == R.id.tv_author) {
             ToastUtil.showShortToast(mContext, articleBean.getAuthor());
         } else if (view.getId() == R.id.iv_collect) {
@@ -103,6 +100,13 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
                 unCollectArticle((ImageView) view,articleBean.getId());
             }
         }
+
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        ArticleBean articleBean = articleBeans.get(position);
+        WebViewActivity.actionStart(mContext,articleBean.getTitle(),articleBean.getLink());
     }
 
     @Override
