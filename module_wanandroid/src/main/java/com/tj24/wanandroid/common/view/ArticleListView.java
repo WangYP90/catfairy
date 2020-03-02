@@ -79,7 +79,7 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
 
         layoutManager = new LinearLayoutManager(mContext);
         rvArticle.setLayoutManager(layoutManager);
-        mAdapter = new CommonArticleAdapter(R.layout.wanandroid_adapter_common_article_item,articleBeans);
+        mAdapter = new CommonArticleAdapter(articleBeans);
         rvArticle.setAdapter(mAdapter);
 
         mAdapter.setOnItemChildClickListener(this);

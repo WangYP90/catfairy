@@ -18,6 +18,7 @@
             android:title="我的收藏" />
         <item
             android:id="@+id/item_todo"
+            android:visible="false"
             android:icon="@drawable/base_avatar_default"
             android:title="TODO" />
         <item
