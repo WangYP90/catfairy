@@ -188,7 +188,7 @@ public interface APIClient {
      */
     @POST("lg/collect/addtool/json")
     @FormUrlEncoded
-    Call<BaseRespon<ArticleRespon>>collectUrl(@Field("name")String name, @Field("link") String link);
+    Call<BaseRespon<NetUrlBean>>collectUrl(@Field("name")String name, @Field("link") String link);
 
     /**
      *   编辑收藏网站
@@ -196,7 +196,7 @@ public interface APIClient {
      */
     @POST("lg/collect/updatetool/json")
     @FormUrlEncoded
-    Call<BaseRespon<ArticleRespon>>updateCollectUrl(@Field("id")int netUrlId,@Field("name")String name, @Field("link") String link);
+    Call<BaseRespon<NetUrlBean>>updateCollectUrl(@Field("id")int netUrlId,@Field("name")String name, @Field("link") String link);
 
     /**
      *   删除收藏网站

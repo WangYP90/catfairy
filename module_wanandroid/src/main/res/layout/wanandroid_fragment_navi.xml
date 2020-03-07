@@ -11,6 +11,7 @@
      <androidx.recyclerview.widget.RecyclerView
          android:id="@+id/rv_tab"
          android:scrollbars="none"
+         android:background="@color/base_black_eee"
          android:layout_width="100dp"
          android:layout_height="match_parent"/>
         <androidx.recyclerview.widget.RecyclerView

@@ -53,6 +53,7 @@ public class NavigationHelper implements NavigationView.OnNavigationItemSelected
     ImageView ivBgImag;
     TextView tvId;
     TextView tvLevle;
+    TextView tvRank;
 
     CoinBean myCoin;
 
@@ -75,6 +76,7 @@ public class NavigationHelper implements NavigationView.OnNavigationItemSelected
             tvNickName = headerView.findViewById(R.id.tv_nav_nickname);
             tvId = headerView.findViewById(R.id.tv_nav_id);
             tvLevle = headerView.findViewById(R.id.tv_nav_levle);
+            tvRank = headerView.findViewById(R.id.tv_nav_rank);
             ivCoin.setOnClickListener(this);
             tvNickName.setOnClickListener(this);
             ivAvatar.setOnClickListener(this);
@@ -107,7 +109,8 @@ public class NavigationHelper implements NavigationView.OnNavigationItemSelected
                 @Override
                 public void onSucces(CoinBean coinBean) {
                     myCoin = coinBean;
-                    tvLevle.setText(String.format(context.getString(R.string.wanandroid_user_levle,myCoin.getLevel(),myCoin.getRank())));
+                    tvLevle.setText(String.format(context.getString(R.string.wanandroid_user_levle,myCoin.getLevel())));
+                    tvRank.setText(String.format(context.getString(R.string.wanandroid_user_rank,myCoin.getRank())));
                 }
 
                 @Override

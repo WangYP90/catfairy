@@ -1,4 +1,4 @@
-package com.tj24.appmanager.util;
+package com.tj24.base.utils;
 
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -7,17 +7,17 @@ import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+
+import com.tj24.base.R;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
-import com.tj24.appmanager.R;
-import com.tj24.base.utils.LogUtil;
-import com.tj24.base.utils.OSUtils;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 public class ViewUtils {
     private static final String TAG = ViewUtils.class.getSimpleName();

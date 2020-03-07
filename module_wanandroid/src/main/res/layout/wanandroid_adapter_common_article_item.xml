@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:foreground="?selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -11,7 +12,7 @@
         android:id="@+id/tv_shareuser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10dp"
+        android:textSize="12sp"
         android:layout_toRightOf="@+id/iv_pic"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
@@ -23,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/base_black_666"
-        android:textSize="10dp"
+        android:textSize="12sp"
         android:layout_toRightOf="@+id/tv_shareuser"
         android:layout_alignBottom="@+id/tv_shareuser"
         tools:text="tj24" />
@@ -42,7 +43,7 @@
         android:paddingTop="2dp"
         android:text="新"
         android:textColor="@color/wanandroid_main_color"
-        android:textSize="10dp" />
+        android:textSize="10sp" />
     <TextView
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
@@ -52,7 +53,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginRight="14dp"
         android:textColor="@color/base_black_666"
-        android:textSize="10dp"
+        android:textSize="12sp"
         tools:text="2020-02-06 16:21" />
 
     <TextView
@@ -61,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textColor="@color/base_black_333"
-        android:textSize="14dp"
+        android:textSize="16sp"
         android:singleLine="true"
         android:lines="1"
         android:layout_marginRight="14dp"
@@ -80,7 +81,7 @@
         android:layout_below="@+id/tv_title"
         android:layout_alignLeft="@+id/tv_shareuser"
         android:textColor="@color/base_black_666"
-        android:textSize="12dp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tv_chapter"
@@ -89,7 +90,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="12dp"
         android:textColor="@color/base_black_666"
-        android:textSize="10dp"
+        android:textSize="12sp"
         android:layout_below="@+id/tv_desc"
         android:layout_alignLeft="@+id/tv_shareuser"
         tools:text="广场" />
@@ -97,18 +98,18 @@
     <ImageView
         android:id="@+id/iv_collect"
         android:layout_width="20dp"
+        android:src="@drawable/ic_uncollect"
         android:layout_height="20dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="-5dp"
         android:layout_alignParentRight="true"
         android:layout_alignBottom="@+id/tv_chapter"
-        android:layout_toLeftOf="@+id/iv_pic"
-        android:background="@color/base_black_999" />
+        android:layout_toLeftOf="@+id/iv_pic" />
 
     <ImageView
         android:id="@+id/iv_pic"
-        android:layout_width="56dp"
-        android:layout_height="96dp"
+        android:layout_width="66dp"
+        android:layout_height="116dp"
         android:layout_marginLeft="14dp"
         android:layout_centerVertical="true"
         android:scaleType="centerCrop"
@@ -119,5 +120,5 @@
     android:layout_alignParentBottom="true"
     android:background="@color/base_black_ddd"
     android:layout_width="match_parent"
-    android:layout_height="2dp"/>
+    android:layout_height="1dp"/>
 </RelativeLayout>

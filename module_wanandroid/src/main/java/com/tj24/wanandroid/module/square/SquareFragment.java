@@ -3,11 +3,16 @@ package com.tj24.wanandroid.module.square;
 import android.view.View;
 
 import com.tj24.base.bean.wanandroid.ArticleBean;
+import com.tj24.base.utils.MultiStateUtils;
 import com.tj24.wanandroid.R;
 import com.tj24.wanandroid.common.base.BaseWanAndroidFragment;
+import com.tj24.wanandroid.common.event.CollectChangeEvent;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
 import com.tj24.wanandroid.common.http.respon.ArticleRespon;
 import com.tj24.wanandroid.common.view.ArticleListView;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
@@ -37,6 +42,8 @@ public class SquareFragment extends BaseWanAndroidFragment {
                 loadMoreData(page);
             }
         });
+
+        MultiStateUtils.toLoading(articleListView.getMultiStateView());
         loadMoreData(FIRST_PAGE);
     }
 
@@ -68,5 +75,12 @@ public class SquareFragment extends BaseWanAndroidFragment {
                 articleListView.onRefreshFail(fail);
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceivedCollectChangeEvent(CollectChangeEvent event){
+        if(articleListView!=null){
+            articleListView.onReceiveCollectChange(event.getId(),event.isCollected());
+        }
     }
 }

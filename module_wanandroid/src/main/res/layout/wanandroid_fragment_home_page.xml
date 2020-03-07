@@ -26,7 +26,7 @@
             android:layout_height="wrap_content">
             <RadioButton
                 android:id="@+id/rb_article"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:text="最新博文"
                 android:button="@null"
                 android:checked="true"
@@ -41,7 +41,7 @@
                 android:layout_height="26dp"/>
             <RadioButton
                 android:id="@+id/rb_project"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:button="@null"
                 android:text="最新项目"
                 android:checked="false"

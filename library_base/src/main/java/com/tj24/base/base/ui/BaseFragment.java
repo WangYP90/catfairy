@@ -9,10 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
-import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.tj24.base.R;
 
@@ -23,7 +20,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -45,21 +41,6 @@ public abstract class BaseFragment extends Fragment {
     public Activity mActivity;
 
     private  PermissionListener mListener = null;
-
-    /**
-     * Fragment中由于服务器异常导致加载失败显示的布局。
-     */
-    private View erroView;
-
-    /**
-     * Fragment中由于网络异常导致加载失败显示的布局。
-     */
-    private View badNetWorkView;
-
-    /**
-     * Fragment中当界面上没有任何内容时展示的布局。
-     */
-    private View noContentView;
 
     /**
      * Fragment中inflate出来的布局。
@@ -127,118 +108,6 @@ public abstract class BaseFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
-
-    /**
-     * 当Fragment中的加载内容服务器返回失败，通过此方法显示提示界面给用户。
-     *
-     * @param tip
-     * 界面中的提示信息
-     */
-    public void showLoadErrorView(String tip) {
-        if (erroView != null) {
-            erroView.setVisibility(View.VISIBLE);
-            return;
-        }
-        if (rootView != null) {
-            ViewStub viewStub = rootView.findViewById(R.id.loadErrorView);
-            if (viewStub != null) {
-                erroView = viewStub.inflate();
-                TextView loadErrorText = erroView.findViewById(R.id.loadErrorText);
-                loadErrorText.setText(tip);
-            }
-        }
-    }
-
-    /**
-     * 当Fragment中的内容因为网络原因无法显示的时候，通过此方法显示提示界面给用户。
-     *
-     * @param listener
-     * 重新加载点击事件回调让
-     */
-    public void showBadNetworkView(View.OnClickListener listener) {
-        if (badNetWorkView != null) {
-            badNetWorkView.setVisibility(View.VISIBLE);
-            return;
-        }
-        if (rootView != null) {
-            ViewStub viewStub = rootView.findViewById(R.id.badNetworkView);
-            if (viewStub != null) {
-                badNetWorkView = viewStub.inflate();
-                View badNetworkRootView = badNetWorkView.findViewById(R.id.badNetworkRootView);
-                badNetworkRootView.setOnClickListener(listener);
-            }
-        }
-    }
-
-    /**
-     * 当Fragment中没有任何内容的时候，通过此方法显示提示界面给用户。
-     *
-     * @param tip
-     * 界面中的提示信息
-     */
-    public void showNoContentView(String tip) {
-        if (noContentView != null) {
-            noContentView.setVisibility(View.VISIBLE);
-            return;
-        }
-        if (rootView != null) {
-            ViewStub viewStub = rootView.findViewById(R.id.noContentView);
-            if (viewStub != null) {
-                noContentView = viewStub.inflate();
-                TextView noContentText = noContentView.findViewById(R.id.noContentText);
-                        noContentText.setText(tip);
-            }
-        }
-    }
-
-    /**
-     * 当Fragment中没有任何内容的时候，通过此方法显示提示界面给用户。
-     * @param tip
-     * 界面中的提示信息
-     * @param buttonText
-     * 界面中的按钮的文字
-     * @param listener
-     * 按钮的点击事件回调
-     */
-    public void showNoContentViewWithButton(String tip, String buttonText, View.OnClickListener listener) {
-        if (noContentView != null) {
-            noContentView.setVisibility(View.VISIBLE);
-            return;
-        }
-        if (rootView != null) {
-            ViewStub viewStub = rootView.findViewById(R.id.noContentViewWithButton);
-            if (viewStub != null) {
-                noContentView = viewStub.inflate();
-                TextView noContentText = noContentView.findViewById(R.id.noContentText);
-                        Button  noContentButton = noContentView.findViewById(R.id.noContentButton);
-                        noContentText.setText(tip);
-                noContentButton.setText(buttonText);
-                noContentButton.setOnClickListener(listener);
-            }
-        }
-    }
-
-    /**
-     * 将load error view进行隐藏。
-     */
-    public void hideLoadErrorView() {
-        erroView.setVisibility(View.GONE);
-    }
-
-    /**
-     * 将no content view进行隐藏。
-     */
-    public void hideNoContentView() {
-        noContentView.setVisibility(View.GONE);
-    }
-
-    /**
-     * 将bad network view进行隐藏。
-     */
-    public void hideBadNetworkView() {
-       badNetWorkView.setVisibility(View.GONE);
-    }
-
     /**
      * 检查和处理运行时权限，并将用户授权的结果通过PermissionListener进行回调。
      *
@@ -299,30 +168,4 @@ public abstract class BaseFragment extends Fragment {
         return view;
     }
 
-    /**
-     * 开始加载，将加载等待控件显示。
-     */
-    @CallSuper
-   public void startLoading() {
-        progressBar.setVisibility(View.VISIBLE);
-        hideBadNetworkView();
-        hideNoContentView();
-        hideLoadErrorView();
-    }
-
-    /**
-     * 加载完成，将加载等待控件隐藏。
-     */
-    @CallSuper
-   public void loadFinished() {
-        progressBar.setVisibility(View.GONE);
-    }
-
-    /**
-     * 加载失败，将加载等待控件隐藏。
-     */
-    @CallSuper
-   public void loadFailed(String msg) {
-        progressBar.setVisibility(View.GONE);
-    }
 }

@@ -1,6 +1,5 @@
 package com.tj24.base.base.ui;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,20 +13,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewStub;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.tj24.base.R;
@@ -42,6 +30,14 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import butterknife.ButterKnife;
 
 /**
@@ -50,7 +46,7 @@ import butterknife.ButterKnife;
  * @Author:TangJiang
  * @Version: V.1.0.0
  */
-public abstract class BaseActivity extends AppCompatActivity implements RequestLifecycle {
+public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * 标志位
@@ -71,21 +67,6 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestL
      */
     public ProgressBar progressBar;
 
-    /**
-     * Activity中由于服务器异常导致加载失败显示的布局。
-     */
-    private View erroView;
-
-    /**
-     * Activity中由于网络异常导致加载失败显示的布局。
-     */
-    private View badNetWorkView;
-
-    /**
-     * Activity中当界面上没有任何内容时展示的布局。
-     */
-    private View noContentView;
-
     private WeakReference<Activity> weakRefActivity;
 
     /**
@@ -96,24 +77,6 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestL
     public ProgressDialog progressDialog;
 
     private PermissionListener mListener;
-
-    @Override
-    public void startLoading() {
-        progressBar.setVisibility(View.VISIBLE);
-        hideBadNetworkView();
-        hideNoContentView();
-        hideLoadErrorView();
-    }
-
-    @Override
-    public void loadFinished() {
-        progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void loadFailed(String msg) {
-        progressBar.setVisibility(View.GONE);
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -251,7 +214,6 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestL
         } catch (Exception e) {
             Log.w(TAG, e.getMessage());
         }
-
     }
 
     /**
@@ -268,85 +230,6 @@ public abstract class BaseActivity extends AppCompatActivity implements RequestL
         } catch (Exception e) {
             Log.w(TAG, e.getMessage());
         }
-    }
-
-
-    /**
-     * 当Activity中的加载内容服务器返回失败，通过此方法显示提示界面给用户。
-     *
-     * @param tip
-     * 界面中的提示信息
-     */
-    public void showLoadErrorView(String tip) {
-        if (erroView != null) {
-            erroView.setVisibility(View.VISIBLE);
-            return;
-        }
-        @SuppressLint("WrongViewCast")
-        ViewStub viewStub = findViewById(R.id.loadErrorView);
-        if (viewStub != null) {
-            erroView = viewStub.inflate();
-            TextView loadErrorText = erroView.findViewById(R.id.loadErrorText);
-            loadErrorText.setText(tip);
-        }
-    }
-
-    /**
-     * 当Activity中的内容因为网络原因无法显示的时候，通过此方法显示提示界面给用户。
-     *
-     * @param listener
-     * 重新加载点击事件回调
-     */
-    public void showBadNetworkView(View.OnClickListener listener) {
-        if (badNetWorkView != null) {
-            badNetWorkView.setVisibility(View.VISIBLE);
-            return;
-        }
-        ViewStub viewStub = findViewById(R.id.badNetworkView);
-        if (viewStub != null) {
-            View badNetworkView = viewStub.inflate();
-            View badNetworkRootView = badNetworkView.findViewById(R.id.badNetworkRootView);
-            badNetworkRootView.setOnClickListener(listener);
-        }
-    }
-
-    /**
-     * 当Activity中没有任何内容的时候，通过此方法显示提示界面给用户。
-     * @param tip
-     * 界面中的提示信息
-     */
-    public void showNoContentView(String tip) {
-        if (noContentView != null) {
-            noContentView.setVisibility(View.VISIBLE);
-            return;
-        }
-        ViewStub viewStub = findViewById(R.id.noContentView);
-        if (viewStub != null) {
-            noContentView = viewStub.inflate();
-            TextView noContentText = noContentView.findViewById(R.id.noContentText);
-            noContentText.setText(tip);
-        }
-    }
-
-    /**
-     * 将load error view进行隐藏。
-     */
-    public void hideLoadErrorView() {
-       erroView.setVisibility(View.GONE);
-    }
-
-    /**
-     * 将no content view进行隐藏。
-     */
-    public void  hideNoContentView() {
-        noContentView.setVisibility(View.GONE);
-    }
-
-    /**
-     * 将bad network view进行隐藏。
-     */
-    public void  hideBadNetworkView() {
-        badNetWorkView.setVisibility(View.GONE);
     }
 
     public void showProgressDialog(String title,String  message) {

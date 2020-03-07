@@ -58,7 +58,7 @@ public class WebViewActivity extends BaseWanAndroidActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.wanandroid_webview, menu);
-        toolbar.setNavigationIcon(R.drawable.crop__ic_cancel);
+        toolbar.setNavigationIcon(R.drawable.wanandroid_ic_clear_white_24dp);
         return true;
     }
 

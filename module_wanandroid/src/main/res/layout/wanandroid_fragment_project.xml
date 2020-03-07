@@ -9,11 +9,8 @@
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        app:indicator_color="@color/wanandroid_main_color"
         android:background="@color/base_color_white"
-        app:indicator_color="@color/base_black_999"
-        app:indicator_gravity="fill"
-        app:indicator_corners="@dimen/dp_10"
-        app:tab_margin="6dp"
         app:tab_height="40dp"
         app:tab_mode="scrollable">
     </q.rorbin.verticaltablayout.VerticalTabLayout>

@@ -26,7 +26,7 @@
                     android:id="@+id/toolbar"
                     android:elevation="4dp"
                     app:title="@string/wanandroid_app_name"
-                    app:navigationIcon="@drawable/wanandroid_ico_toolbar_menue"
+                    app:navigationIcon="@drawable/wanandroid_ic_menu_white_24dp"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:titleTextColor="@color/base_white_text"

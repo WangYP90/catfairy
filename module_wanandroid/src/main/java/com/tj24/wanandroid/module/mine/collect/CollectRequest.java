@@ -66,10 +66,10 @@ public class CollectRequest extends BaseRequest {
      * @param
      * @param callBack
      */
-    public static void collectLink(String name,String link,WanAndroidCallBack callBack){
-        requestNet(RetrofitWan.getInstance().getApiClient().collectUrl(name,link), new RequestListner() {
+    public static void collectLink(String name,String link,WanAndroidCallBack<NetUrlBean> callBack){
+        requestNet(RetrofitWan.getInstance().getApiClient().collectUrl(name,link), new RequestListner<NetUrlBean>() {
             @Override
-            public void onSuccess(Object data) {
+            public void onSuccess(NetUrlBean data) {
                 callBack.onSucces(data);
             }
 
@@ -91,10 +91,10 @@ public class CollectRequest extends BaseRequest {
      * @param
      * @param callBack
      */
-    public static void updateCollectLink(int urlId,String name,String link,WanAndroidCallBack callBack){
-        requestNet(RetrofitWan.getInstance().getApiClient().updateCollectUrl(urlId,name,link), new RequestListner() {
+    public static void updateCollectLink(int urlId,String name,String link,WanAndroidCallBack<NetUrlBean> callBack){
+        requestNet(RetrofitWan.getInstance().getApiClient().updateCollectUrl(urlId,name,link), new RequestListner<NetUrlBean>() {
             @Override
-            public void onSuccess(Object data) {
+            public void onSuccess(NetUrlBean data) {
                 callBack.onSucces(data);
             }
 

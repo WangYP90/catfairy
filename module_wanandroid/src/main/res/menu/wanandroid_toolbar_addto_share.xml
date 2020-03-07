@@ -3,6 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/menu_addto_share"
         android:title="去分享"
-        android:icon="@drawable/wanandroid_ico_toolbar_menue"
+        android:icon="@drawable/wanandroid_ic_add_white_24dp"
         app:showAsAction="always"/>
 </menu>

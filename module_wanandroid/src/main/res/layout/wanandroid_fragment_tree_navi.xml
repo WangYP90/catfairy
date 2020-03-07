@@ -22,7 +22,7 @@
        android:layout_height="wrap_content">
       <RadioButton
           android:id="@+id/rb_knowledge"
-          android:textSize="16sp"
+          android:textSize="20sp"
           android:text="知识"
           android:button="@null"
           android:checked="true"
@@ -37,7 +37,7 @@
           android:layout_height="26dp"/>
       <RadioButton
           android:id="@+id/rb_navi"
-          android:textSize="16sp"
+          android:textSize="20sp"
           android:button="@null"
           android:text="导航"
           android:checked="false"

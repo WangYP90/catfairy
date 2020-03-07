@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/menu_search"
         android:title="搜索"
-        android:icon="@drawable/wanandroid_ico_toolbar_menue"
+        android:icon="@drawable/wanandroid_ic_top_search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always"/>
 </menu>

@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/base_AppTheme"
         tools:replace="android:label">
+        <activity android:name=".module.mine.collect.CollectLinkActivity"></activity>
         <activity android:name=".module.treenavigation.knowledge.KnowledgeArticleActivity" />
         <activity android:name=".module.web.WebViewActivity" />
         <activity android:name=".module.mine.share.ShareArticleActivity" />

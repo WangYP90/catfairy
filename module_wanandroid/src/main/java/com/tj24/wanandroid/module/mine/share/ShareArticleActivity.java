@@ -3,6 +3,7 @@ package com.tj24.wanandroid.module.mine.share;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import com.tj24.wanandroid.R2;
 import com.tj24.wanandroid.common.base.BaseWanAndroidActivity;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
 import com.tj24.wanandroid.module.square.SquareRequest;
+import com.tj24.wanandroid.module.web.WebViewActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -65,6 +67,11 @@ public class ShareArticleActivity extends BaseWanAndroidActivity {
 
     @OnClick(R2.id.tv_test)
     public void onClick() {
+        if(TextUtils.isEmpty(etLink.getText().toString())){
+            showShortToast("文章地址不能为空");
+            return;
+        }
+        WebViewActivity.actionStart(this,etTitle.getText().toString(),etLink.getText().toString());
     }
 
     private void share() {
@@ -74,6 +81,7 @@ public class ShareArticleActivity extends BaseWanAndroidActivity {
         SquareRequest.ShareArticle(title, link, new WanAndroidCallBack() {
             @Override
             public void onSucces(Object o) {
+                showShortToast("分享成功");
                 finish();
             }
 

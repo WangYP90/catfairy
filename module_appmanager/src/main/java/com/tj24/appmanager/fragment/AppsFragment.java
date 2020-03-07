@@ -19,7 +19,7 @@ import com.tj24.appmanager.common.ScrollLinearLayoutManager;
 import com.tj24.appmanager.model.ApkModel;
 import com.tj24.appmanager.model.BaseAppsManagerModel;
 import com.tj24.appmanager.model.OrderModel;
-import com.tj24.appmanager.util.ViewUtils;
+import com.tj24.base.utils.ViewUtils;
 import com.tj24.appmanager.util.appsSort.AppSortManager;
 import com.tj24.appmanager.view.AppFooterView;
 import com.tj24.appmanager.view.SideBar;

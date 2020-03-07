@@ -5,25 +5,25 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/item_coin"
-            android:icon="@drawable/base_avatar_default"
+            android:icon="@drawable/wanandroid_ic_coin_drawer24dp"
             android:title="我的积分" />
         <item
             android:id="@+id/item_share"
-            android:icon="@drawable/base_avatar_default"
+            android:icon="@drawable/wanandroid_ic_drawer_share_24dp"
             android:title="我的分享" />
 
         <item
             android:id="@+id/item_collect"
-            android:icon="@drawable/base_avatar_default"
+            android:icon="@drawable/wanandroid_ic_collections_drawer24dp"
             android:title="我的收藏" />
         <item
             android:id="@+id/item_todo"
             android:visible="false"
-            android:icon="@drawable/base_avatar_default"
+            android:icon="@drawable/wanandroid_ic_todo_drawer_24dp"
             android:title="TODO" />
         <item
             android:id="@+id/item_loginout"
-            android:icon="@drawable/base_avatar_default"
+            android:icon="@drawable/wanandroid_ic_exit_to_app_drawer24dp"
             android:title="退出登录" />
     </group>
 </menu>

@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"/>
     <ImageView
         android:id="@+id/iv_del"
-        android:src="@drawable/wanandroid_ico_toolbar_menue"
+        android:src="@drawable/wanandroid_ic_delete18dp"
         android:layout_centerVertical="true"
-       android:layout_alignParentRight="true"
+        android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </RelativeLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".module.mine.share.MyShareActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:fitsSystemWindows="true"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="网址收藏"
+        app:titleTextColor="@color/base_white_text"
+        tools:ignore="MissingConstraints" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayout_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        app:errorTextAppearance="@style/wanandroid_EditTextErrorAppearance">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="网址标题(30字以内)"
+            android:imeOptions="actionGo"
+            android:inputType="text"
+            android:textSize="14sp"
+            android:maxLength="30"
+            android:textColor="@color/base_black_666" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayout_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="20dp"
+        app:errorTextAppearance="@style/wanandroid_EditTextErrorAppearance">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_link"
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="链接地址(如:http://tangjiang24.github.io)"
+            android:imeOptions="actionGo"
+            android:inputType="textMultiLine"
+            android:textColor="@color/base_black_666" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_test"
+        android:text="打开链接"
+        android:textSize="12sp"
+        android:textColor="#3F51B5"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

@@ -4,6 +4,8 @@ import android.view.View;
 
 import com.tj24.base.bean.wanandroid.ArticleBean;
 import com.tj24.base.bean.wanandroid.TreeBean;
+import com.tj24.base.utils.ListUtil;
+import com.tj24.base.utils.MultiStateUtils;
 import com.tj24.base.utils.ToastUtil;
 import com.tj24.wanandroid.R;
 import com.tj24.wanandroid.R2;
@@ -15,6 +17,7 @@ import com.tj24.wanandroid.common.view.ArticleListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import q.rorbin.verticaltablayout.VerticalTabLayout;
 import q.rorbin.verticaltablayout.adapter.TabAdapter;
@@ -39,31 +42,38 @@ public class WxFragment extends BaseWanAndroidFragment {
 
     @Override
     public void init(View view) {
-       articleListView.setFirstPage(FIRST_PAGE);
-       articleListView.setRefreshAndLoadMoreListener(new ArticleListView.RefreshAndLoadMoreListener() {
-           @Override
-           public void onRefresh() {
-               refreshWxArticle();
-           }
+        articleListView.setFirstPage(FIRST_PAGE);
+        articleListView.setRefreshAndLoadMoreListener(new ArticleListView.RefreshAndLoadMoreListener() {
+            @Override
+            public void onRefresh() {
+                refreshWxArticle();
+            }
 
-           @Override
-           public void onLoadMore(int page) {
+            @Override
+            public void onLoadMore(int page) {
                 loadMoreArtile(false);
-           }
-       });
+            }
+        });
 
-       initWXAccout();
+        initWXAccout();
     }
 
     private void initWXAccout() {
+        MultiStateUtils.toLoading(articleListView.getMultiStateView());
         WxRequest.getWxsWithoutCache(new WanAndroidCallBack<List<TreeBean>>() {
             @Override
             public void onSucces(List<TreeBean> treeBeans) {
+                if(ListUtil.isNullOrEmpty(treeBeans)){
+                    MultiStateUtils.toEmpty(articleListView.getMultiStateView());
+                }else {
+                    MultiStateUtils.toContent(articleListView.getMultiStateView());
+                }
                 initTab(treeBeans);
             }
 
             @Override
             public void onFail(String fail) {
+                MultiStateUtils.toError(articleListView.getMultiStateView());
                 ToastUtil.showShortToast(mActivity,fail);
             }
         });
@@ -74,12 +84,14 @@ public class WxFragment extends BaseWanAndroidFragment {
         tablayout.setTabAdapter(new MyTabAdapter(treeBeans));
         tablayout.setTabSelected(0);
         currentTab = treeBeans.get(0);
+        MultiStateUtils.toLoading(articleListView.getMultiStateView());
         loadMoreArtile(true);
         tablayout.addOnTabSelectedListener(new VerticalTabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabView tab, int position) {
                 currentTab = treeBeans.get(position);
                 tablayout.setTabSelected(position);
+                MultiStateUtils.toLoading(articleListView.getMultiStateView());
                 loadMoreArtile(true);
             }
             @Override
@@ -101,12 +113,18 @@ public class WxFragment extends BaseWanAndroidFragment {
                 if(isFirst){
                     articleListView.clear();
                 }
+                if(articleRespon == null ||ListUtil.isNullOrEmpty(articleRespon.getDatas())){
+                    MultiStateUtils.toEmpty(articleListView.getMultiStateView());
+                }else {
+                    MultiStateUtils.toContent(articleListView.getMultiStateView());
+                }
                 articleListView.onLoadMoreSuccess(articleRespon);
             }
 
             @Override
             public void onFail(String fail) {
                 articleListView.onLoadMoreFail(fail);
+                MultiStateUtils.toError(articleListView.getMultiStateView());
             }
         });
     }
@@ -115,12 +133,18 @@ public class WxFragment extends BaseWanAndroidFragment {
         WxRequest.getWxArticle(currentTab.getId(), FIRST_PAGE, new WanAndroidCallBack<ArticleRespon<ArticleBean>>() {
             @Override
             public void onSucces(ArticleRespon<ArticleBean> articleRespon) {
+                if(articleRespon == null ||ListUtil.isNullOrEmpty(articleRespon.getDatas())){
+                    MultiStateUtils.toEmpty(articleListView.getMultiStateView());
+                }else {
+                    MultiStateUtils.toContent(articleListView.getMultiStateView());
+                }
                 articleListView.onRefreshSuccess(articleRespon);
             }
 
             @Override
             public void onFail(String fail) {
                 articleListView.onRefreshFail(fail);
+                MultiStateUtils.toError(articleListView.getMultiStateView());
             }
         });
     }
@@ -152,6 +176,7 @@ public class WxFragment extends BaseWanAndroidFragment {
         public ITabView.TabTitle getTitle(int position) {
             ITabView.TabTitle title = new ITabView.TabTitle.Builder()
                     .setContent(treeBeans.get(position).getName())
+                    .setTextColor(ContextCompat.getColor(mActivity,R.color.wanandroid_main_color),ContextCompat.getColor(mActivity,R.color.base_black_666))
                     .setTextSize(14)
                     .build();
             return title;

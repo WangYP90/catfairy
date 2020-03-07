@@ -36,7 +36,7 @@ import com.tj24.appmanager.R;
 import com.tj24.appmanager.R2;
 import com.tj24.appmanager.adapter.UserHomePageAdapter;
 import com.tj24.appmanager.login.LoginInterceptorCallBack;
-import com.tj24.appmanager.util.ViewUtils;
+import com.tj24.base.utils.ViewUtils;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.login.User;

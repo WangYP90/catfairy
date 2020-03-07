@@ -1,6 +1,5 @@
 package com.tj24.wanandroid.module.homepage;
 
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -15,6 +14,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 
 public class CommonArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder> {
+
     public CommonArticleAdapter( @Nullable List<ArticleBean> data) {
         super(R.layout.wanandroid_adapter_common_article_item, data);
     }
@@ -47,7 +47,6 @@ public class CommonArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseView
             date = item.getNiceDate()!=null?item.getNiceDate():"";
         }
 
-
         helper.setGone(R.id.tv_new,isNew)
                 .setGone(R.id.iv_pic,hasPic)
                 .setGone(R.id.tv_desc,hasPic)
@@ -57,10 +56,16 @@ public class CommonArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseView
                 .setText(R.id.tv_title,title)
                 .setText(R.id.tv_desc,des)
                 .setText(R.id.tv_chapter,chapter)
-                .setBackgroundColor(R.id.iv_collect,item.isCollect()? Color.RED:Color.BLUE)
                 .addOnClickListener(R.id.iv_collect,R.id.tv_author);
 
         ImageView ivPic = helper.getView(R.id.iv_pic);
+        ImageView ivCollect = helper.getView(R.id.iv_collect);
         Glide.with(mContext).load(picUrl).into(ivPic);
+
+        if(item.getOriginId()!=0){   //说明是在我的收藏页内
+            ivCollect.setImageResource(R.drawable.ic_collected);
+        }else {
+            ivCollect.setImageResource(item.isCollect()?R.drawable.ic_collected:R.drawable.ic_uncollect);
+        }
     }
 }

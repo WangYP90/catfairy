@@ -3,8 +3,10 @@ package com.tj24.wanandroid.module.homepage;
 import android.view.View;
 
 import com.tj24.base.bean.wanandroid.ArticleBean;
+import com.tj24.base.utils.MultiStateUtils;
 import com.tj24.wanandroid.R;
 import com.tj24.wanandroid.common.base.BaseWanAndroidFragment;
+import com.tj24.wanandroid.common.event.CollectChangeEvent;
 import com.tj24.wanandroid.common.event.HomePageRefreshEvent;
 import com.tj24.wanandroid.common.event.HomePageRefreshFinishEvent;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
@@ -42,6 +44,7 @@ public class HomePageArticleFragment extends BaseWanAndroidFragment {
                 loadMoreData(page);
             }
         });
+        MultiStateUtils.toLoading(articleListView.getMultiStateView());
         loadMoreData(FIRST_PAGE);
     }
 
@@ -88,6 +91,14 @@ public class HomePageArticleFragment extends BaseWanAndroidFragment {
             }else if(event.getType()==1){
                 loadMoreData(articleListView.getCurrentPage());
             }
+        }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceivedCollectChangeEvent(CollectChangeEvent event){
+        if(articleListView!=null){
+            articleListView.onReceiveCollectChange(event.getId(),event.isCollected());
         }
     }
 }

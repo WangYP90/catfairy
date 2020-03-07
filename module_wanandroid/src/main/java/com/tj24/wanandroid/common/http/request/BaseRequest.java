@@ -80,6 +80,7 @@ public class BaseRequest {
                                      String key, RequestListner<S> requestListner){
         long lastUpdateTime = WanSpUtil.read(key,0L);
         boolean isCacheUsefull = System.currentTimeMillis() - lastUpdateTime < userFulTime;
+        isCacheUsefull = false;  //强制设置缓存无效
         if(!isCacheUsefull){
             requestNet(key,call,requestListner);
             LogUtil.v(TAG,"KEY:"+key+"====缓存失效过时，去加载网络数据");

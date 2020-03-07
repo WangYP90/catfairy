@@ -13,12 +13,16 @@ import com.tj24.base.utils.MultiStateUtils;
 import com.tj24.wanandroid.R;
 import com.tj24.wanandroid.R2;
 import com.tj24.wanandroid.common.base.BaseWanAndroidActivity;
+import com.tj24.wanandroid.common.event.CollectChangeEvent;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
 import com.tj24.wanandroid.common.http.respon.ArticleRespon;
 import com.tj24.wanandroid.common.http.respon.ShareRespon;
 import com.tj24.wanandroid.common.view.ArticleListView;
 import com.tj24.wanandroid.module.square.SquareRequest;
 import com.tj24.wanandroid.user.LoginInterceptorCallBack;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
@@ -61,6 +65,14 @@ public class MyShareActivity extends BaseWanAndroidActivity {
     @Override
     public int getLayoutId() {
         return R.layout.wanandroid_activity_my_share;
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceivedCollectChangeEvent(CollectChangeEvent event){
+        if(articleListView!=null){
+            articleListView.onReceiveCollectChange(event.getId(),event.isCollected());
+        }
     }
 
     public void loadMoreData(int page) {

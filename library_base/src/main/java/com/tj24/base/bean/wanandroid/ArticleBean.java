@@ -25,6 +25,7 @@ public class ArticleBean implements Serializable {
     private String niceDate;
     private String niceShareDate;
     private String origin;
+    private int originId;
     private String prefix;
     private String projectLink;
     private long publishTime;
@@ -286,6 +287,14 @@ public class ArticleBean implements Serializable {
 
     public void setTags(List<TagsBean> tags) {
         this.tags = tags;
+    }
+
+    public void setOriginId(int originId) {
+        this.originId = originId;
+    }
+
+    public int getOriginId() {
+        return originId;
     }
 
     public static class TagsBean {

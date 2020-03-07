@@ -3,26 +3,26 @@
 
     <item
             android:id="@+id/navigation_home"
-            android:icon="@drawable/base_avatar_default"
+            android:icon="@drawable/wanandroid_ic_home_page24dp"
             android:title="@string/wanandroid_title_home" />
 
     <item
             android:id="@+id/navigation_square"
-            android:icon="@drawable/base_avatar_default"
+            android:icon="@drawable/wanandroid_ic_home_square"
             android:title="@string/wanandroid_title_square" />
 
     <item
             android:id="@+id/navigation_subscription"
-            android:icon="@drawable/base_avatar_default"
+            android:icon="@drawable/wanandroid_ic_home_wechat24dp"
             android:title="@string/wanandroid_title_subscriptions" />
 
     <item
             android:id="@+id/navigation_system"
-            android:icon="@drawable/base_avatar_default"
+            android:icon="@drawable/wanandroid_ic_home_trees24dp"
             android:title="@string/wanandroid_title_system" />
 
     <item
             android:id="@+id/navigation_project"
-            android:icon="@drawable/base_avatar_default"
+            android:icon="@drawable/wanandroid_ic_home_project"
             android:title="@string/wanandroid_title_project" />
 </menu>

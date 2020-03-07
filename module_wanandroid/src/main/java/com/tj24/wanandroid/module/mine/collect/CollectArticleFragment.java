@@ -7,6 +7,7 @@ import com.tj24.base.common.recyclerview.interfac.SimpleListener;
 import com.tj24.base.utils.MultiStateUtils;
 import com.tj24.wanandroid.R;
 import com.tj24.wanandroid.common.base.BaseWanAndroidFragment;
+import com.tj24.wanandroid.common.event.CollectChangeEvent;
 import com.tj24.wanandroid.common.event.CollectRefreshEvent;
 import com.tj24.wanandroid.common.event.CollectRefreshFinishEvent;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
@@ -34,7 +35,7 @@ public class CollectArticleFragment extends BaseWanAndroidFragment {
     public void init(View view) {
         articleListView.setFirstPage(FIRST_PAGE);
         articleListView.setCanRefresh(false);
-
+        articleListView.setIsInCollect(true);
         MultiStateUtils.setEmptyAndErrorClick(articleListView.getMultiStateView(), new SimpleListener() {
             @Override
             public void onResult() {
@@ -54,6 +55,15 @@ public class CollectArticleFragment extends BaseWanAndroidFragment {
             }
         }
     }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReceivedCollectChangeEvent(CollectChangeEvent event){
+        if(articleListView!=null){
+            articleListView.onReceiveCollectChange(event.getId(),event.isCollected());
+        }
+    }
+
     public void loadMoreData(int page) {
         CollectRequest.getCollectAarticles(page, new WanAndroidCallBack<ArticleRespon<ArticleBean>>() {
             @Override

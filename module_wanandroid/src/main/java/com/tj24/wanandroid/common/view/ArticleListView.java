@@ -1,12 +1,10 @@
 package com.tj24.wanandroid.common.view;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kennyc.view.MultiStateView;
@@ -18,6 +16,7 @@ import com.tj24.base.utils.ListUtil;
 import com.tj24.base.utils.MultiStateUtils;
 import com.tj24.base.utils.ToastUtil;
 import com.tj24.wanandroid.R;
+import com.tj24.wanandroid.common.event.CollectChangeEvent;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
 import com.tj24.wanandroid.common.http.respon.ArticleRespon;
 import com.tj24.wanandroid.module.homepage.CommonArticleAdapter;
@@ -50,6 +49,8 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
     private int page;
     //最开始的页数
     private int firstPage;
+    // 是否是在收藏页面
+    boolean isInCollect;
     /**
      * 刷新 加载监听 提供给次view持有者
      */
@@ -69,7 +70,7 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
         initView();
     }
 
-    private void initView() {
+    public void initView() {
         LayoutInflater.from(mContext).inflate(R.layout.wanandroid_article_list_view, this);
         rvArticle = findViewById(R.id.rv_article);
         refresh = findViewById(R.id.refresh);
@@ -94,13 +95,16 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
         if (view.getId() == R.id.tv_author) {
             ToastUtil.showShortToast(mContext, articleBean.getAuthor());
         } else if (view.getId() == R.id.iv_collect) {
-            if(!articleBean.isCollect()){
-                collectArticle((ImageView) view,articleBean.getId());
+            if(isInCollect){  //在个人收藏页面 则只有取消
+                unCollectArticleInMine(articleBean,position);
             }else {
-                unCollectArticle((ImageView) view,articleBean.getId());
+                if(!articleBean.isCollect()){
+                    collectArticle(articleBean,position);
+                }else {
+                    unCollectArticle(articleBean,position);
+                }
             }
         }
-
     }
 
     @Override
@@ -127,17 +131,32 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
         }
     }
 
+    /**
+     * 收到收藏状态改变事件
+     * @param id
+     * @param isCollected
+     */
+    public void onReceiveCollectChange(int id,boolean isCollected){
+        for(int i = 0; i<articleBeans.size();i++){
+            if(articleBeans.get(i).getId() == id){
+                articleBeans.get(i).setCollect(isCollected);
+                mAdapter.notifyItemChanged(i);
+            }
+        }
+    }
 
     /**
      * 收藏
-     * @param iv
-     * @param articleId
+     * @param
+     * @param articleBean
      */
-    private void collectArticle(ImageView iv,int articleId) {
-        CollectRequest.collectArticleInStation(articleId, new WanAndroidCallBack() {
+    private void collectArticle(ArticleBean articleBean,int position) {
+        CollectRequest.collectArticleInStation(articleBean.getId(), new WanAndroidCallBack() {
             @Override
             public void onSucces(Object o) {
-                iv.setBackgroundColor(Color.RED);
+                articleBean.setCollect(true);
+                mAdapter.notifyItemChanged(position);
+                CollectChangeEvent.postCollectChangeEvent(articleBean.getId(),true);
                 ToastUtil.showShortToast(mContext,"收藏成功");
             }
 
@@ -150,14 +169,36 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
 
     /**
      * 取消收藏
-     * @param iv
-     * @param articleId
+     * @param articleBean
      */
-    private void unCollectArticle(ImageView iv,int articleId){
-        CollectRequest.unCollectAtArticle(articleId, new WanAndroidCallBack() {
+    private void unCollectArticle(ArticleBean articleBean,int position){
+            CollectRequest.unCollectAtArticle(articleBean.getId(), new WanAndroidCallBack() {
+                @Override
+                public void onSucces(Object o) {
+                    articleBean.setCollect(false);
+                    mAdapter.notifyItemChanged(position);
+                    CollectChangeEvent.postCollectChangeEvent(articleBean.getId(),false);
+                    ToastUtil.showShortToast(mContext,"取消收藏成功");
+                }
+
+                @Override
+                public void onFail(String fail) {
+                    ToastUtil.showShortToast(mContext,"取消收藏失败");
+                }
+            });
+    }
+
+    /**
+     * 在个人收藏页面取消收藏
+     * @param articleBean
+     * @param position
+     */
+    private void unCollectArticleInMine(ArticleBean articleBean, int position) {
+        CollectRequest.unCollectAtMine(articleBean.getId(), articleBean.getOriginId(),new WanAndroidCallBack() {
             @Override
             public void onSucces(Object o) {
-                iv.setBackgroundColor(Color.BLUE);
+                mAdapter.remove(position);
+                CollectChangeEvent.postCollectChangeEvent(articleBean.getOriginId(),false);
                 ToastUtil.showShortToast(mContext,"取消收藏成功");
             }
 
@@ -167,7 +208,6 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
             }
         });
     }
-
 
     public void setRefreshAndLoadMoreListener(RefreshAndLoadMoreListener refreshAndLoadMoreListener) {
         this.refreshAndLoadMoreListener = refreshAndLoadMoreListener;
@@ -179,6 +219,10 @@ public class ArticleListView extends FrameLayout implements  BaseQuickAdapter.On
 
     public int getCurrentPage(){
         return page;
+    }
+
+    public void setIsInCollect(boolean isInCollect) {
+        this.isInCollect = isInCollect;
     }
 
     /**

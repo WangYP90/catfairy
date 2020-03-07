@@ -22,6 +22,7 @@ import com.tj24.wanandroid.R2;
 import com.tj24.wanandroid.common.base.BaseWanAndroidActivity;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
 import com.tj24.wanandroid.common.http.respon.ArticleRespon;
+import com.tj24.wanandroid.module.web.WebViewActivity;
 import com.tj24.wanandroid.user.LoginInterceptorCallBack;
 
 import java.util.List;
@@ -147,7 +148,7 @@ public class CoinMeActivity extends BaseWanAndroidActivity implements OnRefreshL
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_coin_rule) {
-//           "https://www.wanandroid.com/blog/show/2653"
+            WebViewActivity.actionStart(this,"积分规则","https://www.wanandroid.com/blog/show/2653");
         }
         return super.onOptionsItemSelected(item);
     }
