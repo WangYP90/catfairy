@@ -33,7 +33,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
-@Route(path = ARouterPath.WanAndroid.COIN_ACTIVITY, extras = ARouterPath.NEED_LOGIN)
+@Route(path = ARouterPath.WanAndroid.COIN_ACTIVITY,extras = ARouterPath.WanAndroid.NEED_LOGIN)
 public class CoinMeActivity extends BaseWanAndroidActivity implements OnRefreshLoadMoreListener {
 
     @BindView(R2.id.toolbar)

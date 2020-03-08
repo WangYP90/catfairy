@@ -13,7 +13,7 @@ import com.tj24.base.utils.UserHelper;
 /**
  * 登录拦截器
  */
-@Interceptor(name = "login",priority = 5)
+@Interceptor(name = "appManagerLogin",priority = 5)
 public class LoginInterceptor implements IInterceptor {
     public static final String TAG = "LoginInterceptor";
 
@@ -22,7 +22,7 @@ public class LoginInterceptor implements IInterceptor {
 
         boolean isLogin = UserHelper.getCurrentUser() != null;
         int needLogin = postcard.getExtra();
-        if(isLogin || needLogin != ARouterPath.NEED_LOGIN){  // 如果已经登录不拦截
+        if(isLogin || needLogin != ARouterPath.AppManager.NEED_LOGIN){  // 如果已经登录不拦截
             callback.onContinue(postcard);
         }else {
            callback.onInterrupt(null);

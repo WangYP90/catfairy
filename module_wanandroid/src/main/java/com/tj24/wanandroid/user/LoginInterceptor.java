@@ -13,7 +13,7 @@ import com.tj24.wanandroid.common.utils.UserUtil;
 /**
  * 登录拦截器
  */
-@Interceptor(name = "wanandroid",priority = 6)
+@Interceptor(name = "wanandroid",priority = 2)
 public class LoginInterceptor implements IInterceptor {
     public static final String TAG = "LoginInterceptor";
 
@@ -22,7 +22,7 @@ public class LoginInterceptor implements IInterceptor {
 
         boolean isLogin = UserUtil.getInstance().isLogin();
         int needLogin = postcard.getExtra();
-        if(isLogin || needLogin != ARouterPath.NEED_LOGIN){  // 如果已经登录不拦截
+        if(isLogin || needLogin != ARouterPath.WanAndroid.NEED_LOGIN){  // 如果已经登录不拦截
             callback.onContinue(postcard);
         }else {
            callback.onInterrupt(null);

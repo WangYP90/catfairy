@@ -18,7 +18,6 @@
         <activity android:name=".module.mine.share.ShareArticleActivity" />
         <activity android:name=".module.mine.todo.TodoActivity" />
         <activity android:name=".module.mine.share.MyShareActivity" />
-        <activity android:name=".module.mine.settings.SettingsActivity" />
         <activity android:name=".module.mine.coin.CoinMeActivity" />
         <activity android:name=".module.mine.coin.CoinRankActivity" />
         <activity android:name=".module.mine.collect.CollectActivity" />

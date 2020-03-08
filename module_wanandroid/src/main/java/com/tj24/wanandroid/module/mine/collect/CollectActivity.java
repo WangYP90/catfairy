@@ -33,7 +33,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 import butterknife.BindView;
 
-@Route(path = ARouterPath.WanAndroid.COLLECT_ACTIVITY, extras = ARouterPath.NEED_LOGIN)
+@Route(path = ARouterPath.WanAndroid.COLLECT_ACTIVITY, extras = ARouterPath.WanAndroid.NEED_LOGIN)
 public class CollectActivity extends BaseWanAndroidActivity implements OnRefreshListener, OnLoadMoreListener {
 
     @BindView(R2.id.rb_article)

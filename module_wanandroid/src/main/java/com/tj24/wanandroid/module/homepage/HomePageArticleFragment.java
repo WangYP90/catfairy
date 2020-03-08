@@ -5,6 +5,7 @@ import android.view.View;
 import com.tj24.base.bean.wanandroid.ArticleBean;
 import com.tj24.base.utils.MultiStateUtils;
 import com.tj24.wanandroid.R;
+import com.tj24.wanandroid.R2;
 import com.tj24.wanandroid.common.base.BaseWanAndroidFragment;
 import com.tj24.wanandroid.common.event.CollectChangeEvent;
 import com.tj24.wanandroid.common.event.HomePageRefreshEvent;
@@ -21,7 +22,7 @@ import butterknife.BindView;
 public class HomePageArticleFragment extends BaseWanAndroidFragment {
 
     public static final int FIRST_PAGE = 0;
-    @BindView(R.id.articleListView)
+    @BindView(R2.id.articleListView)
     ArticleListView articleListView;
 
     @Override

@@ -53,7 +53,7 @@ public class HomePageActivity extends BaseWanAndroidActivity implements BottomNa
     BottomNavigationView bottomNavigationView;
     @BindView(R2.id.fbt_compose)
     FloatingActionButton fbtCompose;
-    @BindView(R.id.drawerLayout)
+    @BindView(R2.id.drawerLayout)
     DrawerLayout drawerLayout;
 
     NavigationHelper navigationHelper;

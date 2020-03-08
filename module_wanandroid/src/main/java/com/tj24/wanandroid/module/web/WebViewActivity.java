@@ -17,6 +17,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import com.tj24.wanandroid.R;
+import com.tj24.wanandroid.R2;
 import com.tj24.wanandroid.common.base.BaseWanAndroidActivity;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
 import com.tj24.wanandroid.common.utils.UserUtil;
@@ -34,9 +35,9 @@ public class WebViewActivity extends BaseWanAndroidActivity {
 
     String title;
     String url;
-    @BindView(R.id.webView)
+    @BindView(R2.id.webView)
     WebView webView;
-    @BindView(R.id.progress)
+    @BindView(R2.id.progress)
     ProgressBar progress;
 
     @Override

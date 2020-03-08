@@ -10,7 +10,7 @@ import com.tj24.wanandroid.R;
 import com.tj24.wanandroid.common.base.BaseWanAndroidActivity;
 import com.tj24.wanandroid.user.LoginInterceptorCallBack;
 
-@Route(path = ARouterPath.WanAndroid.TODO_ACTIVITY,extras = ARouterPath.NEED_LOGIN)
+@Route(path = ARouterPath.WanAndroid.TODO_ACTIVITY,extras = ARouterPath.WanAndroid.NEED_LOGIN)
 public class TodoActivity extends BaseWanAndroidActivity {
 
     @Override

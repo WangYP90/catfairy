@@ -14,9 +14,10 @@
 
         <ImageView
             android:layout_width="70dp"
-            android:layout_height="88dp"
+            android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/base_no_content_image" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/base_ic_no_content" />
 
         <TextView
             android:id="@+id/noContentText"
@@ -27,7 +28,7 @@
             android:layout_marginBottom="20dp"
             android:textSize="12sp"
             android:textColor="@color/base_secondary_text"
-            tools:text="@string/base_no_more_content"/>
+            android:text="@string/base_no_more_content"/>
 
     </LinearLayout>
 

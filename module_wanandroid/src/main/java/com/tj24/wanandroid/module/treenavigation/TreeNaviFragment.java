@@ -26,15 +26,15 @@ import butterknife.BindView;
 
 public class TreeNaviFragment extends BaseWanAndroidFragment implements OnRefreshListener {
 
-    @BindView(R.id.rb_knowledge)
+    @BindView(R2.id.rb_knowledge)
     RadioButton rbKnowledge;
-    @BindView(R.id.rb_navi)
+    @BindView(R2.id.rb_navi)
     RadioButton rbNavi;
-    @BindView(R.id.rg_homePage)
+    @BindView(R2.id.rg_homePage)
     RadioGroup rg;
     @BindView(R2.id.viewpager)
     ViewPager2 viewpager;
-    @BindView(R.id.refresh)
+    @BindView(R2.id.refresh)
     SmartRefreshLayout refresh;
     @Override
     public int getCreateViewLayoutId() {

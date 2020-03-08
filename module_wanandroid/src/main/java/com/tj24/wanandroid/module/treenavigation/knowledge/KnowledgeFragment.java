@@ -9,6 +9,7 @@ import com.tj24.base.utils.ListUtil;
 import com.tj24.base.utils.MultiStateUtils;
 import com.tj24.base.utils.ToastUtil;
 import com.tj24.wanandroid.R;
+import com.tj24.wanandroid.R2;
 import com.tj24.wanandroid.common.base.BaseWanAndroidFragment;
 import com.tj24.wanandroid.common.event.TreeNaviRefreshEvent;
 import com.tj24.wanandroid.common.event.TreeNaviRefreshFinishEvent;
@@ -25,9 +26,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 public class KnowledgeFragment extends BaseWanAndroidFragment {
-    @BindView(R.id.rv_konwledge)
+    @BindView(R2.id.rv_konwledge)
     RecyclerView rvKonwledge;
-    @BindView(R.id.msv)
+    @BindView(R2.id.msv)
     MultiStateView msv;
 
     private KnowledgeAdapter knowledgeAdapter;

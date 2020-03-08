@@ -19,7 +19,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 
-@Route(path = ARouterPath.AppManager.RESET_PWD_ACTIVITY, extras = ARouterPath.NEED_LOGIN)
+@Route(path = ARouterPath.AppManager.RESET_PWD_ACTIVITY, extras = ARouterPath.AppManager.NEED_LOGIN)
 public class ResetPwdActivity extends BaseActivity {
 
     @BindView(R2.id.et_old_pwd)

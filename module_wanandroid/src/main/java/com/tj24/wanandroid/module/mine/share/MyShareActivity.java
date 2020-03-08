@@ -27,7 +27,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 
-@Route(path = ARouterPath.WanAndroid.SHARE_ACTIVITY, extras = ARouterPath.NEED_LOGIN)
+@Route(path = ARouterPath.WanAndroid.SHARE_ACTIVITY, extras = ARouterPath.WanAndroid.NEED_LOGIN)
 public class MyShareActivity extends BaseWanAndroidActivity {
 
     @BindView(R2.id.toolbar)

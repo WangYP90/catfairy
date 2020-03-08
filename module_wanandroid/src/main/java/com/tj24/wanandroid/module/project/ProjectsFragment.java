@@ -8,6 +8,7 @@ import com.tj24.base.utils.ListUtil;
 import com.tj24.base.utils.MultiStateUtils;
 import com.tj24.base.utils.ToastUtil;
 import com.tj24.wanandroid.R;
+import com.tj24.wanandroid.R2;
 import com.tj24.wanandroid.common.base.BaseWanAndroidFragment;
 import com.tj24.wanandroid.common.event.CollectChangeEvent;
 import com.tj24.wanandroid.common.http.WanAndroidCallBack;
@@ -28,9 +29,9 @@ import q.rorbin.verticaltablayout.widget.ITabView;
 import q.rorbin.verticaltablayout.widget.TabView;
 
 public class ProjectsFragment extends BaseWanAndroidFragment {
-    @BindView(R.id.tablayout)
+    @BindView(R2.id.tablayout)
     VerticalTabLayout tablayout;
-    @BindView(R.id.articleListView)
+    @BindView(R2.id.articleListView)
     ArticleListView articleListView;
 
     private static final int FIRST_PAGE = 0;

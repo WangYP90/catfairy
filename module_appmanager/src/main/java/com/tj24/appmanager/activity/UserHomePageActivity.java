@@ -14,14 +14,6 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
@@ -36,7 +28,6 @@ import com.tj24.appmanager.R;
 import com.tj24.appmanager.R2;
 import com.tj24.appmanager.adapter.UserHomePageAdapter;
 import com.tj24.appmanager.login.LoginInterceptorCallBack;
-import com.tj24.base.utils.ViewUtils;
 import com.tj24.base.base.ui.BaseActivity;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.login.User;
@@ -45,16 +36,24 @@ import com.tj24.base.utils.ColorUtil;
 import com.tj24.base.utils.DrawableUtil;
 import com.tj24.base.utils.ScreenUtil;
 import com.tj24.base.utils.UserHelper;
+import com.tj24.base.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-@Route(path = ARouterPath.AppManager.USER_HOMEPAGE_ACTIVITY, extras = ARouterPath.NEED_LOGIN)
+@Route(path = ARouterPath.AppManager.USER_HOMEPAGE_ACTIVITY, extras = ARouterPath.AppManager.NEED_LOGIN)
 public class UserHomePageActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener {
     private static final int REQUEST_USER_EDIT = 100;

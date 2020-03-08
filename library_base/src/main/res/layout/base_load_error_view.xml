@@ -18,7 +18,7 @@
             android:layout_width="74dp"
             android:layout_height="88dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/base_bad_network_image" />
+            android:src="@drawable/base_ic_error" />
 
         <TextView
             android:id="@+id/loadErrorText"

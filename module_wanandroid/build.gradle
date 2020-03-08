@@ -1,4 +1,4 @@
-if (isAppManagerRunAlone.toBoolean()) {
+if (isWanAndroidRunAlone.toBoolean()) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'

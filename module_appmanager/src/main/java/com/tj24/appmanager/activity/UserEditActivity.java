@@ -11,10 +11,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
-
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -28,23 +24,26 @@ import com.tj24.appmanager.R;
 import com.tj24.appmanager.R2;
 import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.appmanager.model.UserEditModel;
-import com.tj24.base.utils.ViewUtils;
 import com.tj24.base.base.ui.CatTakePhotoActivity;
 import com.tj24.base.bean.appmanager.login.User;
 import com.tj24.base.constant.ARouterPath;
 import com.tj24.base.utils.ColorUtil;
 import com.tj24.base.utils.LogUtil;
 import com.tj24.base.utils.UserHelper;
+import com.tj24.base.utils.ViewUtils;
 
 import org.devio.takephoto.model.TResult;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-@Route(path = ARouterPath.AppManager.EDIT_USER_ACTIVITY, extras = ARouterPath.NEED_LOGIN)
+@Route(path = ARouterPath.AppManager.EDIT_USER_ACTIVITY, extras = ARouterPath.AppManager.NEED_LOGIN)
 public class UserEditActivity extends CatTakePhotoActivity implements View.OnClickListener {
 
     private static final String NICK_NAME_REG_EXP = "^[\u4E00-\u9FA5A-Za-z0-9_\\-]+$";

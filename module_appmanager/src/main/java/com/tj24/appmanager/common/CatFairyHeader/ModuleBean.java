@@ -5,13 +5,22 @@ import java.io.Serializable;
 public class ModuleBean implements Serializable {
     private String name;
     private int picRes;
-
+    private String aroutPath;
     public ModuleBean() {
     }
 
-    public ModuleBean(String name, int picRes) {
+    public ModuleBean(String name, int picRes, String aroutPath) {
         this.name = name;
         this.picRes = picRes;
+        this.aroutPath = aroutPath;
+    }
+
+    public String getAroutPath() {
+        return aroutPath;
+    }
+
+    public void setAroutPath(String aroutPath) {
+        this.aroutPath = aroutPath;
     }
 
     public String getName() {

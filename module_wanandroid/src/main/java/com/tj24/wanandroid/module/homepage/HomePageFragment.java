@@ -9,6 +9,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.tj24.base.bean.wanandroid.BannerBean;
 import com.tj24.wanandroid.R;
+import com.tj24.wanandroid.R2;
 import com.tj24.wanandroid.common.base.BaseWanAndroidFragment;
 import com.tj24.wanandroid.common.event.HomePageRefreshEvent;
 import com.tj24.wanandroid.common.event.HomePageRefreshFinishEvent;
@@ -29,17 +30,17 @@ import butterknife.BindView;
 
 public class HomePageFragment extends BaseWanAndroidFragment {
 
-    @BindView(R.id.banner)
+    @BindView(R2.id.banner)
     Banner banner;
-    @BindView(R.id.rb_article)
+    @BindView(R2.id.rb_article)
     RadioButton rbArticle;
-    @BindView(R.id.rb_project)
+    @BindView(R2.id.rb_project)
     RadioButton rbProject;
-    @BindView(R.id.rg_homePage)
+    @BindView(R2.id.rg_homePage)
     RadioGroup rgHomePage;
-    @BindView(R.id.viewpager)
+    @BindView(R2.id.viewpager)
     ViewPager2 viewpager;
-    @BindView(R.id.refresh)
+    @BindView(R2.id.refresh)
     SmartRefreshLayout refresh;
 
     @Override

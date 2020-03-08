@@ -7,16 +7,16 @@ package com.tj24.base.constant;
  * @Version: V.1.0.0
  */
 public class ARouterPath {
-    /**
-     * 需要登录
-     */
-    public static final int NEED_LOGIN = 1;
 
 
     /**
      * appmanager模块的
      */
     public static class AppManager{
+        /**
+         * 需要登录
+         */
+        public static final int NEED_LOGIN = 8;
         /**
          * 修改密码
          */
@@ -43,6 +43,10 @@ public class ARouterPath {
      * 玩Android 模块的
      */
     public static class WanAndroid{
+        /**
+         * 需要登录
+         */
+        public static final int NEED_LOGIN = 24;
         /**
          * 主页面
          */

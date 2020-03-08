@@ -114,7 +114,7 @@
         android:layout_centerVertical="true"
         android:scaleType="centerCrop"
         android:visibility="visible"
-        app:srcCompat="@drawable/base_bad_network_image" />
+        app:srcCompat="@drawable/base_ic_error" />
 
 <TextView
     android:layout_alignParentBottom="true"

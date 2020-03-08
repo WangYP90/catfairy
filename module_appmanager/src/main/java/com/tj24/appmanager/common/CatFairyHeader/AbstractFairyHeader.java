@@ -6,9 +6,6 @@ import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.scwang.smart.refresh.layout.api.RefreshHeader;
 import com.scwang.smart.refresh.layout.api.RefreshKernel;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
@@ -16,7 +13,11 @@ import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
 import com.tj24.appmanager.R;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 public abstract  class AbstractFairyHeader implements RefreshHeader {
+    public Context mContext;
     private LayoutInflater inflater;
     private View view;
     private ExpendPoint expendPoint;
@@ -30,6 +31,7 @@ public abstract  class AbstractFairyHeader implements RefreshHeader {
     boolean arrivedListHeight;
 
     public AbstractFairyHeader(Context mContext) {
+        this.mContext = mContext;
         vibrator = (Vibrator)mContext.getSystemService(Context.VIBRATOR_SERVICE);
         inflater = LayoutInflater.from(mContext);
         initView();

@@ -23,7 +23,7 @@
     <ImageView
             android:id="@+id/iv_league"
             android:layout_gravity="center"
-            android:src="@drawable/base_bad_network_image"
+            android:src="@drawable/base_ic_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 </FrameLayout>
