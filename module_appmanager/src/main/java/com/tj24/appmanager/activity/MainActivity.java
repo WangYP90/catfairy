@@ -16,6 +16,13 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -57,12 +64,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.bmob.v3.BmobUser;
@@ -115,6 +116,7 @@ public class MainActivity extends BaseActivity implements  View.OnClickListener 
     public static final int REQUEST_EDIT_USER = 101;
     public static final int REQUSET_APPCLASSIFICATION = 111;
     public static final int REQUSET_WHITE_LIST = 112;
+    public static final int REQUEST_LOGIN_OUT= 113;
     public static final int MSG_REFRESH = 100;
 
     boolean isFirstInit = true; //第一次初始化
@@ -280,6 +282,7 @@ public class MainActivity extends BaseActivity implements  View.OnClickListener 
 
         catFairyHeader = new CatFairyHeader(this);
         catFairyRefresh.setRefreshHeader(catFairyHeader);
+        catFairyRefresh.setEnableLoadMore(false);
         catFairyRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -519,6 +522,8 @@ public class MainActivity extends BaseActivity implements  View.OnClickListener 
             return;
         }
         if (requestCode == REQUEST_EDIT_USER) {
+            navigationViewHelper.loadUserInfo();
+        }else if (requestCode == REQUEST_LOGIN_OUT) {
             navigationViewHelper.loadUserInfo();
         }else if(requestCode == REQUSET_WHITE_LIST){
             if(!EasyKeepAlive.isWhiteList(this)){

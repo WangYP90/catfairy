@@ -10,6 +10,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.palette.graphics.Palette;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -18,6 +25,7 @@ import com.bumptech.glide.request.target.Target;
 import com.google.android.material.navigation.NavigationView;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.HelpSuggestActivity;
+import com.tj24.appmanager.activity.MainActivity;
 import com.tj24.appmanager.activity.SettingsActivity;
 import com.tj24.appmanager.activity.UserEditActivity;
 import com.tj24.appmanager.activity.UserHomePageActivity;
@@ -30,12 +38,6 @@ import com.tj24.base.utils.UserHelper;
 
 import java.io.File;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.palette.graphics.Palette;
 import gdut.bsx.share2.FileUtil;
 import gdut.bsx.share2.Share2;
 import gdut.bsx.share2.ShareContentType;
@@ -68,7 +70,6 @@ public class NavigationViewHelper implements NavigationView.OnNavigationItemSele
         this.navView = navView;
         this.drawerLayout = drawerLayout;
         initView();
-        loadUserInfo();
     }
 
 
@@ -215,7 +216,7 @@ public class NavigationViewHelper implements NavigationView.OnNavigationItemSele
                     .build()
                     .shareBySystem();
         } else if (itemId == R.id.item_settings) {
-            SettingsActivity.actionStart(context, SettingsActivity.SETTINGS_MAIN);
+            SettingsActivity.actionStartForResult(context, SettingsActivity.SETTINGS_MAIN, MainActivity.REQUEST_LOGIN_OUT);
         } else if (itemId == R.id.item_helpsuggest) {
             HelpSuggestActivity.actionStart(context);
         }

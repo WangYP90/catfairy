@@ -1,6 +1,6 @@
 package com.tj24.appmanager.activity;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -72,7 +72,13 @@ public class SettingsActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static void actionStart(Context context, int type) {
+    public static void actionStartForResult(Activity context, int type, int requestCode) {
+        Intent i = new Intent(context, SettingsActivity.class);
+        i.putExtra(SETTINGS_TYPE, type);
+        context.startActivityForResult(i,requestCode);
+    }
+
+    public static void actionStart(Activity context, int type) {
         Intent i = new Intent(context, SettingsActivity.class);
         i.putExtra(SETTINGS_TYPE, type);
         context.startActivity(i);

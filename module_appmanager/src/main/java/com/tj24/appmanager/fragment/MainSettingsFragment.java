@@ -18,6 +18,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tj24.appmanager.R;
 import com.tj24.appmanager.activity.AboutActivity;
+import com.tj24.appmanager.activity.MainActivity;
 import com.tj24.appmanager.activity.ResetPwdActivity;
 import com.tj24.appmanager.activity.UserAgreenmentActivity;
 import com.tj24.appmanager.common.OrderConfig;
@@ -237,6 +238,7 @@ public class MainSettingsFragment extends PreferenceFragmentCompat implements
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         BmobUser.logOut();
                         ToastUtil.showShortToast(mContext,getString(R.string.app_login_out_sucess));
+                        getActivity().setResult(MainActivity.REQUEST_LOGIN_OUT);
                     }
                 }).show();
     }

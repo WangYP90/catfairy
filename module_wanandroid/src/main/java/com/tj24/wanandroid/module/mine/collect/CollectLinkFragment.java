@@ -4,6 +4,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.PopupWindow;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.PopupWindowCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kennyc.view.MultiStateView;
 import com.tj24.base.bean.wanandroid.NetUrlBean;
@@ -28,16 +32,12 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-import androidx.core.content.ContextCompat;
-import androidx.core.widget.PopupWindowCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 public class CollectLinkFragment extends BaseWanAndroidFragment {
     @BindView(R2.id.rv_links)
     RecyclerView rvLinks;
     @BindView(R2.id.msv)
-
     MultiStateView msv;
 
     private CollectLinkAdapter linkAdapter;
