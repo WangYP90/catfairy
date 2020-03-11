@@ -74,20 +74,6 @@
 
         <include layout="@layout/base_loading" />
 
-        <ViewStub
-                android:id="@+id/noContentView"
-                android:layout="@layout/base_no_content_view"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-        />
-
-        <ViewStub
-                android:id="@+id/loadErrorView"
-                android:layout="@layout/base_load_error_view"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-        />
-
     </FrameLayout>
 
 

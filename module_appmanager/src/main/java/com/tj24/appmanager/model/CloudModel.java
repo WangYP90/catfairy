@@ -151,6 +151,7 @@ public class CloudModel extends BaseAppsManagerModel {
         showProgressDialog("","");
         BmobQuery<PushRecord>query = new BmobQuery<>();
         query.setLimit(10).addWhereEqualTo("userId",UserHelper.getCurrentUser().getObjectId())
+                .order("-createdAt")
                 .findObjects(new FindListener<PushRecord>() {
                     @Override
                     public void done(List<PushRecord> list, BmobException e) {

@@ -153,6 +153,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
             mLinearAdapter = new RcAppLinearAdapter(R.layout.app_rv_apps_linear_item, appBeans, appClassfication, isEditing);
             mLinearManager.scrollToPositionWithOffset(lastPosition, lastOffset);
             rcApps.setAdapter(mLinearAdapter);
+            mLinearAdapter.setEmptyView(R.layout.base_no_content_view,rcApps);
             mLinearAdapter.setOnItemChildClickListener(this);
             mLinearAdapter.setOnItemClickListener(this);
             mLinearAdapter.setOnItemLongClickListener(this);
@@ -160,6 +161,7 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
             mGrideManager = new GridLayoutManager(mActivity, 4);
             rcApps.setLayoutManager(mGrideManager);
             mGrideAdapter = new RcAppGrideAdapter(R.layout.app_rv_apps_gride_item, appBeans, isEditing);
+            mGrideAdapter.setEmptyView(R.layout.base_no_content_view,rcApps);
             mGrideManager.scrollToPositionWithOffset(lastPosition, lastOffset);
             mGrideAdapter.setOnItemClickListener(this);
             mGrideAdapter.setOnItemLongClickListener(this);

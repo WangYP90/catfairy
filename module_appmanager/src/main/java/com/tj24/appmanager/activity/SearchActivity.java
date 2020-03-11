@@ -8,16 +8,10 @@ import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewStub;
 import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-
-import androidx.appcompat.widget.SearchView;
-import androidx.core.app.SharedElementCallback;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tj24.appmanager.R;
@@ -31,6 +25,11 @@ import com.tj24.base.utils.ListUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.SearchView;
+import androidx.core.app.SharedElementCallback;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class SearchActivity extends BaseActivity implements View.OnClickListener {
 
     private View scrim;
@@ -40,8 +39,6 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private FrameLayout flSearchToolbar;
     private RecyclerView rvSearch;
     private ProgressBar loading;
-    private ViewStub noContentView;
-    private ViewStub loadErrorView;
     private FrameLayout flResultsContainer;
     private FrameLayout container;
 
@@ -75,8 +72,6 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         flSearchToolbar = findViewById(R.id.fl_searchToolbar);
         rvSearch = findViewById(R.id.rv_search);
         loading = findViewById(R.id.loading);
-        noContentView = findViewById(R.id.noContentView);
-        loadErrorView = findViewById(R.id.loadErrorView);
         flResultsContainer = findViewById(R.id.fl_resultsContainer);
         container = findViewById(R.id.container);
         scrim.setOnClickListener(this);
@@ -116,12 +111,12 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     }
 
 
-
     private void initRecyclerView() {
         linearLayoutManager = new LinearLayoutManager(this);
         searchAdapter = new SearchAdapter(R.layout.app_rv_search_item,appBeans);
         rvSearch.setLayoutManager(linearLayoutManager);
         rvSearch.setAdapter(searchAdapter);
+        searchAdapter.setEmptyView(R.layout.base_no_content_view,rvSearch);
         searchAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
