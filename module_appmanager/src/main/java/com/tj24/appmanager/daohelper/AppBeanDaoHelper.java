@@ -103,4 +103,11 @@ public class AppBeanDaoHelper extends BaseDao<AppBean, AppBeanDao> {
     public List<AppBean> queryCutomes() {
         return mDdao.queryBuilder().where(AppBeanDao.Properties.IsSystemApp.notEq(true)).list();
     }
+
+    /**
+     * 删除非系统应用
+     */
+    public void delCustomApps(){
+        deleteList(queryCutomes());
+    }
 }

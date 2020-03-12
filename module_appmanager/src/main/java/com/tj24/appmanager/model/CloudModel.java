@@ -197,8 +197,7 @@ public class CloudModel extends BaseAppsManagerModel {
         for(PushRecord pushRecord : appDatas){
             items.add(pushRecord.getTag()+ "\n"+pushRecord.getCreatedAt());
         }
-        final PushRecord[] selectData = new PushRecord[1];
-        selectData[0] = appDatas.get(0);
+
         new MaterialDialog.Builder(mContext).title("还原数据").content("选择需还原记录")
                 .positiveText(mContext.getString(R.string.app_confirm))
                 .negativeText(mContext.getString(R.string.app_cancle))
@@ -206,15 +205,12 @@ public class CloudModel extends BaseAppsManagerModel {
                 .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                        selectData[0] = appDatas.get(which);
+                        replaceData(appDatas.get(which));
                         return false;
                     }
                 }).onPositive(new MaterialDialog.SingleButtonCallback() {
             @Override
             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                if(selectData[0] != null){
-                    replaceData(selectData[0]);
-                }
                 dialog.dismiss();
             }
         }).onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -243,7 +239,7 @@ public class CloudModel extends BaseAppsManagerModel {
                     List<AppClassfication> appClassfications = gson.fromJson(json_appClassification,new TypeToken<List<AppClassfication>>(){}.getType());
                     List<MsgApk> msgApks = gson.fromJson(json_msgApks,new TypeToken<List<MsgApk>>(){}.getType());
                     if(appBeans!=null &&!appBeans.isEmpty()){
-                        AppBeanDaoHelper.getInstance().deleteAll();
+                        AppBeanDaoHelper.getInstance().delCustomApps();
                         AppBeanDaoHelper.getInstance().insertList(appBeans);
                     }
                     if(appClassfications!=null && !appClassfications.isEmpty()){

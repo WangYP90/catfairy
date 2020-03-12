@@ -297,48 +297,52 @@ public class AppsFragment extends BaseFragment implements BaseQuickAdapter.OnIte
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshUI(LaucherEvent laucherEvent) {
-        //首先需要判断是否可见
-        if (!isVisibleToUser) {
-            return;
-        }
         switch (laucherEvent.getEventCode()) {
             case LaucherEvent.EVENT_EXIST_EDITING:
-                isEditing = false;
-                for (AppBean appBean : editingApps) {
-                    appBean.setSelected(false);
+                if(isVisibleToUser){
+                    isEditing = false;
+                    for (AppBean appBean : editingApps) {
+                        appBean.setSelected(false);
+                    }
+                    editingApps.clear();
+                    appsFooter.setVisibility(View.GONE);
+                    ((MainActivity) mActivity).onAppSelected(editingApps);
                 }
-                editingApps.clear();
-                appsFooter.setVisibility(View.GONE);
-                ((MainActivity) mActivity).onAppSelected(editingApps);
                 break;
             case LaucherEvent.EVENT_START_EDITING:
-                isEditing = true;
-                initRecyclerView();
-                appsFooter.setVisibility(View.VISIBLE);
-                appsFooter.onEdittingAppChanged(editingApps, appClassfication);
+                if(isVisibleToUser) {
+                    isEditing = true;
+                    initRecyclerView();
+                    appsFooter.setVisibility(View.VISIBLE);
+                    appsFooter.onEdittingAppChanged(editingApps, appClassfication);
+                }
                 break;
             case LaucherEvent.EVENT_CHANGE_ORDERTYPE:
                 initRecyclerView();
                 break;
             case LaucherEvent.EVENT_CHANGE_SORT:
-                String appSortName = (String) laucherEvent.getValue();
-                appClassfication.setSortName(appSortName);
-                AppSortManager.sort(appBeans, appSortName);
-                sideBar.setVisibility(appClassfication.getSortName().equals(OrderConfig.ORDER_APP_NAME) ? View.VISIBLE : View.GONE);
-                notifyRecyclerView();
+                if(isVisibleToUser) {
+                    String appSortName = (String) laucherEvent.getValue();
+                    appClassfication.setSortName(appSortName);
+                    AppSortManager.sort(appBeans, appSortName);
+                    sideBar.setVisibility(appClassfication.getSortName().equals(OrderConfig.ORDER_APP_NAME) ? View.VISIBLE : View.GONE);
+                    notifyRecyclerView();
+                }
                 break;
             case LaucherEvent.EVENT_ALL_SELECTED:
-                isAllSelected = !isAllSelected;
-                editingApps.clear();
-                for (AppBean bean : appBeans) {
-                    bean.setSelected(isAllSelected);
-                    if(isAllSelected){
-                        editingApps.add(bean);
+                if(isVisibleToUser) {
+                    isAllSelected = !isAllSelected;
+                    editingApps.clear();
+                    for (AppBean bean : appBeans) {
+                        bean.setSelected(isAllSelected);
+                        if (isAllSelected) {
+                            editingApps.add(bean);
+                        }
                     }
+                    notifyRecyclerView();
+                    ((MainActivity) mActivity).onAppAllSelected(isAllSelected, editingApps.size());
+                    appsFooter.onEdittingAppChanged(editingApps, appClassfication);
                 }
-                notifyRecyclerView();
-                ((MainActivity) mActivity).onAppAllSelected(isAllSelected, editingApps.size());
-                appsFooter.onEdittingAppChanged(editingApps, appClassfication);
                 break;
         }
     }
