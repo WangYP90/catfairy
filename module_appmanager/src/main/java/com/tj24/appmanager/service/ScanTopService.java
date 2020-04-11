@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.provider.Settings;
 import android.widget.CompoundButton;
 
-import androidx.annotation.NonNull;
-
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tj24.appmanager.R;
@@ -19,6 +17,8 @@ import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.utils.LogUtil;
 import com.tj24.base.utils.Sputil;
 import com.tj24.base.utils.ToastUtil;
+
+import androidx.annotation.NonNull;
 
 public class ScanTopService extends IntentService {
     private static final String TAG = ScanTopService.class.getSimpleName();

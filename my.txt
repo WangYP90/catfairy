@@ -1,3 +1,8 @@
+
+pwd:catfairy
+ 
+keytool -genkey -alias catfairy -keypass catfairy -keyalg RSA -keysize 1024 -validity 3650 -keystore G:\Android\pro_myrepositores\catfairy\apk\appkey.keystore -storepass catfairy
+keytool -importkeystore -srckeystore G:\Android\pro_myrepositores\catfairy\apk\catfairy.jks -destkeystore G:\Android\pro_myrepositores\catfairy\apk\catfairy.jks -deststoretype pkcs12
 增加新module流程：
    1.在gradle.properties 中增加对应的控制开关量；
    2.在主 app 模块下的 build.gradle 中 将新module依赖；

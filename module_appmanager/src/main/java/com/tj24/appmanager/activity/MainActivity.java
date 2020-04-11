@@ -16,13 +16,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -39,6 +32,7 @@ import com.tj24.appmanager.common.CatFairyHeader.CatFairyHeader;
 import com.tj24.appmanager.common.CatFairyHeader.CatFairyHeaderLayout;
 import com.tj24.appmanager.common.OrderConfig;
 import com.tj24.appmanager.common.keepAlive.EasyKeepAlive;
+import com.tj24.appmanager.model.ApkModel;
 import com.tj24.appmanager.model.BusinessModel;
 import com.tj24.appmanager.model.CloudModel;
 import com.tj24.appmanager.model.OrderModel;
@@ -64,6 +58,12 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.bmob.v3.BmobUser;
@@ -152,7 +152,7 @@ public class MainActivity extends BaseActivity implements  View.OnClickListener 
         int refreshCount = Sputil.read(AppConst.SP_OPEN_COUNT,1);
         if(refreshCount>1){
 //            AliveService.startAliveService(this);
-            if(!Sputil.read(AppConst.SP_ALARM_PERMISSION,false)){
+            if(!Sputil.read(AppConst.SP_ALARM_PERMISSION,false) || ApkModel.isUseGranted()){
                 ScanTopService.startSkanTopService(this, 1);
             }
             autoUpdate();

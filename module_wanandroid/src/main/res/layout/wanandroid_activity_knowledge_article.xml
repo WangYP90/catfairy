@@ -25,6 +25,7 @@
         app:tabGravity="center"
         app:tabIndicator="@color/base_white_text"
         app:tabIndicatorHeight="2dp"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"/>
     <androidx.viewpager2.widget.ViewPager2

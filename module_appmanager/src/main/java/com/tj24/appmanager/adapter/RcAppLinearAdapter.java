@@ -2,6 +2,7 @@ package com.tj24.appmanager.adapter;
 
 import android.text.TextUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -11,10 +12,12 @@ import com.tj24.appmanager.common.OrderConfig;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
 import com.tj24.base.utils.DateUtil;
+import com.tj24.base.utils.ScreenUtil;
 
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 /**
  * @Description:app列表的线性adapter
@@ -36,12 +39,21 @@ public class RcAppLinearAdapter extends BaseQuickAdapter<AppBean,BaseViewHolder>
         ImageView ivIco = helper.getView(R.id.iv_ico);
         Glide.with(ivIco.getContext()).load(item.getIco()).into(ivIco);
         helper.setText(R.id.tv_name,item.getName())
-                .setText(R.id.tv_show,getShowText(item))
+                .setText(R.id.tv_show,getShowText(item,helper.getView(R.id.tv_open)))
                 .setVisible(R.id.iv_isType,!isTyped(item))
                 .setGone(R.id.tv_open,!isEditing)
                 .setGone(R.id.iv_selected,isEditing)
                 .setImageResource(R.id.iv_selected,item.isSelected()?R.drawable.app_ico_app_selected :R.drawable.app_ico_app_unselected)
                 .addOnClickListener(R.id.tv_open);
+
+        TextView tvOpen = helper.getView(R.id.tv_open);
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) tvOpen.getLayoutParams();
+        if(appClassfication.getSortName().equals(OrderConfig.ORDER_APP_NAME)){
+            layoutParams.setMarginEnd((int) ScreenUtil.dip2px(mContext,30));
+        }else {
+            layoutParams.setMarginEnd((int) ScreenUtil.dip2px(mContext,10));
+        }
+        tvOpen.setLayoutParams(layoutParams);
     }
 
     /**
@@ -49,7 +61,7 @@ public class RcAppLinearAdapter extends BaseQuickAdapter<AppBean,BaseViewHolder>
      * @param item
      * @return
      */
-    private String getShowText(AppBean item) {
+    private String getShowText(AppBean item, TextView tvOpen) {
         switch (appClassfication.getSortName()){
             case OrderConfig.ORDER_LAST_USE:
                 return item.getLastOpenTime()!=0?"最近使用:"+DateUtil.formatLong(DateUtil.SDF_3,item.getLastOpenTime()):"未曾使用";
