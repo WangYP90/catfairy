@@ -108,6 +108,16 @@
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/app_bmob_update_path" />
         </provider>
+
+        <provider
+            android:name=".provider.UpdateProvider"
+            android:authorities="${applicationId}.catfairyupdate.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/update_paths" />
+        </provider>
     </application>
 
 </manifest>

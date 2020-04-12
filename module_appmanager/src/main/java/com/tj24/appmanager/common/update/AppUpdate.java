@@ -1,4 +1,4 @@
-package com.tj24.appmanager.bean;
+package com.tj24.appmanager.common.update;
 
 public class AppUpdate {
     private int versionNumber;
@@ -6,13 +6,13 @@ public class AppUpdate {
     private String url;
     private String updateLog;
     private boolean isForce;
-    private String size;
+    private int size;
     private String updateTime;
 
     public AppUpdate() {
     }
 
-    public AppUpdate(int versionNumber, String versionName, String url, String updateLog, boolean isForce, String size, String updateTime) {
+    public AppUpdate(int versionNumber, String versionName, String url, String updateLog, boolean isForce, int size, String updateTime) {
         this.versionNumber = versionNumber;
         this.versionName = versionName;
         this.url = url;
@@ -62,11 +62,11 @@ public class AppUpdate {
         isForce = force;
     }
 
-    public String getSize() {
+    public int getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(int size) {
         this.size = size;
     }
 

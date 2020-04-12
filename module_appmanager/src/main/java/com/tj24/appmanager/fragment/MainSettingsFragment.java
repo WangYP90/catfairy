@@ -7,13 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.preference.MultiSelectListPreference;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.SwitchPreferenceCompat;
-
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tj24.appmanager.R;
@@ -23,17 +16,21 @@ import com.tj24.appmanager.activity.ResetPwdActivity;
 import com.tj24.appmanager.activity.UserAgreenmentActivity;
 import com.tj24.appmanager.common.OrderConfig;
 import com.tj24.appmanager.common.keepAlive.EasyKeepAlive;
+import com.tj24.appmanager.common.update.CheckUpdateHelper;
+import com.tj24.appmanager.common.update.CheckUpdateListner;
 import com.tj24.appmanager.login.LoginInterceptorCallBack;
 import com.tj24.appmanager.model.ApkModel;
 import com.tj24.appmanager.service.ScanTopService;
 import com.tj24.base.utils.ToastUtil;
 import com.tj24.base.utils.UserHelper;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.preference.MultiSelectListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreferenceCompat;
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.listener.BmobUpdateListener;
-import cn.bmob.v3.update.BmobUpdateAgent;
-import cn.bmob.v3.update.UpdateResponse;
-import cn.bmob.v3.update.UpdateStatus;
 
 public class MainSettingsFragment extends PreferenceFragmentCompat implements
         Preference.OnPreferenceClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -176,26 +173,39 @@ public class MainSettingsFragment extends PreferenceFragmentCompat implements
      * 手动检查更新
      */
     private void updateVersion() {
-        BmobUpdateAgent.update(mContext);
-        BmobUpdateAgent.setUpdateListener(new BmobUpdateListener() {
+//        BmobUpdateAgent.update(mContext);
+//        BmobUpdateAgent.setUpdateListener(new BmobUpdateListener() {
+//            @Override
+//            public void onUpdateReturned(int updateStatus, UpdateResponse updateInfo) {
+//                // TODO Auto-generated method stub
+//                if (updateStatus == UpdateStatus.Yes) {//版本有更新
+////                    ToastUtil.showShortToast(mContext,"ceshi");
+//                }else if(updateStatus == UpdateStatus.No){
+//                    ToastUtil.showShortToast(mContext, getString(R.string.app_version_neednot_update));
+//                }else if(updateStatus==UpdateStatus.EmptyField){//此提示只是提醒开发者关注那些必填项，测试成功后，无需对用户提示
+//                    ToastUtil.showShortToast(mContext, getString(R.string.app_version_emptyfield));
+//                }else if(updateStatus==UpdateStatus.IGNORED){
+//                    ToastUtil.showShortToast(mContext, getString(R.string.app_viersion_ignored));
+//                }else if(updateStatus==UpdateStatus.ErrorSizeFormat){
+//                    ToastUtil.showShortToast(mContext, getString(R.string.app_version_error_sizeformat));
+//                }else if(updateStatus==UpdateStatus.TimeOut){
+//                    ToastUtil.showShortToast(mContext, getString(R.string.app_version_timeout));
+//                }
+//            }
+//        });
+        CheckUpdateHelper updateHelper = new CheckUpdateHelper(mContext);
+        updateHelper.setCheckUpdateListner(new CheckUpdateListner() {
             @Override
-            public void onUpdateReturned(int updateStatus, UpdateResponse updateInfo) {
-                // TODO Auto-generated method stub
-                if (updateStatus == UpdateStatus.Yes) {//版本有更新
-//                    ToastUtil.showShortToast(mContext,"ceshi");
-                }else if(updateStatus == UpdateStatus.No){
-                    ToastUtil.showShortToast(mContext, getString(R.string.app_version_neednot_update));
-                }else if(updateStatus==UpdateStatus.EmptyField){//此提示只是提醒开发者关注那些必填项，测试成功后，无需对用户提示
-                    ToastUtil.showShortToast(mContext, getString(R.string.app_version_emptyfield));
-                }else if(updateStatus==UpdateStatus.IGNORED){
-                    ToastUtil.showShortToast(mContext, getString(R.string.app_viersion_ignored));
-                }else if(updateStatus==UpdateStatus.ErrorSizeFormat){
-                    ToastUtil.showShortToast(mContext, getString(R.string.app_version_error_sizeformat));
-                }else if(updateStatus==UpdateStatus.TimeOut){
-                    ToastUtil.showShortToast(mContext, getString(R.string.app_version_timeout));
-                }
+            public void onFail(String fail) {
+                ToastUtil.showShortToast(mContext,fail);
+            }
+
+            @Override
+            public void onSuccess(String success) {
+                ToastUtil.showShortToast(mContext,success);
             }
         });
+        updateHelper.checkUpdate(false);
     }
 
     /**

@@ -32,6 +32,7 @@ import com.tj24.appmanager.common.CatFairyHeader.CatFairyHeader;
 import com.tj24.appmanager.common.CatFairyHeader.CatFairyHeaderLayout;
 import com.tj24.appmanager.common.OrderConfig;
 import com.tj24.appmanager.common.keepAlive.EasyKeepAlive;
+import com.tj24.appmanager.common.update.CheckUpdateHelper;
 import com.tj24.appmanager.model.ApkModel;
 import com.tj24.appmanager.model.BusinessModel;
 import com.tj24.appmanager.model.CloudModel;
@@ -70,7 +71,6 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.helper.ErrorCode;
 import cn.bmob.v3.listener.FetchUserInfoListener;
-import cn.bmob.v3.update.BmobUpdateAgent;
 
 public class MainActivity extends BaseActivity implements  View.OnClickListener {
 
@@ -233,8 +233,9 @@ public class MainActivity extends BaseActivity implements  View.OnClickListener 
      */
     private void autoUpdate() {
         if (Sputil.read(getString(R.string.app_sp_auto_check_update), true)) {
-            BmobUpdateAgent.setUpdateOnlyWifi(false);
-            BmobUpdateAgent.update(this);
+//            BmobUpdateAgent.setUpdateOnlyWifi(false);
+//            BmobUpdateAgent.update(this);
+            new CheckUpdateHelper(this).checkUpdate(true);
         }
     }
 
