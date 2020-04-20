@@ -6,8 +6,8 @@ android {
         applicationId "com.tj24.catfairy"
         minSdkVersion min_Sdk_Version.toInteger()
         targetSdkVersion target_Sdk_Version.toInteger()
-        versionCode 1
-        versionName "1.0"
+        versionCode 300
+        versionName "3.0.1"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

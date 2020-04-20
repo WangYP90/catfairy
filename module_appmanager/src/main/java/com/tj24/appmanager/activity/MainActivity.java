@@ -219,7 +219,7 @@ public class MainActivity extends BaseActivity implements  View.OnClickListener 
      */
     private void testAutoUpload() {
         if(UserHelper.getCurrentUser()!=null){
-            if(Sputil.read(getString(R.string.app_sp_auto_upload),true)){
+            if(Sputil.read(getString(R.string.app_sp_auto_upload),true) && Sputil.read(AppConst.SP_LAST_UPDATE, 0L)>0){
                 if(System.currentTimeMillis() - (Sputil.read(AppConst.SP_LAST_UPDATE, 0L)) >24*3600*1000){
                     new CloudModel(this).readyPush(true);
                     LogUtil.i(TAG,"自动备份开始！");
