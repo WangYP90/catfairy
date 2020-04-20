@@ -122,6 +122,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if(view.getId() == R.id.tv_open){
                     ApkModel.openApp(mActivity,appBeans.get(position));
+                    hideSoftKeyboard();
                 }
             }
         });

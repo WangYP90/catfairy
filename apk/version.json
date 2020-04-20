@@ -1,9 +1,9 @@
 {
-  "versionNumber":5,
-  "versionName":"1.0.21",
-  "url":"https://raw.githubusercontent.com/tangjiang24/catfairy/master/apk/catfairy.apk",
-  "updateLog":"1.修复了一些bug;\n2.测试自动更新功能;",
+  "versionNumber":301,
+  "versionName":"3.0.1",
+  "url":"https://raw.githubusercontent.com/tangjiang24/catfairy/master/apk/release/catfairy.apk",
+  "updateLog":"1.修复了一些bug;\n2.自动更新功能;\n3.升级Android studio(3.6.3)和gradle 到5.6.4",
   "isForce":false,
-  "size":9026156,
-  "updateTime":"2020-05-01"
+  "size":7646393,
+  "updateTime":"2020-04-19"
 }
