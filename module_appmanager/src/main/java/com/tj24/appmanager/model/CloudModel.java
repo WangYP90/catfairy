@@ -2,6 +2,7 @@ package com.tj24.appmanager.model;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.text.InputType;
 import android.view.View;
 
@@ -239,9 +240,20 @@ public class CloudModel extends BaseAppsManagerModel {
                     List<AppClassfication> appClassfications = gson.fromJson(json_appClassification,new TypeToken<List<AppClassfication>>(){}.getType());
                     List<MsgApk> msgApks = gson.fromJson(json_msgApks,new TypeToken<List<MsgApk>>(){}.getType());
                     if(appBeans!=null &&!appBeans.isEmpty()){
+                        List<PackageInfo> allPackageInfos = ApkModel.getAllPackageInfos(mContext);
+                        List<String> strings = new ArrayList<>();
+                        for(PackageInfo packageInfo :allPackageInfos){
+                           strings.add(packageInfo.packageName);
+                        }
+
                         AppBeanDaoHelper.getInstance().delCustomApps();
-                        AppBeanDaoHelper.getInstance().insertList(appBeans);
+                        for(AppBean appBean : appBeans){
+                            if(strings.contains(appBean.getPackageName())){
+                                AppBeanDaoHelper.getInstance().insertObj(appBean);
+                            }
+                        }
                     }
+
                     if(appClassfications!=null && !appClassfications.isEmpty()){
                         AppClassificationDaoHelper.getInstance().deleteAll();
                         AppClassificationDaoHelper.getInstance().insertList(appClassfications);
