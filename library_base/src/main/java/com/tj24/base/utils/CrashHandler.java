@@ -10,8 +10,6 @@ import android.os.Process;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
-
 import com.tj24.base.R;
 import com.tj24.base.base.app.BaseApplication;
 import com.tj24.base.bean.CrashLog;
@@ -30,6 +28,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import androidx.core.app.ActivityCompat;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -217,7 +216,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         int permission = ActivityCompat.checkSelfPermission(BaseApplication.getContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-        if (permission != PackageManager.PERMISSION_GRANTED) {
+        if (permission != PackageManager.PERMISSION_GRANTED || LogUtil.isApkInDebug(BaseApplication.getContext())) {
             return;
         }
         CrashLog crashLog = new CrashLog(sb);

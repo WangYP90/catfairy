@@ -1,5 +1,7 @@
 package com.tj24.base.utils;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.util.Log;
 
 /**
@@ -57,6 +59,19 @@ public  class LogUtil {
     public static void e(String tag, String msg, Throwable e){
         if(LEVEL<=ERROR){
             Log.e(tag,msg,e);
+        }
+    }
+
+    /**
+     * 判断当前应用是否是debug状态
+     */
+
+    public static boolean isApkInDebug(Context context) {
+        try {
+            ApplicationInfo info = context.getApplicationInfo();
+            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        } catch (Exception e) {
+            return false;
         }
     }
 }

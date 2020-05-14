@@ -303,6 +303,9 @@ public class ApkModel {
      * @param clickBean
      */
     public static void openApp(Context context,AppBean clickBean){
+        if(clickBean.getPackageName().equals(getPackageName(context))){
+            ToastUtil.showShortToast(context,"已经打开了哦");
+        }
         Intent i = context.getPackageManager().getLaunchIntentForPackage(clickBean.getPackageName());
         if (i != null) {
             clickBean.setOpenNum(clickBean.getOpenNum() + 1); //打开次数加1
@@ -421,5 +424,4 @@ public class ApkModel {
         }
         return null;
     }
-
 }

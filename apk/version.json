@@ -1,9 +1,9 @@
 {
-  "versionNumber":301,
-  "versionName":"3.0.1",
+  "versionNumber":302,
+  "versionName":"3.0.2",
   "url":"https://raw.githubusercontent.com/tangjiang24/catfairy/master/apk/release/catfairy.apk",
-  "updateLog":"1.修复了一些bug;\n2.自动更新功能;\n3.升级Android studio(3.6.3)和gradle 到5.6.4",
+  "updateLog":"1.修复了一些bug;",
   "isForce":false,
   "size":7646393,
-  "updateTime":"2020-04-19"
+  "updateTime":"2020-05-13"
 }

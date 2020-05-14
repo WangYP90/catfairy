@@ -71,5 +71,23 @@ public class MsgApkDaoHelper extends BaseDao<MsgApk, MsgApkDao> {
         }
         return creatDays;
     }
-    
+
+    @Override
+    public void insertList(List<MsgApk> msgApks) {
+        super.insertList(msgApks);
+        deleteMore100();
+    }
+
+    @Override
+    public void insertOrReplaceObj(MsgApk msgApk) {
+        super.insertOrReplaceObj(msgApk);
+        deleteMore100();
+    }
+
+    private void  deleteMore100(){
+        List<MsgApk> msgApks = mDdao.queryBuilder().orderDesc(MsgApkDao.Properties.CreatTimeMills).list();
+        if(msgApks!=null && msgApks.size()>100){
+            deleteList(msgApks.subList(100,msgApks.size()-1));
+        }
+    }
 }

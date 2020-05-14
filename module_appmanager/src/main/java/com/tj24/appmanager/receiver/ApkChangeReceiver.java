@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.tj24.appmanager.R;
@@ -39,7 +40,7 @@ public class ApkChangeReceiver extends BroadcastReceiver {
             int uid = intent.getIntExtra(Intent.EXTRA_UID,0);
             Log.i(TAG, "install: isReplacing = " + isReplacing);
             Log.i(TAG, "install: uid = " + uid);
-            if(!isReplacing){  //第一次安装
+            if(!isReplacing){
                 try {
                     PackageInfo packageInfo = context.getPackageManager().getPackageInfo(packageName, 0);
                     AppBean appBean = ApkModel.conversToAppInfo(packageInfo, context);
@@ -85,6 +86,9 @@ public class ApkChangeReceiver extends BroadcastReceiver {
      * @param action
      */
     private void creatMsgApk(String action,String packageName) {
+        if(TextUtils.isEmpty(packageName)){
+            return;
+        }
         MsgApk msgApk = new MsgApk();
         msgApk.setId(StringUtil.getUuid());
         msgApk.setPackageName(packageName);

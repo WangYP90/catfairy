@@ -151,7 +151,7 @@ public class CloudModel extends BaseAppsManagerModel {
     public void readyPull(){
         showProgressDialog("","");
         BmobQuery<PushRecord>query = new BmobQuery<>();
-        query.setLimit(10).addWhereEqualTo("userId",UserHelper.getCurrentUser().getObjectId())
+        query.setLimit(20).addWhereEqualTo("userId",UserHelper.getCurrentUser().getObjectId())
                 .order("-createdAt")
                 .findObjects(new FindListener<PushRecord>() {
                     @Override
@@ -159,6 +159,9 @@ public class CloudModel extends BaseAppsManagerModel {
                         hideProgressDialog();
                         if(e==null){
                             showPullDataDialog(list);
+                            if(list.size()>20){
+                                deleteMore20(list.subList(20,list.size()-1));
+                            }
                         }else {
                             ToastUtil.showShortToast(mContext,BmobErrorCode.getInstance().getErro(e.getErrorCode()));
                         }
@@ -167,19 +170,20 @@ public class CloudModel extends BaseAppsManagerModel {
     }
 
     /**
-     * 只保留10条数据 删除多余的
+     * 只保留20条数据 删除多余的
      * @param subList
      */
-    private void deleteMoreTen(List<AppData> subList) {
-        List<BmobObject> objects = new ArrayList<BmobObject>();
-        for(AppData info:subList){
-            objects.add(info);
+    private void deleteMore20(List<PushRecord> subList) {
+        List<BmobObject> appDatas = new ArrayList<BmobObject>();
+        for(PushRecord record:subList){
+            AppData appData = new AppData();
+            appData.setObjectId(record.getDataId());
+            appDatas.add(appData);
         }
         final BmobBatch bmobBatch = new BmobBatch();
-        bmobBatch.deleteBatch(objects).doBatch(new QueryListListener<BatchResult>() {
+        bmobBatch.deleteBatch(appDatas).doBatch(new QueryListListener<BatchResult>() {
             @Override
             public void done(List<BatchResult> list, BmobException e) {
-
             }
         });
     }
