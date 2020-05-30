@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.jakewharton.disklrucache.DiskLruCache;
 import com.tj24.base.constant.Const;
+import com.tj24.base.utils.CacheThreadPool;
 import com.tj24.base.utils.MD5Util;
 import com.tj24.wanandroid.common.utils.WanSpUtil;
 
@@ -74,7 +75,7 @@ public class CacheWan {
         }
 
         public void save(String key, Object bean) {
-            new Thread(new Runnable() {
+            CacheThreadPool.getInstance().execute(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -83,11 +84,11 @@ public class CacheWan {
                         e.printStackTrace();
                     }
                 }
-            }).start();
+            });
         }
 
         public  void remove(String key, CacheListener cacheListener) {
-            new Thread(new Runnable() {
+            CacheThreadPool.getInstance().execute(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -98,7 +99,7 @@ public class CacheWan {
                         cacheListener.onFailed();
                     }
                 }
-            }).start();
+            });
         }
 
 

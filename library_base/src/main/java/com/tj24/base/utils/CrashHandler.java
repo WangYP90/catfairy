@@ -10,6 +10,8 @@ import android.os.Process;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
+
 import com.tj24.base.R;
 import com.tj24.base.base.app.BaseApplication;
 import com.tj24.base.bean.CrashLog;
@@ -28,7 +30,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import androidx.core.app.ActivityCompat;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -82,10 +83,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         Toast.makeText(BaseApplication.getContext(),mContext.getString(R.string.base_system_erro_be_exited),Toast.LENGTH_LONG).show();
         //打印出当前调用栈信息
         ex.printStackTrace();
-        new Thread() {
+        CacheThreadPool.getInstance().execute(new Runnable() {
             @Override
             public void run() {
-                super.run();
                 try {
                     Thread.sleep(3000);
                     handleCrash(thread, ex);
@@ -93,7 +93,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                     e.printStackTrace();
                 }
             }
-        }.start();
+        });
     }
 
     private void handleCrash(Thread thread, Throwable ex) {

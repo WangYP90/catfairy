@@ -15,6 +15,7 @@ import com.tj24.appmanager.daohelper.AppBeanDaoHelper;
 import com.tj24.appmanager.daohelper.AppClassificationDaoHelper;
 import com.tj24.base.bean.appmanager.AppBean;
 import com.tj24.base.bean.appmanager.AppClassfication;
+import com.tj24.base.utils.CacheThreadPool;
 import com.tj24.base.utils.ListUtil;
 import com.tj24.base.utils.Sputil;
 
@@ -75,7 +76,7 @@ public class BusinessModel extends BaseAppsManagerModel {
                     @Override
                     public void onShow(DialogInterface dialog) {
                         MaterialDialog progressDialog = (MaterialDialog) dialog;
-                        new Thread(new Runnable() {
+                        CacheThreadPool.getInstance().execute(new Runnable() {
                             @Override
                             public void run() {
                                 while (progressDialog.getCurrentProgress() != progressDialog.getMaxProgress()){
@@ -94,7 +95,7 @@ public class BusinessModel extends BaseAppsManagerModel {
                                     }
                                 });
                             }
-                        }).start();
+                        });
                     }
                 }).show();
     }
